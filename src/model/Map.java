@@ -6,7 +6,6 @@ import java.io.*;
 public class Map {
 	final int MUR = 0;
 	final int SOL = 1;
-	
 	final int GOMME = 2;
 	final int SUPERGOMME = 3;
 

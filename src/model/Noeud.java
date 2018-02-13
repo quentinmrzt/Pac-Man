@@ -69,20 +69,25 @@ public class Noeud {
 	}
 
 	public String toString() {
-		String str = "";
+		String direction = "";
+		String distance = "";
 		if (this.getHaut()!=null) {
-			str = str+"Haut ";
+			direction = direction+"Haut ";
+			distance = distance+"H:"+this.getHaut().getDistance()+" ";
 		}
 		if (this.getDroite()!=null) {
-			str = str+"Droite ";
+			direction = direction+"Droite ";
+			distance = distance+"D:"+this.getDroite().getDistance()+" ";
 		}
 		if (this.getBas()!=null) {
-			str = str+"Bas ";
+			direction = direction+"Bas ";
+			distance = distance+"B:"+this.getBas().getDistance()+" ";
 		}
 		if (this.getGauche()!=null) {
-			str = str+"Gauche ";
+			direction = direction+"Gauche ";
+			distance = distance+"G:"+this.getGauche().getDistance()+" ";
 		}
 		
-		return "Pos = x: "+x+" y: "+y+". Branche = "+str;
+		return "Pos= x: "+x+" y: "+y+". Dir= "+direction+". Dis= "+distance;
 	}
 }
