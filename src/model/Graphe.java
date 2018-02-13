@@ -1,0 +1,204 @@
+package model;
+
+public class Graphe {
+	private Noeud posActuelle = null;
+	private Noeud tabNoeud[][];
+	private int taille = 0;
+
+	// CONSTRUCTEUR	
+	public Graphe(Noeud n) {
+		posActuelle = n;
+		taille = 1;
+	}
+
+	public Graphe(Map map) {
+		tabNoeud = new Noeud[map.getTailleX()][map.getTailleY()];
+
+		// On récupérer les différents Noeuds ..
+		boolean premier = false;
+		for (int y=0 ; y<map.tailleY ; y++) {			
+			for (int x=0 ; x<map.tailleX ; x++) {
+				if(map.getCaseIni(x, y) == map.SOL) {
+					if (map.isIntersection(x, y)) {
+						tabNoeud[x][y] = new Noeud(x,y);
+						if (!premier) {
+							posActuelle = tabNoeud[x][y];
+							premier=true;
+						}
+						taille++;
+					}
+				}
+			}
+		}
+		
+		// .. et on les lies entres eux
+		for (int y=0 ; y<map.tailleY ; y++) {
+			for (int x=0 ; x<map.tailleX ; x++) {
+				if (tabNoeud[x][y] != null) {
+					boolean haut = true;
+					boolean droite = true;
+					boolean bas = true;
+					boolean gauche = true;
+					
+					int i = 1;
+					// Tant qu'on a pas testé toute les directions
+					while(haut || droite || bas || gauche) {
+						// HAUT: 
+						if (haut) {
+							if (map.getCaseIni(x, y-i) != map.SOL) {
+								haut = false;
+							} else {
+								if (tabNoeud[x][y-i] != null) {
+									tabNoeud[x][y].setHaut(tabNoeud[x][y-i]);
+									haut = false;
+								}
+							}
+						}
+						
+						// DROITE:
+						if (droite) {
+							if (map.getCaseIni(x+i, y) != map.SOL) {
+								droite = false;
+							} else {
+								if (tabNoeud[x+i][y] != null) {
+									tabNoeud[x][y].setDroite(tabNoeud[x+i][y]);
+									droite = false;
+								}
+							}
+
+						}
+						
+						// BAS: 
+						if(bas) {
+							if (map.getCaseIni(x, y+i) != map.SOL) {
+								bas = false;
+							} else {
+								if (tabNoeud[x][y+i] != null) {
+									tabNoeud[x][y].setBas(tabNoeud[x][y+i]);
+									bas = false;
+								}
+							}
+
+						}
+						
+						// GAUCHE
+						if (gauche) {
+							if (map.getCaseIni(x-i, y) != map.SOL) {
+								gauche = false;
+							} else {
+								if (tabNoeud[x-i][y] != null) {
+									tabNoeud[x][y].setGauche(tabNoeud[x-i][y]);
+									gauche = false;
+								}
+							}
+
+						}
+						
+						i++;
+					}
+				}
+			}
+		}
+	}
+
+	
+	
+	// GETTEUR
+	public Noeud getPosActuelle() {
+		return posActuelle;
+	}
+	public int getTaille() {
+		return taille;
+	}
+
+	public boolean deplacementBas() {
+		if (posActuelle.getBas()!=null) {
+			posActuelle = posActuelle.getBas().getApres();
+
+			return true;
+		}
+
+		return false;
+	}
+	public boolean deplacementHaut() {
+		if (posActuelle.getHaut()!=null) {
+			posActuelle = posActuelle.getHaut().getApres();
+
+			return true;
+		}
+
+		return false;
+	}
+	public boolean deplacementDroite() {
+		if (posActuelle.getDroite()!=null) {
+			posActuelle = posActuelle.getDroite().getApres();
+
+			return true;
+		}
+
+		return false;
+	}
+	public boolean deplacementGauche() {
+		if (posActuelle.getGauche()!=null) {
+			posActuelle = posActuelle.getGauche().getApres();
+
+			return true;
+		}
+
+		return false;
+	}
+
+	// SETTEUR
+	public void addNoeudBas(Noeud n) {
+		posActuelle.setBas(n);
+		n.setHaut(posActuelle);
+		posActuelle = n;
+
+		taille++;
+	}
+	public void addNoeudHaut(Noeud n) {
+		posActuelle.setHaut(n);
+		n.setBas(posActuelle);
+		posActuelle = n;
+
+		taille++;
+	}
+	public void addNoeudDroite(Noeud n) {
+		posActuelle.setDroite(n);
+		n.setGauche(posActuelle);
+		posActuelle = n;
+
+		taille++;
+	}
+	public void addNoeudGauche(Noeud n) {
+		posActuelle.setGauche(n);
+		n.setDroite(posActuelle);
+		posActuelle = n;
+
+		taille++;
+	}
+
+
+	public static void main(String args[]) {
+		Graphe g = new Graphe(new Noeud(2,2));
+		System.out.println(g.getPosActuelle().toString());
+
+		g.addNoeudBas(new Noeud(6,2));
+		System.out.println(g.getPosActuelle().toString());
+
+		g.addNoeudBas(new Noeud(9,2));
+		System.out.println(g.getPosActuelle().toString());
+
+		g.deplacementHaut();
+		System.out.println(g.getPosActuelle().toString());
+
+		g.deplacementHaut();
+		System.out.println(g.getPosActuelle().toString());
+
+		g.deplacementBas();
+		System.out.println(g.getPosActuelle().toString()); 
+
+		g.deplacementBas();
+		System.out.println(g.getPosActuelle().toString());
+	}
+}
