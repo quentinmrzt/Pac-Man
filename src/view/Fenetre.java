@@ -8,6 +8,7 @@ import observer.Observer;
 
 public class Fenetre extends JFrame implements Observer {
 	protected Controller controler;
+	protected Menu menu;
 	
 	public Fenetre(Controller c) {
 	    this.setSize(800, 450);
@@ -18,6 +19,9 @@ public class Fenetre extends JFrame implements Observer {
 	    
 	    this.controler = c;
 
+	    // Menu
+	    menu = new Menu(controler);
+		this.setJMenuBar(menu);
 	    
 	    //pack();
 	    this.setVisible(true);

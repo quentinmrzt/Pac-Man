@@ -9,7 +9,12 @@ public class Modelisation implements Observable {
 	// ----------------------------------------
 	// Donnée du model
 	private ArrayList<Observer> listObserver = new ArrayList<Observer>();   
-
+	
+	
+	Monde monde = new Monde();
+	
+	
+	
 	
 	// ----------------------------------------
 	// Observable

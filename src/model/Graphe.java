@@ -111,43 +111,7 @@ public class Graphe {
 		return taille;
 	}
 
-	public boolean deplacementBas() {
-		if (posActuelle.getBas()!=null) {
-			posActuelle = posActuelle.getBas().getApres();
-
-			return true;
-		}
-
-		return false;
-	}
-	public boolean deplacementHaut() {
-		if (posActuelle.getHaut()!=null) {
-			posActuelle = posActuelle.getHaut().getApres();
-
-			return true;
-		}
-
-		return false;
-	}
-	public boolean deplacementDroite() {
-		if (posActuelle.getDroite()!=null) {
-			posActuelle = posActuelle.getDroite().getApres();
-
-			return true;
-		}
-
-		return false;
-	}
-	public boolean deplacementGauche() {
-		if (posActuelle.getGauche()!=null) {
-			posActuelle = posActuelle.getGauche().getApres();
-
-			return true;
-		}
-
-		return false;
-	}
-
+	
 	// SETTEUR
 	public void addNoeudBas(Noeud n) {
 		posActuelle.setBas(n);
@@ -179,6 +143,45 @@ public class Graphe {
 	}
 
 
+	// DEPLACEMENT
+	public boolean deplacementBas() {
+		if (posActuelle.getBas() != null) {
+			posActuelle = posActuelle.getBas().getApres();
+
+			return true;
+		}
+
+		return false;
+	}
+	public boolean deplacementHaut() {
+		if (posActuelle.getHaut() != null) {
+			posActuelle = posActuelle.getHaut().getApres();
+
+			return true;
+		}
+
+		return false;
+	}
+	public boolean deplacementDroite() {
+		if (posActuelle.getDroite() != null) {
+			posActuelle = posActuelle.getDroite().getApres();
+
+			return true;
+		}
+
+		return false;
+	}
+	public boolean deplacementGauche() {
+		if (posActuelle.getGauche() != null) {
+			posActuelle = posActuelle.getGauche().getApres();
+
+			return true;
+		}
+
+		return false;
+	}
+
+	
 	public static void main(String args[]) {
 		Graphe g = new Graphe(new Noeud(2,2));
 		System.out.println(g.getPosActuelle().toString());

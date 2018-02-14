@@ -10,20 +10,56 @@ public class Monde {
 	public Monde() {
 		map = new Map();
 		graphe = new Graphe(map);
-		pacMan = new PacMan(graphe.getPosActuelle().getX(),graphe.getPosActuelle().getY());
+		pacMan = new PacMan(graphe.getPosActuelle().getX(), graphe.getPosActuelle().getY());
 	}
 
-	public boolean deplacementHaut() {
-		return graphe.deplacementHaut();
+	public boolean deplacementPMHaut() {
+		// Prochaine direction de PacMan
+		pacMan.setProchaineDirection(pacMan.HAUT);
+		
+		// changement de direction direct si c'est possible
+		if(graphe.deplacementHaut()) {
+			return true;
+		} else {
+			System.out.println("Impossible.");
+			return false;
+		}
 	}
-	public boolean deplacementDroite() {
-		return graphe.deplacementDroite();
+	public boolean deplacementPMDroite() {
+		// Prochaine direction de PacMan
+		pacMan.setProchaineDirection(pacMan.DROITE);
+		
+		// changement de direction direct si c'est possible
+		if(graphe.deplacementDroite()) {
+			return true;
+		} else {
+			System.out.println("Impossible.");
+			return false;
+		}
 	}
-	public boolean deplacementBas() {
-		return graphe.deplacementBas();
+	public boolean deplacementPMBas() {
+		// Prochaine direction de PacMan
+		pacMan.setProchaineDirection(pacMan.BAS);
+		
+		// changement de direction direct si c'est possible
+		if(graphe.deplacementBas()) {
+			return true;
+		} else {
+			System.out.println("Impossible.");
+			return false;
+		}
 	}
-	public boolean deplacementGauche() {
-		return graphe.deplacementGauche();
+	public boolean deplacementPMGauche() {
+		// Prochaine direction de PacMan
+		pacMan.setProchaineDirection(pacMan.GAUCHE);
+		
+		// changement de direction direct si c'est possible
+		if(graphe.deplacementGauche()) {
+			return true;
+		} else {
+			System.out.println("Impossible.");
+			return false;
+		}
 	}
 
 	// PacMan se deplace dans le tableau selon sa prochaine destination
@@ -50,6 +86,7 @@ public class Monde {
 		}
 	}
 
+	// Orientation de pacMan à chaque noeud
 	public void destinationPacMan() {
 		int xPM = pacMan.getPositionX();
 		int yPM = pacMan.getPositionY();
@@ -87,22 +124,22 @@ public class Monde {
 				if (pacMan.getDirection()==pacMan.HAUT) {
 					// HAUT
 					if(!graphe.deplacementHaut()) {
-						pacMan.prochaineDirection = pacMan.STATIQUE;
+						pacMan.setProchaineDirection(pacMan.STATIQUE);
 					}
 				} else if(pacMan.getDirection()==pacMan.DROITE) {
 					// DROITE
 					if(!graphe.deplacementDroite()) {
-						pacMan.prochaineDirection = pacMan.STATIQUE;
+						pacMan.setProchaineDirection(pacMan.STATIQUE);
 					}
 				} else if(pacMan.getDirection()==pacMan.BAS) {
 					// BAS
 					if(!graphe.deplacementBas()) {
-						pacMan.prochaineDirection = pacMan.STATIQUE;
+						pacMan.setProchaineDirection(pacMan.STATIQUE);
 					}
 				} else if(pacMan.getDirection()==pacMan.GAUCHE) {
 					// GAUCHE
 					if(!graphe.deplacementGauche()) {
-						pacMan.prochaineDirection = pacMan.STATIQUE;
+						pacMan.setProchaineDirection(pacMan.STATIQUE);
 					}
 				} else {
 					// PacMan n'est pas en mouvement
@@ -127,36 +164,20 @@ public class Monde {
 			System.out.print("Rien faire (r) / Haut (h) / Droite (d) / Bas (b) / Gauche (g) / Fin (f) = ");
 			str = s.next();
 
+			// 	CONTROLEUR
 			if(str.equals("h")) {
-				// si on peut aller à haut
-				monde.pacMan.prochaineDirection = monde.pacMan.HAUT;
-				
-				if(!monde.graphe.deplacementHaut()) {
-					System.out.println("Impossible.");
-				}
+				monde.deplacementPMHaut();
 			} else if (str.equals("d")) {
-				// si on peut aller à droite
-				monde.pacMan.prochaineDirection = monde.pacMan.DROITE;
-				if(!monde.graphe.deplacementDroite()) {
-					System.out.println("Impossible.");
-				}
+				monde.deplacementPMDroite();
 			} else if (str.equals("b")) {
-				// si on peut aller à bas
-				monde.pacMan.prochaineDirection = monde.pacMan.BAS;
-				if(!monde.graphe.deplacementBas()) {
-					System.out.println("Impossible.");
-				}
+				monde.deplacementPMBas();
 			} else if (str.equals("g")) {
-				// si on peut aller à gauche
-				monde.pacMan.prochaineDirection = monde.pacMan.GAUCHE;
-				if(!monde.graphe.deplacementGauche()) {
-					System.out.println("Impossible.");
-				}
+				monde.deplacementPMGauche();
 			} else if (str.equals("f")) {
 				System.out.println("Bye.");
 				fin = true;
 			} else if(str.equals("r")) {
-
+				// Ne rien faire
 			} else {
 				System.out.println("ERREUR DE FRAPPE !");
 			}
