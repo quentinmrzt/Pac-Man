@@ -12,18 +12,23 @@ public class Graphe {
 	}
 
 	public Graphe(Map map) {
+		// On simplie la map déjà existante 
+		Map tmpMap = new Map(map);
+		tmpMap.simplification();
+		
+		// Un tableau de noeud nous permettant de construire le graphe
 		tabNoeud = new Noeud[map.getTailleX()][map.getTailleY()];
 
 		// On récupérer les différents Noeuds ..
 		boolean premier = false;
-		for (int y=0 ; y<map.tailleY ; y++) {			
-			for (int x=0 ; x<map.tailleX ; x++) {
-				if(map.getCaseIni(x, y) == map.SOL) {
-					if (map.isIntersection(x, y)) {
+		for (int y=0 ; y<tmpMap.getTailleY() ; y++) {			
+			for (int x=0 ; x<tmpMap.getTailleX() ; x++) {
+				if(tmpMap.getCase(x, y) == map.SOL) {
+					if (tmpMap.isIntersection(x, y)) {
 						tabNoeud[x][y] = new Noeud(x,y);
 						if (!premier) {
 							posActuelle = tabNoeud[x][y];
-							premier=true;
+							premier = true;
 						}
 						taille++;
 					}
@@ -32,8 +37,8 @@ public class Graphe {
 		}
 		
 		// .. et on les lies entres eux
-		for (int y=0 ; y<map.tailleY ; y++) {
-			for (int x=0 ; x<map.tailleX ; x++) {
+		for (int y=0 ; y<tmpMap.getTailleY() ; y++) {
+			for (int x=0 ; x<map.getTailleX() ; x++) {
 				if (tabNoeud[x][y] != null) {
 					boolean haut = true;
 					boolean droite = true;
@@ -45,7 +50,7 @@ public class Graphe {
 					while(haut || droite || bas || gauche) {
 						// HAUT: 
 						if (haut) {
-							if (map.getCaseIni(x, y-i) != map.SOL) {
+							if (tmpMap.getCase(x, y-i) != tmpMap.SOL) {
 								haut = false;
 							} else {
 								if (tabNoeud[x][y-i] != null) {
@@ -57,7 +62,7 @@ public class Graphe {
 						
 						// DROITE:
 						if (droite) {
-							if (map.getCaseIni(x+i, y) != map.SOL) {
+							if (tmpMap.getCase(x+i, y) != tmpMap.SOL) {
 								droite = false;
 							} else {
 								if (tabNoeud[x+i][y] != null) {
@@ -70,7 +75,7 @@ public class Graphe {
 						
 						// BAS: 
 						if(bas) {
-							if (map.getCaseIni(x, y+i) != map.SOL) {
+							if (tmpMap.getCase(x, y+i) != tmpMap.SOL) {
 								bas = false;
 							} else {
 								if (tabNoeud[x][y+i] != null) {
@@ -83,7 +88,7 @@ public class Graphe {
 						
 						// GAUCHE
 						if (gauche) {
-							if (map.getCaseIni(x-i, y) != map.SOL) {
+							if (tmpMap.getCase(x-i, y) != tmpMap.SOL) {
 								gauche = false;
 							} else {
 								if (tabNoeud[x-i][y] != null) {
@@ -91,7 +96,6 @@ public class Graphe {
 									gauche = false;
 								}
 							}
-
 						}
 						
 						i++;

@@ -13,9 +13,10 @@ public class LancerPacMan {
 		Controller controler = new Controller(model);
 		
 		// Avec ça: on a une fenetre avec un menu
-		Fenetre f = new Fenetre(controler);
+		Fenetre fenetre = new Fenetre(controler);
 		
 		// La fenêtre devient observeur du model
-		model.addObserver(f);
+		model.addObserver(fenetre);
+		model.addObserver(fenetre.getPanneau());
 	}
 }

@@ -11,7 +11,9 @@ public class Controller {
 	
 	
 	// GETTEUR
-
+	public Map getMap() {
+		return model.getMap();
+	}
 
 	// SETTEUR
 
