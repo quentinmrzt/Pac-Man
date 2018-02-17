@@ -30,7 +30,7 @@ public class Case  {
 		try {
 			if (type==MUR) {
 				image = ImageIO.read(new File("image/1.png"));
-			} else if (type==SOL) {
+			} else if (type==SOL || type==PRISON) {
 				image = ImageIO.read(new File("image/2.png"));
 			} else if (type==GOMME) {
 				image = ImageIO.read(new File("image/3.png"));
