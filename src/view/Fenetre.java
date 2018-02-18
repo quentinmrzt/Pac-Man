@@ -1,6 +1,5 @@
 package view;
 
-import java.awt.Graphics;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -35,7 +34,7 @@ public class Fenetre extends JFrame implements Observer, Runnable {
 
 		// ajoute un écouteur d'événements personnalisé à la fenêtre
 		addKeyListener(new TestKeyListener(this.controler));
-		
+
 		// Gestion de l'horloge
 		h = new Thread(this);
 		h.start();
@@ -77,13 +76,23 @@ public class Fenetre extends JFrame implements Observer, Runnable {
 	public void run() {
 		// Notre horloge 
 		while(true) { 	
-			System.out.println("Et une seconde de plus.");
+			//System.out.println("Et une seconde de plus.");
+
+			System.out.println("PM - X:"+controler.getPM().getPositionX()+" Y:"+controler.getPM().getPositionY());
+
+			// Permet l'orientation au noeud
+			controler.destinationPacMan();
+			// et on dit à pacMan d'y aller
+			controler.deplacementPacMan();
+
+
+
 			try {
-				h.sleep(1000); // attente d'une seconde
+				Thread.sleep(1000); // attente d'une seconde
 			} catch(InterruptedException e) { 
 				System.err.println("ERREUR: Problème sur l'horloge.");
 			} 
-			
+
 			repaint(); // Fait appel à paint(), maj la fenetre
 		} 
 	}

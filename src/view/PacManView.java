@@ -3,16 +3,19 @@ package view;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.imageio.ImageIO;
 
 import model.PacMan;
 
-public class PacManView extends ElementDuJeu {
+public class PacManView extends ElementDuJeu implements Observer {
 	final int HAUT = 0;
 	final int DROITE = 1;
 	final int BAS = 2;
 	final int GAUCHE = 3;
+	final int STATIQUE = 4;
 	
 	final int OUVERT = 0 ;
 	final int FERME = 1;
@@ -21,10 +24,13 @@ public class PacManView extends ElementDuJeu {
 	private boolean boucheOuverte;
 	private BufferedImage mouvement[][];
 	private BufferedImage mort[];
+	
+	private PacMan pacMan;
 
 	public PacManView(PacMan pm) {
 		super(pm.getPositionX(), pm.getPositionY());
-		direction = pm.getDirection();
+		pacMan = pm;
+		direction = pacMan.getDirection();
 		boucheOuverte = true;
 
 		// On ouvre les sprites
@@ -59,10 +65,23 @@ public class PacManView extends ElementDuJeu {
 
 	// GETTEUR
 	public BufferedImage getImage() {
+		if (direction == STATIQUE) {
+			return mort[0];
+		}
+		
 		if (boucheOuverte) {
 			return mouvement[direction][OUVERT];
 		} else {
 			return mouvement[direction][FERME];
 		}
+	}
+
+	@Override
+	public void update(Observable arg0, Object arg1) {
+		this.setPositionTabX(pacMan.getPositionX());
+		this.setPositionTabY(pacMan.getPositionY());
+		this.setPositionX(pacMan.getPositionX()*COTE);
+		this.setPositionY(pacMan.getPositionY()*COTE);
+		direction = pacMan.getDirection();
 	}
 }

@@ -15,17 +15,18 @@ import model.PacMan;
 
 public class ZoneDeJeu extends JPanel implements Observer {
 
+	Controller controller;
 	Case tabCases[][];
 	PacManView pacManView;
 
 	public ZoneDeJeu(Controller c) {
 		super();
 		this.setPreferredSize(new Dimension(800, 800)) ;
-
+		controller = c;
+		
 		// On récupére la map du modèle
 		Map map = c.getMap();
-		PacMan pc = c.getPM();
-		pacManView = new PacManView(pc);
+		pacManView = new PacManView(c.getPM());
 
 		// On fait un tableau de case contenant les images a afficher
 		tabCases = new Case[map.getTailleX()][map.getTailleY()];
@@ -47,8 +48,6 @@ public class ZoneDeJeu extends JPanel implements Observer {
 	}
 
 	protected void paintComponent(Graphics g) {
-		super.paintComponent(g);
-
 		for (int y=0 ; y<getTailleY() ; y++) {
 			for (int x=0 ; x<getTailleX() ; x++) {
 				if(pacManView.getPositionTabX()==x && pacManView.getPositionTabY()==y) {
@@ -58,13 +57,17 @@ public class ZoneDeJeu extends JPanel implements Observer {
 				}
 			}
 		}
+		System.out.println("Je rentre");
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
 		if(o instanceof Modelisation){
-			System.out.println("Je suis dans la Zone de Jeu et la valeur a été modifié !");
+			// On maj pacman
+			pacManView.update(o, arg);
 			
+			System.out.println("Je suis dans la Zone de Jeu et la valeur a été modifié !");
+			//repaint(); // Fait appel à paint(), maj la fenetre
 		}
 		
 	}

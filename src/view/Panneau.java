@@ -37,7 +37,7 @@ public class Panneau extends JPanel implements Observer {
 	public void update(Observable o, Object arg) {
 		if(o instanceof Modelisation){
 			System.out.println("Je suis dans le Panneau et la valeur a été modifié !");
-			
+			//repaint(); // Fait appel à paint(), maj la fenetre
 			// On maj la zone de jeu
 			zdj.update(o, arg);
 		}

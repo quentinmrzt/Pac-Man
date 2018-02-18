@@ -28,4 +28,18 @@ public abstract class ElementDuJeu {
 	public int getPositionY() {
 		return positionY;
 	}
+	
+	// SETTEUR
+	public void setPositionTabX(int x) {
+		positionTabX = x;
+	}
+	public void setPositionTabY(int y) {
+		positionTabY = y;
+	}
+	public void setPositionX(int x) {
+		positionX = x;
+	}
+	public void setPositionY(int y) {
+		positionY = y;
+	}
 }

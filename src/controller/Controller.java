@@ -18,6 +18,14 @@ public class Controller {
 	public PacMan getPM() {
 		return model.getPM();
 	}
+	
+	public void deplacementPacMan() {
+		model.deplacementPacMan();
+	}
+	
+	public void destinationPacMan() {
+		model.destinationPacMan();
+	}
 
 	// SETTEUR
 	public void toucheHaut() {

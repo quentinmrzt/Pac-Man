@@ -1,23 +1,26 @@
 package model;
 
-public class PacMan {
-	final int STATIQUE = 0;
-	final int HAUT = 1;
-	final int DROITE = 2;
-	final int BAS = 3;
-	final int GAUCHE = 4;
+import java.util.Observable;
+
+public class PacMan extends Observable{
+	//final int STATIQUE = 0;
+	final int HAUT = 0;
+	final int DROITE = 1;
+	final int BAS = 2;
+	final int GAUCHE = 3;
+	final int STATIQUE = 4;
 	
 	private int vie = 3;
 	private int positionX = 1;
 	private int positionY = 1;
 	private int direction = DROITE;
-	private int prochaineDirection = 0;
+	private int prochaineDirection = STATIQUE;
 
 	public PacMan(int x, int y) {
 		positionX = x;
 		positionY = y;
-		direction = 0;
-		prochaineDirection = 0;
+		direction = STATIQUE;
+		prochaineDirection = STATIQUE;
 	}
 
 

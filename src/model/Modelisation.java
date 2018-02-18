@@ -20,48 +20,64 @@ public class Modelisation extends Observable {
 	public boolean deplacementPMHaut() {
 		// Prochaine direction de PacMan
 		pacMan.setProchaineDirection(pacMan.HAUT);
-		
-		// changement de direction direct si c'est possible
-		if(graphe.deplacementHaut()) {
-			return true;
+
+		if (pacMan.getDirection() != pacMan.getProchaineDirection()) {
+			// changement de direction direct si c'est possible
+			if(graphe.deplacementHaut()) {
+				return true;
+			} else {
+				System.out.println("Impossible.");
+				return false;
+			}
 		} else {
-			System.out.println("Impossible.");
 			return false;
 		}
 	}
 	public boolean deplacementPMDroite() {
 		// Prochaine direction de PacMan
 		pacMan.setProchaineDirection(pacMan.DROITE);
-		
-		// changement de direction direct si c'est possible
-		if(graphe.deplacementDroite()) {
-			return true;
+
+		if (pacMan.getDirection() != pacMan.getProchaineDirection()) {
+			// changement de direction direct si c'est possible
+			if(graphe.deplacementDroite()) {
+				return true;
+			} else {
+				System.out.println("Impossible.");
+				return false;
+			}
 		} else {
-			System.out.println("Impossible.");
 			return false;
 		}
 	}
 	public boolean deplacementPMBas() {
 		// Prochaine direction de PacMan
 		pacMan.setProchaineDirection(pacMan.BAS);
-		
-		// changement de direction direct si c'est possible
-		if(graphe.deplacementBas()) {
-			return true;
+
+		if (pacMan.getDirection() != pacMan.getProchaineDirection()) {
+			// changement de direction direct si c'est possible
+			if(graphe.deplacementBas()) {
+				return true;
+			} else {
+				System.out.println("Impossible.");
+				return false;
+			}
 		} else {
-			System.out.println("Impossible.");
 			return false;
 		}
 	}
 	public boolean deplacementPMGauche() {
 		// Prochaine direction de PacMan
 		pacMan.setProchaineDirection(pacMan.GAUCHE);
-		
-		// changement de direction direct si c'est possible
-		if(graphe.deplacementGauche()) {
-			return true;
+
+		if (pacMan.getDirection() != pacMan.getProchaineDirection()) {
+			// changement de direction direct si c'est possible
+			if(graphe.deplacementGauche()) {
+				return true;
+			} else {
+				System.out.println("Impossible.");
+				return false;
+			}
 		} else {
-			System.out.println("Impossible.");
 			return false;
 		}
 	}
@@ -76,15 +92,23 @@ public class Modelisation extends Observable {
 		if (yPM > yG) {
 			// HAUT
 			pacMan.enHaut();
+			setChanged();
+			notifyObservers(this.test);
 		} else if(xPM < xG) {
 			// DROITE
 			pacMan.aDroite();
+			setChanged();
+			notifyObservers(this.test);
 		} else if(yPM < yG) {
 			// BAS
 			pacMan.enBas();
+			setChanged();
+			notifyObservers(this.test);
 		} else if(xPM > xG) {
 			// GAUCHE
 			pacMan.aGauche();
+			setChanged();
+			notifyObservers(this.test);
 		} else {
 			// NE RIEN FAIRE
 		}
@@ -165,8 +189,8 @@ public class Modelisation extends Observable {
 	public PacMan getPM() {
 		return pacMan;
 	}
-	
-	
+
+
 	// ----------------------------------------
 	// Setteur
 	public void setTest(int i) {
@@ -174,9 +198,9 @@ public class Modelisation extends Observable {
 		setChanged();
 		notifyObservers(this.test);
 	}
-	
-	
-	
+
+
+
 	public static void main(String[] args) {
 		Modelisation modelisation = new Modelisation();
 
