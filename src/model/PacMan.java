@@ -1,17 +1,17 @@
 package model;
 
 public class PacMan {
-	private int vie = 3;
-	private int positionX = 1;
-	private int positionY = 1;
-	private int direction = 0;
-	private int prochaineDirection = 0;
-
 	final int STATIQUE = 0;
 	final int HAUT = 1;
 	final int DROITE = 2;
 	final int BAS = 3;
 	final int GAUCHE = 4;
+	
+	private int vie = 3;
+	private int positionX = 1;
+	private int positionY = 1;
+	private int direction = DROITE;
+	private int prochaineDirection = 0;
 
 	public PacMan(int x, int y) {
 		positionX = x;

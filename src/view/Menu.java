@@ -8,26 +8,12 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
-import controller.Controller;
-
 public class Menu extends JMenuBar {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+	private JMenu menu;
+	private JMenuItem debug;
+	private JMenuItem quitter;
 	
-	protected JMenu menu;
-	protected JMenuItem debug;
-	protected JMenuItem quitter;
-
-	
-	//protected Application app;
-	protected Controller controler;
-
-	
-	public Menu(Controller c) {		
-		controler = c;
-		
+	public Menu() {				
 		// --------------------
 		// MENU
 		menu = new JMenu("Menu") ;

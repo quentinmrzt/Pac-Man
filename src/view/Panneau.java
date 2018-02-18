@@ -1,6 +1,6 @@
 package view;
 
-import java.awt.BorderLayout;
+//import java.awt.BorderLayout;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -30,7 +30,7 @@ public class Panneau extends JPanel implements Observer {
 		
 		zdj = new ZoneDeJeu(c);
 		
-		this.add(zdj, BorderLayout.SOUTH);
+		this.add(zdj/*, BorderLayout.CENTER*/);
 		//this.add(controle);
 	}
 

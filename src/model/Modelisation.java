@@ -162,6 +162,10 @@ public class Modelisation extends Observable {
 	public Map getMap() {
 		return map;
 	}
+	public PacMan getPM() {
+		return pacMan;
+	}
+	
 	
 	// ----------------------------------------
 	// Setteur
@@ -174,28 +178,28 @@ public class Modelisation extends Observable {
 	
 	
 	public static void main(String[] args) {
-		Modelisation monde = new Modelisation();
+		Modelisation modelisation = new Modelisation();
 
 		Scanner s = new Scanner(System.in);
 		String str = "";
 
 		boolean fin = false;
 		while (!fin) {
-			System.out.println(monde.graphe.getPosActuelle().toString());
-			System.out.println(monde.pacMan.toString());
+			System.out.println(modelisation.graphe.getPosActuelle().toString());
+			System.out.println(modelisation.pacMan.toString());
 
 			System.out.print("Rien faire (r) / Haut (h) / Droite (d) / Bas (b) / Gauche (g) / Fin (f) = ");
 			str = s.next();
 
 			// 	CONTROLEUR
 			if(str.equals("h")) {
-				monde.deplacementPMHaut();
+				modelisation.deplacementPMHaut();
 			} else if (str.equals("d")) {
-				monde.deplacementPMDroite();
+				modelisation.deplacementPMDroite();
 			} else if (str.equals("b")) {
-				monde.deplacementPMBas();
+				modelisation.deplacementPMBas();
 			} else if (str.equals("g")) {
-				monde.deplacementPMGauche();
+				modelisation.deplacementPMGauche();
 			} else if (str.equals("f")) {
 				System.out.println("Bye.");
 				fin = true;
@@ -205,14 +209,14 @@ public class Modelisation extends Observable {
 				System.out.println("ERREUR DE FRAPPE !");
 			}
 
-			System.out.println("Direction: "+monde.pacMan.getDirection()+". Prochaine: "+monde.pacMan.getProchaineDirection());
+			System.out.println("Direction: "+modelisation.pacMan.getDirection()+". Prochaine: "+modelisation.pacMan.getProchaineDirection());
 
 			// Permet l'orientation au noeud
-			monde.destinationPacMan();
+			modelisation.destinationPacMan();
 			// et on dit à pacMan d'y aller
-			monde.deplacementPacMan();
+			modelisation.deplacementPacMan();
 
-			System.out.println(monde.pacMan.toString());
+			System.out.println(modelisation.pacMan.toString());
 			System.out.println("");
 		}
 
