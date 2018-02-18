@@ -17,7 +17,6 @@ public class LancerPacMan {
 		
 		// La fenêtre devient observeur du model
 		model.addObserver(fenetre);
-		model.addObserver(fenetre.getPanneau());
 		
 		model.setTest(99);
 	}

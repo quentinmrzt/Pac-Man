@@ -148,15 +148,6 @@ public class Graphe {
 
 
 	// DEPLACEMENT
-	public boolean deplacementBas() {
-		if (posActuelle.getBas() != null) {
-			posActuelle = posActuelle.getBas().getApres();
-
-			return true;
-		}
-
-		return false;
-	}
 	public boolean deplacementHaut() {
 		if (posActuelle.getHaut() != null) {
 			posActuelle = posActuelle.getHaut().getApres();
@@ -169,6 +160,15 @@ public class Graphe {
 	public boolean deplacementDroite() {
 		if (posActuelle.getDroite() != null) {
 			posActuelle = posActuelle.getDroite().getApres();
+
+			return true;
+		}
+
+		return false;
+	}
+	public boolean deplacementBas() {
+		if (posActuelle.getBas() != null) {
+			posActuelle = posActuelle.getBas().getApres();
 
 			return true;
 		}

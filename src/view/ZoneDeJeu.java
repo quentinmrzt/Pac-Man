@@ -3,14 +3,17 @@ package view;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.JPanel;
 
 import controller.Controller;
 import model.Map;
+import model.Modelisation;
 import model.PacMan;
 
-public class ZoneDeJeu extends JPanel {
+public class ZoneDeJeu extends JPanel implements Observer {
 
 	Case tabCases[][];
 	PacManView pacManView;
@@ -55,5 +58,14 @@ public class ZoneDeJeu extends JPanel {
 				}
 			}
 		}
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		if(o instanceof Modelisation){
+			System.out.println("Je suis dans la Zone de Jeu et la valeur a été modifié !");
+			
+		}
+		
 	}
 }
