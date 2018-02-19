@@ -26,12 +26,14 @@ public class PacManView extends ElementDuJeu implements Observer {
 	private BufferedImage mort[];
 	
 	private PacMan pacMan;
+	
 
 	public PacManView(PacMan pm) {
 		super(pm.getPositionX(), pm.getPositionY());
 		pacMan = pm;
 		direction = pacMan.getDirection();
 		boucheOuverte = true;
+		
 
 		// On ouvre les sprites
 		try {
@@ -83,5 +85,5 @@ public class PacManView extends ElementDuJeu implements Observer {
 		this.setPositionX(pacMan.getPositionX()*COTE);
 		this.setPositionY(pacMan.getPositionY()*COTE);
 		direction = pacMan.getDirection();
-	}
+	}	
 }

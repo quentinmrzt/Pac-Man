@@ -11,7 +11,7 @@ public class Graphe {
 		taille = 1;
 	}
 
-	public Graphe(Map map) {
+	public Graphe(Map map, int pacManX, int pacManY) {
 		// On simplie la map déjà existante 
 		Map tmpMap = new Map(map);
 		tmpMap.simplification();
@@ -20,16 +20,11 @@ public class Graphe {
 		tabNoeud = new Noeud[map.getTailleX()][map.getTailleY()];
 
 		// On récupérer les différents Noeuds ..
-		boolean premier = false;
 		for (int y=0 ; y<tmpMap.getTailleY() ; y++) {			
 			for (int x=0 ; x<tmpMap.getTailleX() ; x++) {
 				if(tmpMap.getCase(x, y) == map.SOL) {
 					if (tmpMap.isIntersection(x, y)) {
 						tabNoeud[x][y] = new Noeud(x,y);
-						if (!premier) {
-							posActuelle = tabNoeud[x][y];
-							premier = true;
-						}
 						taille++;
 					}
 				}
@@ -103,6 +98,9 @@ public class Graphe {
 				}
 			}
 		}
+		
+		// On place la position au bon endroit
+		posActuelle = tabNoeud[pacManX][pacManY];
 	}
 
 	

@@ -13,7 +13,7 @@ public class Fenetre extends JFrame implements Observer, Runnable {
 	private Controller controler;
 	private Menu menu;
 	private Panneau panneau;
-	private Thread h; 
+	private Thread horloge; 
 
 	public Fenetre(Controller c) {
 		this.setSize(800, 800);
@@ -36,8 +36,8 @@ public class Fenetre extends JFrame implements Observer, Runnable {
 		addKeyListener(new TestKeyListener(this.controler));
 
 		// Gestion de l'horloge
-		h = new Thread(this);
-		h.start();
+		horloge = new Thread(this);
+		horloge.start();
 
 		//pack();
 		this.setVisible(true);
@@ -52,19 +52,11 @@ public class Fenetre extends JFrame implements Observer, Runnable {
 	public void update(Observable o, Object arg) {
 		// Si c'est Modelisation qui m'a appelé
 		if(o instanceof Modelisation){
+			
+			System.out.println("Je suis dans la Fenetre et la valeur a été modifié: ");
+			
 			// On maj le panneau
-			System.out.println("Je suis dans la Fenetre et la valeur a été modifié: "+arg.toString());
 			panneau.update(o,arg);
-
-			// Si le paramètre modifié est un entier
-			if (arg instanceof Integer) {
-				System.out.println("Je suis un entier en paramètre.");
-			}
-
-			// Si le paramètre modifié est une chaine de caractère
-			if(arg instanceof String) {
-				System.out.println("Je suis une chaine de caractère en paramètre.");
-			}
 		}
 	}
 
@@ -78,7 +70,7 @@ public class Fenetre extends JFrame implements Observer, Runnable {
 		while(true) { 	
 			//System.out.println("Et une seconde de plus.");
 
-			System.out.println("PM - X:"+controler.getPM().getPositionX()+" Y:"+controler.getPM().getPositionY());
+			//System.out.println("PM - X:"+controler.getPM().getPositionX()+" Y:"+controler.getPM().getPositionY());
 
 			// Permet l'orientation au noeud
 			controler.destinationPacMan();
@@ -88,7 +80,7 @@ public class Fenetre extends JFrame implements Observer, Runnable {
 
 
 			try {
-				Thread.sleep(1000); // attente d'une seconde
+				Thread.sleep(100); // attente de 100 ms
 			} catch(InterruptedException e) { 
 				System.err.println("ERREUR: Problème sur l'horloge.");
 			} 

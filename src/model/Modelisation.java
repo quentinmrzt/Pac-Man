@@ -12,23 +12,21 @@ public class Modelisation extends Observable {
 	protected int test = 0;
 
 	public Modelisation() {
+		int pacManX = 1;
+		int pacManY = 1;
+
 		map = new Map("src/map_gomme.txt");
-		graphe = new Graphe(map);
-		pacMan = new PacMan(graphe.getPosActuelle().getX(), graphe.getPosActuelle().getY());
+		graphe = new Graphe(map, pacManX, pacManY);
+		pacMan = new PacMan(pacManX, pacManY);
 	}
 
 	public boolean deplacementPMHaut() {
 		// Prochaine direction de PacMan
 		pacMan.setProchaineDirection(pacMan.HAUT);
 
-		if (pacMan.getDirection() != pacMan.getProchaineDirection()) {
-			// changement de direction direct si c'est possible
-			if(graphe.deplacementHaut()) {
-				return true;
-			} else {
-				System.out.println("Impossible.");
-				return false;
-			}
+		// Si pacMan va en bas changement de direction direct (cas de changement de direction dans un couloir)
+		if (pacMan.getDirection() == pacMan.BAS && graphe.deplacementHaut()) {
+			return true;
 		} else {
 			return false;
 		}
@@ -37,14 +35,9 @@ public class Modelisation extends Observable {
 		// Prochaine direction de PacMan
 		pacMan.setProchaineDirection(pacMan.DROITE);
 
-		if (pacMan.getDirection() != pacMan.getProchaineDirection()) {
-			// changement de direction direct si c'est possible
-			if(graphe.deplacementDroite()) {
-				return true;
-			} else {
-				System.out.println("Impossible.");
-				return false;
-			}
+		// Si pacMan va a gauche changement de direction direct 
+		if (pacMan.getDirection() == pacMan.GAUCHE && graphe.deplacementDroite()) {
+			return true;
 		} else {
 			return false;
 		}
@@ -53,14 +46,9 @@ public class Modelisation extends Observable {
 		// Prochaine direction de PacMan
 		pacMan.setProchaineDirection(pacMan.BAS);
 
-		if (pacMan.getDirection() != pacMan.getProchaineDirection()) {
-			// changement de direction direct si c'est possible
-			if(graphe.deplacementBas()) {
-				return true;
-			} else {
-				System.out.println("Impossible.");
-				return false;
-			}
+		// Si pacMan va en bas changement de direction direct 
+		if (pacMan.getDirection() == pacMan.HAUT && graphe.deplacementBas()) {
+			return true;
 		} else {
 			return false;
 		}
@@ -69,55 +57,57 @@ public class Modelisation extends Observable {
 		// Prochaine direction de PacMan
 		pacMan.setProchaineDirection(pacMan.GAUCHE);
 
-		if (pacMan.getDirection() != pacMan.getProchaineDirection()) {
-			// changement de direction direct si c'est possible
-			if(graphe.deplacementGauche()) {
-				return true;
-			} else {
-				System.out.println("Impossible.");
-				return false;
-			}
+		// Si pacMan va a droite changement de direction direct
+		if (pacMan.getDirection() == pacMan.DROITE && graphe.deplacementGauche()) {
+			return true;
 		} else {
 			return false;
 		}
 	}
 
 	// PacMan se deplace dans le tableau selon sa prochaine destination
+	// On part du principte que sa destination est horizontal ou vertical à lui
 	public void deplacementPacMan() {
+		// Position de PacMan
 		int xPM = pacMan.getPositionX();
 		int yPM = pacMan.getPositionY();
+		// Position de la destination de PacMan
 		int xG = graphe.getPosActuelle().getX();
 		int yG = graphe.getPosActuelle().getY();
 
 		if (yPM > yG) {
 			// HAUT
 			pacMan.enHaut();
+
 			setChanged();
-			notifyObservers(this.test);
+			notifyObservers();
 		} else if(xPM < xG) {
 			// DROITE
 			pacMan.aDroite();
+
 			setChanged();
-			notifyObservers(this.test);
+			notifyObservers();
 		} else if(yPM < yG) {
 			// BAS
 			pacMan.enBas();
+
 			setChanged();
-			notifyObservers(this.test);
+			notifyObservers();
 		} else if(xPM > xG) {
 			// GAUCHE
 			pacMan.aGauche();
+
 			setChanged();
-			notifyObservers(this.test);
-		} else {
-			// NE RIEN FAIRE
+			notifyObservers();
 		}
 	}
 
 	// Orientation de pacMan à chaque noeud
 	public void destinationPacMan() {
+		// Position de PacMan
 		int xPM = pacMan.getPositionX();
 		int yPM = pacMan.getPositionY();
+		// Position de la destination de PacMan
 		int xG = graphe.getPosActuelle().getX();
 		int yG = graphe.getPosActuelle().getY();
 		boolean reorientation = false;

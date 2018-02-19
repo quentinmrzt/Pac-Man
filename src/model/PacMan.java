@@ -9,7 +9,7 @@ public class PacMan extends Observable{
 	final int BAS = 2;
 	final int GAUCHE = 3;
 	final int STATIQUE = 4;
-	
+
 	private int vie = 3;
 	private int positionX = 1;
 	private int positionY = 1;
@@ -24,6 +24,7 @@ public class PacMan extends Observable{
 	}
 
 
+	// GETTEUR
 	public int getPositionX() {
 		return positionX;
 	}
@@ -37,10 +38,14 @@ public class PacMan extends Observable{
 		return prochaineDirection;
 	}
 
+	// SETTEUR
 	public void setProchaineDirection(int prochaine) {
-		prochaineDirection = prochaine;
+		if (prochaine==HAUT || prochaine==DROITE || prochaine==BAS || prochaine==GAUCHE  || prochaine==STATIQUE ) {
+			prochaineDirection = prochaine;
+		} else {
+			System.err.println("Une direction est ini avec une valeur interdite.");
+		}
 	}
-
 
 	public void perteVie() {
 		vie--;
@@ -65,7 +70,9 @@ public class PacMan extends Observable{
 		direction = GAUCHE;
 		positionX--;
 	}
-
+	public void etreStatique() {
+		direction = STATIQUE;
+	}
 
 
 

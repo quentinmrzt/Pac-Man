@@ -11,7 +11,6 @@ import javax.swing.JPanel;
 import controller.Controller;
 import model.Map;
 import model.Modelisation;
-import model.PacMan;
 
 public class ZoneDeJeu extends JPanel implements Observer {
 
@@ -46,6 +45,10 @@ public class ZoneDeJeu extends JPanel implements Observer {
 	public int getTailleX() {
 		return tabCases.length;
 	}
+	
+	public void setImage(int x, int y) {
+		//tabCases[x][y].
+	}
 
 	protected void paintComponent(Graphics g) {
 		for (int y=0 ; y<getTailleY() ; y++) {
@@ -60,7 +63,6 @@ public class ZoneDeJeu extends JPanel implements Observer {
 		System.out.println("Je rentre");
 	}
 
-	@Override
 	public void update(Observable o, Object arg) {
 		if(o instanceof Modelisation){
 			// On maj pacman
