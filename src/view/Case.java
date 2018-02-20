@@ -14,56 +14,45 @@ public class Case extends ElementDuJeu{
 	final int SUPERGOMME=3;
 	final int PRISON=9;
 	
-	static BufferedImage IMG_MUR ;
-	static BufferedImage IMG_SOL ;
-	static BufferedImage IMG_GOMME ;
-	static BufferedImage IMG_SUPERGOMME ;
+	// On ouvre qu'une fois les images et elle ne change pas
+	final static BufferedImage IMG_MUR = setImage("image/1.png");
+	final static BufferedImage IMG_SOL = setImage("image/2.png");
+	final static BufferedImage IMG_GOMME = setImage("image/3.png");
+	final static BufferedImage IMG_SUPERGOMME = setImage("image/4.png");
 
-	protected int type;
-
-
-	private BufferedImage image ;
+	private int type;
+	private BufferedImage image ; // l'image courante de la case
 
 	public Case(int x, int y, int t) {
 		super(x,y);
 		type = t;
-
-		if (type==MUR) {
-			setImage("image/1.png");
-		} else if (type==SOL || type==PRISON) {
-			setImage("image/2.png");
-		} else if (type==GOMME) {
-			setImage("image/3.png");
-		} else if (type==SUPERGOMME) {
-			setImage("image/4.png");
-		} else {
-			setImage("image/5.png");
-		}
+		setImage(type);
 	}
 
 	public BufferedImage getImage() {
 		return image;
 	}
 
-	public void setImage(String chemin) {
+	private static BufferedImage setImage(String chemin) {
+		BufferedImage tmp = null;
 		try {
-			image = ImageIO.read(new File(chemin));
+			tmp = ImageIO.read(new File(chemin));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		return tmp;
 	}
 
 	public void setImage(int type) {
 		if (type==MUR) {
-			setImage("image/1.png");
+			image = IMG_MUR;
 		} else if (type==SOL || type==PRISON) {
-			setImage("image/2.png");
+			image = IMG_SOL;
 		} else if (type==GOMME) {
-			setImage("image/3.png");
+			image = IMG_GOMME;
 		} else if (type==SUPERGOMME) {
-			setImage("image/4.png");
-		} else {
-			setImage("image/5.png");
+			image = IMG_SUPERGOMME;
 		}
 	}
 

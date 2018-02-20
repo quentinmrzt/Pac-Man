@@ -3,12 +3,9 @@ package view;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import controller.Controller;
@@ -16,13 +13,12 @@ import model.Map;
 import model.Modelisation;
 
 public class ZoneDeJeu extends JPanel implements Observer {
-
 	Controller controller;
 	Case tabCases[][];
 	PacManView pacManView;
 
 	public ZoneDeJeu(Controller c) {
-		super();
+		//super();
 		this.setPreferredSize(new Dimension(800, 800)) ;
 		controller = c;
 		
@@ -63,7 +59,6 @@ public class ZoneDeJeu extends JPanel implements Observer {
 				}
 			}
 		}
-		System.out.println("Je rentre");
 	}
 
 	public void update(Observable o, Object arg) {
@@ -71,7 +66,7 @@ public class ZoneDeJeu extends JPanel implements Observer {
 			// On maj pacman
 			pacManView.update(o, arg);
 			
-			System.out.println("Je suis dans la Zone de Jeu et la valeur a été modifié !");
+			//System.out.println("Je suis dans la Zone de Jeu et la valeur a été modifié !");
 			//repaint(); // Fait appel à paint(), maj la fenetre
 		}
 		
