@@ -2,7 +2,7 @@ package model;
 
 import java.util.Observable;
 
-public class PacMan extends Observable{
+public class PacMan extends Observable {
 	//final int STATIQUE = 0;
 	final int HAUT = 0;
 	final int DROITE = 1;
@@ -54,21 +54,33 @@ public class PacMan extends Observable{
 	public void enHaut() {
 		direction = HAUT;
 		positionY--;
+		
+		setChanged();
+		notifyObservers(positionY);
 	}
 
 	public void aDroite() {
 		direction = DROITE;
 		positionX++;
+		
+		setChanged();
+		notifyObservers(positionX);
 	}
 
 	public void enBas() {
 		direction = BAS;
 		positionY++;
+		
+		setChanged();
+		notifyObservers(positionY);
 	}
 
 	public void aGauche() {
 		direction = GAUCHE;
 		positionX--;
+		
+		setChanged();
+		notifyObservers(positionX);
 	}
 	public void etreStatique() {
 		direction = STATIQUE;

@@ -11,20 +11,21 @@ import javax.swing.JPanel;
 import controller.Controller;
 import model.Map;
 import model.Modelisation;
+import model.PacMan;
 
 public class ZoneDeJeu extends JPanel implements Observer {
-	Controller controller;
-	Case tabCases[][];
-	PacManView pacManView;
+	private Controller controller;
+	private Case tabCases[][];
+	private PacManView pacManView;
 
 	public ZoneDeJeu(Controller c) {
 		//super();
 		this.setPreferredSize(new Dimension(800, 800)) ;
 		controller = c;
-		
+
 		// On récupére la map du modèle
-		Map map = c.getMap();
-		pacManView = new PacManView(c.getPM());
+		Map map = c.getModel().getMap();
+		pacManView = new PacManView(c.getModel().getPM());
 
 		// On fait un tableau de case contenant les images a afficher
 		tabCases = new Case[map.getTailleX()][map.getTailleY()];
@@ -44,7 +45,7 @@ public class ZoneDeJeu extends JPanel implements Observer {
 	public int getTailleX() {
 		return tabCases.length;
 	}
-	
+
 	public void setImage(int x, int y) {
 		//tabCases[x][y].
 	}
@@ -62,13 +63,23 @@ public class ZoneDeJeu extends JPanel implements Observer {
 	}
 
 	public void update(Observable o, Object arg) {
-		if(o instanceof Modelisation){
-			// On maj pacman
-			pacManView.update(o, arg);
-			
-			//System.out.println("Je suis dans la Zone de Jeu et la valeur a été modifié !");
-			//repaint(); // Fait appel à paint(), maj la fenetre
+		if(o instanceof Modelisation) {
+			// On ne fait rien pour le moment
 		}
-		
+
+		if(o instanceof PacMan) {
+			pacManView.update(o, arg);
+		}
+
+		if(o instanceof Map) {
+			Map tmp = (Map) o;
+			
+			// On maj l'affichage du tableau
+			for (int y=0 ; y<tmp.getTailleY() ; y++) {
+				for (int x=0 ; x<tmp.getTailleX() ; x++) {
+					tabCases[x][y].setImage(tmp.getCase(x, y));
+				}
+			}
+		}
 	}
 }

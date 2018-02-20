@@ -1,7 +1,7 @@
 package view;
 
 public abstract class ElementDuJeu {
-	static int COTE = 16;
+	final static int COTE = 16;
 	
 	private int positionTabX ;
 	private int positionTabY ;
@@ -32,14 +32,16 @@ public abstract class ElementDuJeu {
 	// SETTEUR
 	public void setPositionTabX(int x) {
 		positionTabX = x;
+		setPositionX(x*COTE);
 	}
 	public void setPositionTabY(int y) {
 		positionTabY = y;
+		setPositionY(y*COTE);
 	}
-	public void setPositionX(int x) {
+	private void setPositionX(int x) {
 		positionX = x;
 	}
-	public void setPositionY(int y) {
+	private void setPositionY(int y) {
 		positionY = y;
 	}
 }

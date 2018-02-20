@@ -3,7 +3,7 @@ package controller;
 import model.*;
 
 public class Controller {
-	protected Modelisation model;
+	private Modelisation model;
 	
 	public Controller(Modelisation m) {
 		model = m;
@@ -11,21 +11,10 @@ public class Controller {
 	
 	
 	// GETTEUR
-	public Map getMap() {
-		return model.getMap();
+	public Modelisation getModel() {
+		return model;
 	}
 	
-	public PacMan getPM() {
-		return model.getPM();
-	}
-	
-	public void deplacementPacMan() {
-		model.deplacementPacMan();
-	}
-	
-	public void destinationPacMan() {
-		model.destinationPacMan();
-	}
 
 	// SETTEUR
 	public void toucheHaut() {
@@ -39,10 +28,5 @@ public class Controller {
 	}
 	public void toucheGauche() {
 		model.deplacementPMGauche();
-	}
-
-	// On notifie le modèle d'une action si le contrôle est bon
-	public void control() {
-
 	}
 }

@@ -6,8 +6,6 @@ import java.util.Observer;
 import javax.swing.JFrame;
 
 import controller.Controller;
-import model.Modelisation;
-
 
 public class Fenetre extends JFrame implements Observer, Runnable {
 	private Controller controler;
@@ -32,8 +30,8 @@ public class Fenetre extends JFrame implements Observer, Runnable {
 		menu = new Menu();
 		this.setJMenuBar(menu);
 
-		// ajoute un écouteur d'événements personnalisé à la fenêtre
-		addKeyListener(new ControleClavier(this.controler));
+		// Ajout d'un écouteur sur le clavier
+		this.addKeyListener(new ControleClavier(this.controler));
 
 		// Gestion de l'horloge
 		horloge = new Thread(this);
@@ -50,27 +48,22 @@ public class Fenetre extends JFrame implements Observer, Runnable {
 
 	// Implementation de Observer
 	public void update(Observable o, Object arg) {
-		// Si c'est Modelisation qui m'a appelé
-		if(o instanceof Modelisation){
-			
-			//System.out.println("Je suis dans la Fenetre et la valeur a été modifié: ");
-			
-			// On maj le panneau
-			panneau.update(o,arg);
-		}
+		panneau.update(o,arg);
 	}
 
 	// Implementation de Runnable
 	public void run() {
 		// Notre horloge 
-		while(true) { 	
+		while(true) {
 			// Permet l'orientation au noeud
-			controler.destinationPacMan();
-			// et on dit à pacMan d'y aller
-			controler.deplacementPacMan();
+			controler.getModel().destinationPacMan();
+			// on dit à pacMan d'y aller
+			controler.getModel().deplacementPacMan();
+			// et on mange sur notre chemin
+			controler.getModel().mangerPacGomme();
 
 			repaint(); // Fait appel à paint(), maj la fenetre
-			
+
 			try {
 				Thread.sleep(100); // attente de 100 ms
 			} catch(InterruptedException e) { 

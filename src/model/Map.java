@@ -1,9 +1,10 @@
 package model;
 
 import java.io.*;
+import java.util.Observable;
 
 
-public class Map {
+public class Map extends Observable {
 	final int MUR = 0;
 	final int SOL = 1;
 	final int GOMME = 2;
@@ -14,22 +15,26 @@ public class Map {
 	private int map[][];
 	private int tailleX;
 	private int tailleY;
+	private int nbGomme;
+	private int nbSuperGomme;
 
 	public Map(String chemin) {
 		tailleX = 28;
 		tailleY = 31;
+		nbGomme = 0;
+		nbSuperGomme = 0;
 		map = new int[tailleX][tailleY];
 		this.ouvrirMap(chemin);
 	}
-	
-	public Map(Map map) {
-		tailleX = map.getTailleX();
-		tailleY = map.getTailleY();
-		this.map = new int[tailleX][tailleY];
-		
+
+	public Map(Map m) {
+		tailleX = m.getTailleX();
+		tailleY = m.getTailleY();
+		map = new int[tailleX][tailleY];
+
 		for (int y=0 ; y<tailleY ; y++) {
 			for (int x=0 ; x<tailleX ; x++) {
-				this.map[x][y] = map.getCase(x, y);
+				map[x][y] = m.getCase(x, y);
 			}
 		}
 	}
@@ -38,6 +43,7 @@ public class Map {
 		//Ouverture du Fichier 
 		try {
 			boolean fin = false;
+			// On ouvre le fichier contenant la map
 			BufferedReader tmp = new BufferedReader(new FileReader(chemin));
 			int y = 0;
 			while(!fin) {
@@ -51,6 +57,12 @@ public class Map {
 						String c = lecture.charAt(x)+"";
 						// et on le convertit en entier
 						map[x][y] = Integer.parseInt(c);
+						// On garde en mémoire cb il y a de gomme
+						if (map[x][y]==GOMME) {
+							nbGomme++;
+						} else if (map[x][y]==SUPERGOMME) {
+							nbSuperGomme++;
+						}
 						x++;
 					}
 				} else {
@@ -75,6 +87,7 @@ public class Map {
 		}
 	}
 
+	// GETTEUR
 	public int getCase(int x, int y) {
 		return map[x][y];
 	}
@@ -83,6 +96,49 @@ public class Map {
 	}
 	public int getTailleY() {
 		return tailleY;
+	}
+	public int getNbGomme() {
+		return nbGomme;
+	}
+	public int getNbSuperGomme() {
+		return nbSuperGomme;
+	}
+
+	// SETTEUR
+	public void setCase(int x, int y, int type) {
+		// La seule modification autorisée est la consommation de pacGomme
+		if (type==SOL && (map[x][y]==SUPERGOMME || map[x][y]==GOMME)) {
+			map[x][y] = type;
+
+			setChanged();
+			notifyObservers(map);
+		} else {
+			System.err.println("ERREUR: Initialisation d'une case interdite dans la Map.");
+		}
+	}
+	public void mangerGomme() {
+		if (nbGomme>0) {
+			nbGomme--;
+		} else {
+			System.err.println("ERREUR: Trop de gomme on été mangée.");
+		}
+		
+		if (nbGomme==0) {
+			setChanged();
+			notifyObservers("Fin du jeu.");
+		}
+	}
+	public void mangerSuperGomme() {
+		if (nbSuperGomme>0) {
+			nbSuperGomme--;
+		} else {
+			System.err.println("ERREUR: Trop de super gomme on été mangée.");
+		}
+		
+		if (nbSuperGomme==0) {
+			setChanged();
+			notifyObservers("Fin de l'invulnérabilité.");
+		}
 	}
 
 	public boolean isIntersection(int x, int y) {
@@ -110,7 +166,6 @@ public class Map {
 
 		return (haut || bas) && (droite || gauche);
 	}
-
 	public void simplification() {
 		// map en simplifié
 		for (int y=0 ; y<tailleY ; y++) {			

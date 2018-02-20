@@ -6,10 +6,10 @@ import java.util.Scanner;
 public class Modelisation extends Observable {
 	// ----------------------------------------
 	// Donnée du model
-	protected Map map;
-	protected PacMan pacMan;
-	protected Graphe graphe;
-	protected int test = 0;
+	private Map map;
+	private PacMan pacMan;
+	private Graphe graphe;
+	private int score;
 
 	public Modelisation() {
 		int pacManX = 1;
@@ -18,6 +18,7 @@ public class Modelisation extends Observable {
 		map = new Map("src/map_gomme.txt");
 		graphe = new Graphe(map, pacManX, pacManY);
 		pacMan = new PacMan(pacManX, pacManY);
+		score = 0;
 	}
 
 	public boolean deplacementPMHaut() {
@@ -78,27 +79,15 @@ public class Modelisation extends Observable {
 		if (yPM > yG) {
 			// HAUT
 			pacMan.enHaut();
-
-			setChanged();
-			notifyObservers();
 		} else if(xPM < xG) {
 			// DROITE
 			pacMan.aDroite();
-
-			setChanged();
-			notifyObservers();
 		} else if(yPM < yG) {
 			// BAS
 			pacMan.enBas();
-
-			setChanged();
-			notifyObservers();
 		} else if(xPM > xG) {
 			// GAUCHE
 			pacMan.aGauche();
-
-			setChanged();
-			notifyObservers();
 		}
 	}
 
@@ -168,30 +157,45 @@ public class Modelisation extends Observable {
 		}
 	}
 
+	// Manger les pacGomme
+	public void mangerPacGomme() {
+		int x = pacMan.getPositionX();
+		int y = pacMan.getPositionY();
+		int type = map.getCase(x, y);
+
+		if (type==map.GOMME) {
+			map.setCase(x, y, map.SOL);
+			map.mangerGomme();
+			setScoreGomme();
+		} else if (type==map.SUPERGOMME) {
+			map.setCase(x, y, map.SOL);
+			map.mangerSuperGomme();
+			setScoreSuperGomme();
+		}
+	}
+
 	// ----------------------------------------
 	// Getteur
-	public int getTest() {
-		return test;
-	}
 	public Map getMap() {
 		return map;
 	}
 	public PacMan getPM() {
 		return pacMan;
 	}
-
+	public int getScore() {
+		return score;
+	}
 
 	// ----------------------------------------
 	// Setteur
-	public void setTest(int i) {
-		test = i;
-		setChanged();
-		notifyObservers(this.test);
+	public void setScoreGomme() {
+		score = score+10;
+	}
+	public void setScoreSuperGomme() {
+		score = score+50;
 	}
 
-
-
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		Modelisation modelisation = new Modelisation();
 
 		Scanner s = new Scanner(System.in);
@@ -235,6 +239,6 @@ public class Modelisation extends Observable {
 		}
 
 		s.close();
-	}	
+	}	*/
 
 }
