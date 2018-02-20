@@ -1,7 +1,7 @@
 package model;
 
 import java.util.Observable;
-import java.util.Scanner;
+//import java.util.Scanner;
 
 public class Modelisation extends Observable {
 	// ----------------------------------------

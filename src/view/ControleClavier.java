@@ -1,35 +1,39 @@
 package view;
 
+import java.awt.KeyEventDispatcher;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 import controller.Controller;
 
-class ControleClavier implements KeyListener {
+class ControleClavier implements KeyEventDispatcher {
 	private Controller control;
 
 	public ControleClavier(Controller c) {
 		control = c;
 	}
 
-	public void keyPressed(KeyEvent e) {		
-		// Control du PacMan
-		if(e.getKeyCode() == KeyEvent.VK_UP) {
+	@Override
+	public boolean dispatchKeyEvent(KeyEvent e) {
+		switch(e.getKeyCode()) {
+		case KeyEvent.VK_UP:
 			control.toucheHaut();
-		} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+			System.out.println("Haut");
+			break;
+		case KeyEvent.VK_RIGHT:
 			control.toucheDroite();
-		} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+			System.out.println("Droite");
+			break;
+		case KeyEvent.VK_DOWN:
 			control.toucheBas();
-		} else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+			System.out.println("Bas");
+			break;
+		case KeyEvent.VK_LEFT:
 			control.toucheGauche();
+			System.out.println("Gauche");
+			break;
 		}
+		
+		return false;
 	}
 
-	public void keyReleased(KeyEvent e) {
-		//System.out.println("Touche relâchée : " + e.getKeyCode() +" (" + e.getKeyChar() + ")");
-	}
-
-	public void keyTyped(KeyEvent e) {
-		// on ne fait rien
-	}
 }

@@ -14,14 +14,14 @@ import model.Modelisation;
 import model.PacMan;
 
 public class ZoneDeJeu extends JPanel implements Observer {
-	private Controller controller;
+	//private Controller controller;
 	private Case tabCases[][];
 	private PacManView pacManView;
 
 	public ZoneDeJeu(Controller c) {
 		//super();
-		this.setPreferredSize(new Dimension(800, 800)) ;
-		controller = c;
+		this.setPreferredSize(new Dimension(600	, 600)) ;
+		//controller = c;
 
 		// On récupére la map du modèle
 		Map map = c.getModel().getMap();

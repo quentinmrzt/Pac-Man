@@ -14,7 +14,7 @@ public class Fenetre extends JFrame implements Observer, Runnable {
 	private Thread horloge; 
 
 	public Fenetre(Controller c) {
-		this.setSize(800, 600);
+		this.setSize(800, 800);
 		this.setTitle("Pac-Man");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
@@ -30,8 +30,8 @@ public class Fenetre extends JFrame implements Observer, Runnable {
 		menu = new Menu();
 		this.setJMenuBar(menu);
 
-		// Ajout d'un écouteur sur le clavier
-		this.addKeyListener(new ControleClavier(this.controler));
+		
+		//this.addKeyListener(new ControleClavier(c));
 
 		// Gestion de l'horloge
 		horloge = new Thread(this);
@@ -39,6 +39,7 @@ public class Fenetre extends JFrame implements Observer, Runnable {
 
 		//pack();
 		this.setVisible(true);
+		this.requestFocus();
 	}
 
 	// GETTEUR
