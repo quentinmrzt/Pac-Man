@@ -1,17 +1,15 @@
 package view;
 
-import java.awt.BorderLayout;
-import java.awt.Button;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.KeyboardFocusManager;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.JButton;
+import javax.swing.BorderFactory;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import controller.Controller;
@@ -19,102 +17,97 @@ import controller.Controller;
 
 public class Panneau extends JPanel implements Observer {
 	protected ZoneDeJeu zdj;
-	protected JButton demarrer, stop;
+	//protected JButton demarrer;
+	protected JLabel pacManTxt, gommeTxt, score;
+	protected Controller controller;
+	protected boolean jouer;
 
 	public Panneau(Controller control) {
 		super();
-
-		// installer le gestionnaire
-		// http://b.kostrzewa.free.fr/java/td-composit/layouts.html
-		 GridBagLayout g = new GridBagLayout();
-		 setLayout(g);
-		 
-		 // créer un objet de type GridBagConstraints
-		 GridBagConstraints constraints = new GridBagConstraints();
-		 
-		 // on utilise tout l'espace d'une cellule
-		 constraints.fill = GridBagConstraints.BOTH; // BOTH: remplir tout l'espace offert.
-		 constraints.weightx = 1.0; 
-		 // 1 - Element à gauche
-		 Button peche = new Button("Pêche");
-		 add(peche); 
-		 g.setConstraints(peche,constraints);
-		 // 2 - Element au centre
-		 Button poire = new Button("Poire");
-		 add(poire); 
-		 g.setConstraints(poire, constraints);
-		 
-		 // 3 - on va terminer la ligne avec ce composant
-		 constraints.gridwidth = GridBagConstraints.REMAINDER; // "remplit le reste de la ligne et saute" 
-		 Button pomme = new Button("Pomme");
-		 add(pomme); 
-		 g.setConstraints(pomme,constraints);
-		 
-		 // réinitialisation
-		 constraints.weightx=0.0; 
-		 constraints.weighty=1.0;
-		 constraints.gridwidth=1; // sur 1 colonne
-		 constraints.gridheight=2; //sur 2 lignes
-		 // 1 -  
-		 Button prune=new Button("Prune");
-		 add(prune); 
-		 g.setConstraints(prune,constraints);
-		 
-		 // nouvelle réinitialisation
-		 constraints.weighty=0.0; 
-		 constraints.gridwidth=GridBagConstraints.RELATIVE;
-		 constraints.gridheight=1; // sur 1 ligne
-		 Button fraise=new Button("Fraise");
-		 add(fraise); 
-		 g.setConstraints(fraise,constraints);
-		 
-		 // on termine la ligne
-		 constraints.gridwidth=GridBagConstraints.REMAINDER;
-		 Button cerise=new Button("Cerise");
-		 add(cerise); 
-		 g.setConstraints(cerise,constraints);
-		 Button ananas=new Button("Ananas");
-		 add(ananas);
-		 g.setConstraints(ananas,constraints);
 		
-		
-		
+		jouer = true;
+		controller = control;
 		
 		// Ajout d'un écouteur sur le clavier
 		KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new ControleClavier(control));
 
-
-		// En haut le jeu et en bas les boutons de controle
-		//this.setLayout(new BorderLayout());
-
-		demarrer = new JButton("Demarrer/Pause");
+		/*demarrer = new JButton("P");
 		demarrer.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e) {				
-				control.boutonDemarrer();
+			public void actionPerformed(ActionEvent e) {
+				jouer = !jouer;
+				update(null, null);
 			}
-		});
+		});*/
+		
+		this.setLayout(new GridBagLayout());
 
-		stop = new JButton("Stop");
-		stop.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e) {				
-				control.boutonStop();
-			}
-		});
+		GridBagConstraints constraints = new GridBagConstraints();
+		
+		// Definition des contraintes pour la zone de jeu
+		constraints.fill = GridBagConstraints.BOTH;
+		constraints.gridx = 0; 
+		constraints.gridy = 0; 
+		constraints.gridwidth =  1;
+		constraints.gridheight = GridBagConstraints.REMAINDER; // le dernier de la colonne
 
-
-		JPanel controle = new JPanel();
-		controle.add(demarrer);
-		controle.add(stop);
-
+		// Zone de jeu
 		zdj = new ZoneDeJeu(control);
+		zdj.setBorder(BorderFactory.createLineBorder(Color.RED, 2)); // bordure en rouge
+		this.add(zdj, constraints);
 
+		// Bouton de pause
+		/*constraints.fill = GridBagConstraints.BOTH; // occupe l'espace
+		constraints.gridx = 0; // position x: 0
+		constraints.gridy = 1; // position y: 1
+		constraints.gridwidth = 1; 
+		constraints.gridheight = 1;
+		demarrer.setPreferredSize(new Dimension(45, 45)) ;
+		this.add(demarrer, constraints);*/
+		
+		
+		
 
-		//this.add("West", zdj);
-		//this.add("East", controle);
+		// Texte pour pacMan
+		constraints.fill = GridBagConstraints.NONE;
+		constraints.gridwidth = GridBagConstraints.REMAINDER; // le dernier de la ligne
+		constraints.gridheight = 1;
+		constraints.gridx = 1;
+		constraints.gridy = 0;
 
+		pacManTxt = new JLabel("Pac-Man: ");
+		pacManTxt.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+		pacManTxt.setPreferredSize(new Dimension(400, 30)) ;
+		this.add(pacManTxt, constraints);
+
+		// Texte pour les gommes
+		constraints.gridwidth = GridBagConstraints.REMAINDER; // le dernier de la ligne
+		constraints.gridheight = 1;
+		constraints.gridx = 1;
+		constraints.gridy = 1;
+		
+		gommeTxt = new JLabel("Gomme: ");
+		gommeTxt.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+		gommeTxt.setPreferredSize(new Dimension(400, 30)) ;
+		this.add(gommeTxt, constraints);
+
+		// Texte pour le score
+		constraints.gridwidth = GridBagConstraints.REMAINDER; // le dernier de la ligne
+		constraints.gridheight = 1; // le dernier de la colonne
+		constraints.gridx = 3;
+		constraints.gridy = 3;
+		constraints.anchor = GridBagConstraints.FIRST_LINE_START;
+		
+		score = new JLabel("Score: ");
+		score.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+		score.setPreferredSize(new Dimension(400, 30)) ;
+		this.add(score, constraints);
 	}
 
 	public void update(Observable o, Object arg) {
 		zdj.update(o, arg);
+		
+		pacManTxt.setText("Pac-Man: "+controller.getModel().getPM().toString());
+		gommeTxt.setText("Gomme: "+controller.getModel().getMap().getNbGomme()+". Super gomme: "+controller.getModel().getMap().getNbSuperGomme()+".");
+		score.setText("Score: "+controller.getModel().getScore()+".");
 	}
 }

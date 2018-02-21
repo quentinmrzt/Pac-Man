@@ -14,7 +14,7 @@ public class Fenetre extends JFrame implements Observer, Runnable {
 	private Thread horloge; 
 
 	public Fenetre(Controller c) {
-		this.setSize(800, 800);
+		this.setSize(1200, 800);
 		this.setTitle("Pac-Man");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
@@ -56,17 +56,19 @@ public class Fenetre extends JFrame implements Observer, Runnable {
 	public void run() {
 		// Notre horloge 
 		while(true) {
+			if(panneau.jouer) {
 			// Permet l'orientation au noeud
 			controler.getModel().destinationPacMan();
 			// on dit à pacMan d'y aller
 			controler.getModel().deplacementPacMan();
 			// et on mange sur notre chemin
 			controler.getModel().mangerPacGomme();
+			}
 
 			repaint(); // Fait appel à paint(), maj la fenetre
 
 			try {
-				Thread.sleep(100); // attente de 100 ms
+				Thread.sleep(100 ); // attente de 100 ms
 			} catch(InterruptedException e) { 
 				System.err.println("ERREUR: Problème sur l'horloge.");
 			}

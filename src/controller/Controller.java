@@ -28,12 +28,5 @@ public class Controller {
 	public void toucheGauche() {
 		model.deplacementPMGauche();
 	}
-	
-	// BOUTON PANNEAU
-	public void boutonDemarrer() {
-		System.out.println("BOUTON 1");
-	}
-	public void boutonStop() {
-		System.out.println("BOUTON 2");
-	}
+
 }

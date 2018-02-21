@@ -17,19 +17,15 @@ class ControleClavier implements KeyEventDispatcher {
 		switch(e.getKeyCode()) {
 		case KeyEvent.VK_UP:
 			control.toucheHaut();
-			System.out.println("Haut");
 			break;
 		case KeyEvent.VK_RIGHT:
 			control.toucheDroite();
-			System.out.println("Droite");
 			break;
 		case KeyEvent.VK_DOWN:
 			control.toucheBas();
-			System.out.println("Bas");
 			break;
 		case KeyEvent.VK_LEFT:
 			control.toucheGauche();
-			System.out.println("Gauche");
 			break;
 		}
 		

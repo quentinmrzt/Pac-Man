@@ -48,7 +48,7 @@ public class PacMan extends Observable {
 	}
 
 	public void perteVie() {
-		vie--;
+		vie = vie-1;
 	}
 
 	public void enHaut() {
@@ -86,11 +86,39 @@ public class PacMan extends Observable {
 		direction = STATIQUE;
 	}
 
+	public String getDirectionStr() {
+		if (direction==HAUT) {
+			return "Haut";
+		} else if(direction==DROITE) {
+			return "Droite";
+		} else if(direction==BAS) {
+			return "Bas";
+		} else if(direction==GAUCHE) {
+			return "Gauche";
+		} else if(direction==STATIQUE) {
+			return "Statique";
+		} else {
+			return null;
+		}
+	}
+	
+	public String getProchaineDirectionStr() {
+		if (prochaineDirection==HAUT) {
+			return "Haut";
+		} else if(prochaineDirection==DROITE) {
+			return "Droite";
+		} else if(prochaineDirection==BAS) {
+			return "Bas";
+		} else if(prochaineDirection==GAUCHE) {
+			return "Gauche";
+		} else if(prochaineDirection==STATIQUE) {
+			return "Statique";
+		} else {
+			return null;
+		}
+	} 
 
-
-
-	public String toString() {
-		return "PacMan [vie=" + vie + ", positionX=" + positionX + ", positionY=" + positionY + ", direction="
-				+ direction + ", prochaineDirection=" + prochaineDirection + "]";
+	public String toString() {		
+		return "X: " + positionX + ", Y: " + positionY + ", direction: "+ getDirectionStr() + ", prochaineDirection: " + getProchaineDirectionStr()+".";
 	}
 }

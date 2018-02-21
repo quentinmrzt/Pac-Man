@@ -20,22 +20,25 @@ public class ZoneDeJeu extends JPanel implements Observer {
 
 	public ZoneDeJeu(Controller c) {
 		//super();
-		this.setPreferredSize(new Dimension(600	, 600)) ;
+		
 		//controller = c;
-
+		
 		// On récupére la map du modèle
 		Map map = c.getModel().getMap();
 		pacManView = new PacManView(c.getModel().getPM());
-
+		
 		// On fait un tableau de case contenant les images a afficher
 		tabCases = new Case[map.getTailleX()][map.getTailleY()];
-
+		
 		for (int y=0 ; y<map.getTailleY() ; y++) {
 			for (int x=0 ; x<map.getTailleX() ; x++) {
 				tabCases[x][y] = new Case(x,y, map.getCase(x, y));
 			}
 		}
-
+		
+		// La taille du panel fait exactement la taille de la map
+		this.setPreferredSize(new Dimension(map.getTailleX()*16	, map.getTailleY()*16)) ;
+		
 	}
 
 	public int getTailleY() {
