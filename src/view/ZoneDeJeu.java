@@ -18,11 +18,7 @@ public class ZoneDeJeu extends JPanel implements Observer {
 	private Case tabCases[][];
 	private PacManView pacManView;
 
-	public ZoneDeJeu(Controller c) {
-		//super();
-		
-		//controller = c;
-		
+	public ZoneDeJeu(Controller c) {		
 		// On récupére la map du modèle
 		Map map = c.getModel().getMap();
 		pacManView = new PacManView(c.getModel().getPM());

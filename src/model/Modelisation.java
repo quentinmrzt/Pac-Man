@@ -12,8 +12,11 @@ public class Modelisation extends Observable {
 	private int score;
 
 	public Modelisation() {
-		int pacManX = 1;
-		int pacManY = 1;
+		//int pacManX = 1;
+		//int pacManY = 1;
+		
+		int pacManX = 14;
+		int pacManY = 23;
 
 		map = new Map("src/map_gomme.txt");
 		graphe = new Graphe(map, pacManX, pacManY);

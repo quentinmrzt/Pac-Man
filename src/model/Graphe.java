@@ -15,7 +15,7 @@ public class Graphe {
 		// On simplie la map déjà existante 
 		Map tmpMap = new Map(map);
 		tmpMap.simplification();
-		
+
 		// Un tableau de noeud nous permettant de construire le graphe
 		tabNoeud = new Noeud[map.getTailleX()][map.getTailleY()];
 
@@ -31,6 +31,11 @@ public class Graphe {
 			}
 		}
 		
+		// si l'initialisation de Pac-Man n'est pas sur un noeud: à modifier si possible
+		if(tabNoeud[pacManX][pacManY]==null) {
+			tabNoeud[pacManX][pacManY] = new Noeud(pacManX,pacManY);
+		}
+
 		// .. et on les lies entres eux
 		for (int y=0 ; y<tmpMap.getTailleY() ; y++) {
 			for (int x=0 ; x<map.getTailleX() ; x++) {
@@ -39,7 +44,7 @@ public class Graphe {
 					boolean droite = true;
 					boolean bas = true;
 					boolean gauche = true;
-					
+
 					int i = 1;
 					// Tant qu'on a pas testé toute les directions
 					while(haut || droite || bas || gauche) {
@@ -54,7 +59,7 @@ public class Graphe {
 								}
 							}
 						}
-						
+
 						// DROITE:
 						if (droite) {
 							if (tmpMap.getCase(x+i, y) != tmpMap.SOL) {
@@ -67,7 +72,7 @@ public class Graphe {
 							}
 
 						}
-						
+
 						// BAS: 
 						if(bas) {
 							if (tmpMap.getCase(x, y+i) != tmpMap.SOL) {
@@ -80,7 +85,7 @@ public class Graphe {
 							}
 
 						}
-						
+
 						// GAUCHE
 						if (gauche) {
 							if (tmpMap.getCase(x-i, y) != tmpMap.SOL) {
@@ -92,19 +97,18 @@ public class Graphe {
 								}
 							}
 						}
-						
+
 						i++;
 					}
 				}
 			}
 		}
 		
-		// On place la position au bon endroit
 		posActuelle = tabNoeud[pacManX][pacManY];
 	}
 
-	
-	
+
+
 	// GETTEUR
 	public Noeud getPosActuelle() {
 		return posActuelle;
@@ -113,7 +117,7 @@ public class Graphe {
 		return taille;
 	}
 
-	
+
 	// SETTEUR
 	public void addNoeudBas(Noeud n) {
 		posActuelle.setBas(n);
@@ -183,7 +187,7 @@ public class Graphe {
 		return false;
 	}
 
-	
+
 	public static void main(String args[]) {
 		Graphe g = new Graphe(new Noeud(2,2));
 		System.out.println(g.getPosActuelle().toString());

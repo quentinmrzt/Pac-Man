@@ -3,28 +3,41 @@ package model;
 import java.util.Observable;
 
 public class PacMan extends Observable {
-	//final int STATIQUE = 0;
 	final int HAUT = 0;
 	final int DROITE = 1;
 	final int BAS = 2;
 	final int GAUCHE = 3;
 	final int STATIQUE = 4;
 
-	private int vie = 3;
-	private int positionX = 1;
-	private int positionY = 1;
-	private int direction = DROITE;
-	private int prochaineDirection = STATIQUE;
+	private int vie;
+	private int positionDepartX;
+	private int positionDepartY;
+	private int positionX;
+	private int positionY;
+	private int direction;
+	private int prochaineDirection;
 
 	public PacMan(int x, int y) {
+		positionDepartX = x;
+		positionDepartY = y;
+		
 		positionX = x;
 		positionY = y;
+		
 		direction = STATIQUE;
 		prochaineDirection = STATIQUE;
+		
+		vie = 3;
 	}
 
 
 	// GETTEUR
+	public int getPositionDepartX() {
+		return positionDepartX;
+	}
+	public int getPositionDepartY() {
+		return positionDepartY;
+	}
 	public int getPositionX() {
 		return positionX;
 	}
@@ -37,18 +50,24 @@ public class PacMan extends Observable {
 	public int getProchaineDirection() {
 		return prochaineDirection;
 	}
+	public int getVie() {
+		return vie;
+	}
 
 	// SETTEUR
 	public void setProchaineDirection(int prochaine) {
 		if (prochaine==HAUT || prochaine==DROITE || prochaine==BAS || prochaine==GAUCHE  || prochaine==STATIQUE ) {
 			prochaineDirection = prochaine;
 		} else {
-			System.err.println("Une direction est ini avec une valeur interdite.");
+			System.err.println("Une direction est initialisé avec une valeur interdite.");
 		}
 	}
 
 	public void perteVie() {
-		vie = vie-1;
+		vie--;
+		
+		setChanged();
+		notifyObservers("VIE");
 	}
 
 	public void enHaut() {
@@ -56,7 +75,7 @@ public class PacMan extends Observable {
 		positionY--;
 		
 		setChanged();
-		notifyObservers(positionY);
+		notifyObservers("Y");
 	}
 
 	public void aDroite() {
@@ -64,7 +83,7 @@ public class PacMan extends Observable {
 		positionX++;
 		
 		setChanged();
-		notifyObservers(positionX);
+		notifyObservers("X");
 	}
 
 	public void enBas() {
@@ -72,7 +91,7 @@ public class PacMan extends Observable {
 		positionY++;
 		
 		setChanged();
-		notifyObservers(positionY);
+		notifyObservers("Y");
 	}
 
 	public void aGauche() {
@@ -80,7 +99,7 @@ public class PacMan extends Observable {
 		positionX--;
 		
 		setChanged();
-		notifyObservers(positionX);
+		notifyObservers("X");
 	}
 	public void etreStatique() {
 		direction = STATIQUE;
