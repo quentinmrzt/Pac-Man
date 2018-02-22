@@ -60,7 +60,8 @@ public class Fenetre extends JFrame implements Observer, Runnable {
 			// et on mange sur notre chemin
 			controler.getModel().mangerPacGomme();
 
-			repaint(); // Fait appel à paint(), maj la fenetre
+			// Appel tout les paint(): Fenetre, Panneau et ZoneDeJeu
+			repaint();
 
 			try {
 				Thread.sleep(100 ); // attente de 100 ms

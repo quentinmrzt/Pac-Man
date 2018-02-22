@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.Observable;
 //import java.util.Scanner;
 
@@ -8,6 +9,7 @@ public class Modelisation extends Observable {
 	// Donnée du model
 	private Map map;
 	private PacMan pacMan;
+	private ArrayList<Fantome> fantomes;
 	private Graphe graphe;
 	private int score;
 
@@ -21,6 +23,13 @@ public class Modelisation extends Observable {
 		map = new Map("src/map_gomme.txt");
 		graphe = new Graphe(map, pacManX, pacManY);
 		pacMan = new PacMan(pacManX, pacManY);
+		
+		fantomes = new ArrayList<Fantome>();
+		fantomes.add(new Blinky());
+		fantomes.add(new Pinky());
+		fantomes.add(new Inky());
+		fantomes.add(new Clyde());
+		
 		score = 0;
 	}
 
