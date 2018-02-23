@@ -82,7 +82,7 @@ public class Panneau extends JPanel implements Observer {
 	public void update(Observable o, Object arg) {
 		zdj.update(o, arg);
 		
-		pacManTxt.setText("Pac-Man: "+controller.getModel().getPM().toString());
+		//pacManTxt.setText("Pac-Man: "+controller.getModel().getPM().toString());
 		gommeTxt.setText("Gomme: "+controller.getModel().getMap().getNbGomme()+". Super gomme: "+controller.getModel().getMap().getNbSuperGomme()+".");
 		score.setText("Score: "+controller.getModel().getScore()+".");
 	}

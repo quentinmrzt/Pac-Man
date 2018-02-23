@@ -45,10 +45,6 @@ public class ZoneDeJeu extends JPanel implements Observer {
 		return tabCases.length;
 	}
 
-	public void setImage(int x, int y) {
-		//tabCases[x][y].
-	}
-
 	protected void paintComponent(Graphics g) {
 		for (int y=0 ; y<getTailleY() ; y++) {
 			for (int x=0 ; x<getTailleX() ; x++) {

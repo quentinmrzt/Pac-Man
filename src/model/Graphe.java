@@ -11,7 +11,7 @@ public class Graphe {
 		taille = 1;
 	}
 
-	public Graphe(Map map, int pacManX, int pacManY) {
+	public Graphe(Map map, int posX, int posY) {
 		// On simplie la map déjà existante 
 		Map tmpMap = new Map(map);
 		tmpMap.simplification();
@@ -32,8 +32,8 @@ public class Graphe {
 		}
 		
 		// si l'initialisation de Pac-Man n'est pas sur un noeud: à modifier si possible
-		if(tabNoeud[pacManX][pacManY]==null) {
-			tabNoeud[pacManX][pacManY] = new Noeud(pacManX,pacManY);
+		if(tabNoeud[posX][posY]==null) {
+			tabNoeud[posX][posY] = new Noeud(posX,posY);
 		}
 
 		// .. et on les lies entres eux
@@ -104,7 +104,7 @@ public class Graphe {
 			}
 		}
 		
-		posActuelle = tabNoeud[pacManX][pacManY];
+		posActuelle = tabNoeud[posX][posY];
 	}
 
 

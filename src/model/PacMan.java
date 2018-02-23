@@ -1,143 +1,97 @@
 package model;
 
-import java.util.Observable;
-
-public class PacMan extends Observable {
-	final int HAUT = 0;
-	final int DROITE = 1;
-	final int BAS = 2;
-	final int GAUCHE = 3;
-	final int STATIQUE = 4;
-
-	private int vie;
-	private int positionDepartX;
-	private int positionDepartY;
-	private int positionX;
-	private int positionY;
-	private int direction;
-	private int prochaineDirection;
-
-	public PacMan(int x, int y) {
-		positionDepartX = x;
-		positionDepartY = y;
-		
-		positionX = x;
-		positionY = y;
-		
-		direction = STATIQUE;
-		prochaineDirection = STATIQUE;
-		
-		vie = 3;
-	}
+public class PacMan extends Personnage {
 
 
-	// GETTEUR
-	public int getPositionDepartX() {
-		return positionDepartX;
-	}
-	public int getPositionDepartY() {
-		return positionDepartY;
-	}
-	public int getPositionX() {
-		return positionX;
-	}
-	public int getPositionY() {
-		return positionY;
-	}
-	public int getDirection() {
-		return direction;
-	}
-	public int getProchaineDirection() {
-		return prochaineDirection;
-	}
-	public int getVie() {
-		return vie;
+	public PacMan() {
+		super(14,23,3);
 	}
 
-	// SETTEUR
-	public void setProchaineDirection(int prochaine) {
-		if (prochaine==HAUT || prochaine==DROITE || prochaine==BAS || prochaine==GAUCHE  || prochaine==STATIQUE ) {
-			prochaineDirection = prochaine;
-		} else {
-			System.err.println("Une direction est initialisé avec une valeur interdite.");
+	// ABSTRACT
+	// PacMan se deplace dans le tableau selon sa prochaine destination
+	// On part du principte que sa destination est horizontal ou vertical à lui
+	public void deplacement() {
+		// Position de PacMan
+		int xPM = this.getPositionX();
+		int yPM = this.getPositionY();
+		// Position de la destination de PacMan
+		int xG = graphe.getPosActuelle().getX();
+		int yG = graphe.getPosActuelle().getY();
+
+		if (yPM > yG) {
+			// HAUT
+			this.enHaut();
+		} else if(xPM < xG) {
+			// DROITE
+			this.aDroite();
+		} else if(yPM < yG) {
+			// BAS
+			this.enBas();
+		} else if(xPM > xG) {
+			// GAUCHE
+			this.aGauche();
 		}
 	}
 
-	public void perteVie() {
-		vie--;
-		
-		setChanged();
-		notifyObservers("VIE");
-	}
+	@Override
+	public void destination() {
+		// Position de PacMan
+		int xPM = this.getPositionX();
+		int yPM = this.getPositionY();
+		// Position de la destination de PacMan
+		int xG = graphe.getPosActuelle().getX();
+		int yG = graphe.getPosActuelle().getY();
+		boolean reorientation = false;
 
-	public void enHaut() {
-		direction = HAUT;
-		positionY--;
-		
-		setChanged();
-		notifyObservers("Y");
-	}
+		// si PacMan se trouve sur un noeud
+		if (xPM == xG && yPM == yG) {
+			// On test s'il doit prendre une nouvelle direction..
+			if (this.getProchaineDirection()==HAUT) {
+				// HAUT
+				if(graphe.deplacementHaut()) {
+					reorientation = true;
+				}
+			} else if(pacMan.getProchaineDirection()==DROITE) {
+				// DROITE
+				if(graphe.deplacementDroite()) {
+					reorientation = true;
+				}
+			} else if(this.getProchaineDirection()==BAS) {
+				// BAS
+				if(graphe.deplacementBas()) {
+					reorientation = true;
+				}
+			} else if(this.getProchaineDirection()==GAUCHE) {
+				// GAUCHE
+				if(graphe.deplacementGauche()) {
+					reorientation = true;
+				}
+			}
 
-	public void aDroite() {
-		direction = DROITE;
-		positionX++;
-		
-		setChanged();
-		notifyObservers("X");
-	}
-
-	public void enBas() {
-		direction = BAS;
-		positionY++;
-		
-		setChanged();
-		notifyObservers("Y");
-	}
-
-	public void aGauche() {
-		direction = GAUCHE;
-		positionX--;
-		
-		setChanged();
-		notifyObservers("X");
-	}
-	public void etreStatique() {
-		direction = STATIQUE;
-	}
-
-	public String getDirectionStr() {
-		if (direction==HAUT) {
-			return "Haut";
-		} else if(direction==DROITE) {
-			return "Droite";
-		} else if(direction==BAS) {
-			return "Bas";
-		} else if(direction==GAUCHE) {
-			return "Gauche";
-		} else if(direction==STATIQUE) {
-			return "Statique";
-		} else {
-			return null;
+			// ..et s'il n'y a pas eu de réorientation, on continue notre chemin dans la même direction
+			if (!reorientation) {
+				if (this.getDirection()==HAUT) {
+					// HAUT
+					if(!graphe.deplacementHaut()) {
+						this.setProchaineDirection(STATIQUE);
+					}
+				} else if(this.getDirection()==DROITE) {
+					// DROITE
+					if(!graphe.deplacementDroite()) {
+						this.setProchaineDirection(STATIQUE);
+					}
+				} else if(this.getDirection()==BAS) {
+					// BAS
+					if(!graphe.deplacementBas()) {
+						this.setProchaineDirection(STATIQUE);
+					}
+				} else if(this.getDirection()==GAUCHE) {
+					// GAUCHE
+					if(!graphe.deplacementGauche()) {
+						this.setProchaineDirection(STATIQUE);
+					}
+				}
+			}
 		}
-	}
-	
-	public String getProchaineDirectionStr() {
-		if (prochaineDirection==HAUT) {
-			return "Haut";
-		} else if(prochaineDirection==DROITE) {
-			return "Droite";
-		} else if(prochaineDirection==BAS) {
-			return "Bas";
-		} else if(prochaineDirection==GAUCHE) {
-			return "Gauche";
-		} else if(prochaineDirection==STATIQUE) {
-			return "Statique";
-		} else {
-			return null;
-		}
-	} 
-
-	public String toString() {		
-		return "X: " + positionX + ", Y: " + positionY + ", direction: "+ getDirectionStr() + ", prochaineDirection: " + getProchaineDirectionStr()+".";
 	}
 }

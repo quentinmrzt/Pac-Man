@@ -8,8 +8,7 @@ public class Modelisation extends Observable {
 	// ----------------------------------------
 	// Donnée du model
 	private Map map;
-	private PacMan pacMan;
-	private ArrayList<Fantome> fantomes;
+	private ArrayList<Personnage> personnages;
 	private Graphe graphe;
 	private int score;
 
@@ -22,150 +21,30 @@ public class Modelisation extends Observable {
 
 		map = new Map("src/map_gomme.txt");
 		graphe = new Graphe(map, pacManX, pacManY);
-		pacMan = new PacMan(pacManX, pacManY);
 		
-		fantomes = new ArrayList<Fantome>();
-		fantomes.add(new Blinky());
-		fantomes.add(new Pinky());
-		fantomes.add(new Inky());
-		fantomes.add(new Clyde());
+		personnages = new ArrayList<Personnage>();
+		personnages.add(new PacMan());
+		personnages.add(new Blinky());
+		personnages.add(new Pinky());
+		personnages.add(new Inky());
+		personnages.add(new Clyde());
 		
 		score = 0;
 	}
 
-	public boolean deplacementPMHaut() {
-		// Prochaine direction de PacMan
-		pacMan.setProchaineDirection(pacMan.HAUT);
 
-		// Si pacMan va en bas changement de direction direct (cas de changement de direction dans un couloir)
-		if (pacMan.getDirection() == pacMan.BAS && graphe.deplacementHaut()) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-	public boolean deplacementPMDroite() {
-		// Prochaine direction de PacMan
-		pacMan.setProchaineDirection(pacMan.DROITE);
+	
 
-		// Si pacMan va a gauche changement de direction direct 
-		if (pacMan.getDirection() == pacMan.GAUCHE && graphe.deplacementDroite()) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-	public boolean deplacementPMBas() {
-		// Prochaine direction de PacMan
-		pacMan.setProchaineDirection(pacMan.BAS);
-
-		// Si pacMan va en bas changement de direction direct 
-		if (pacMan.getDirection() == pacMan.HAUT && graphe.deplacementBas()) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-	public boolean deplacementPMGauche() {
-		// Prochaine direction de PacMan
-		pacMan.setProchaineDirection(pacMan.GAUCHE);
-
-		// Si pacMan va a droite changement de direction direct
-		if (pacMan.getDirection() == pacMan.DROITE && graphe.deplacementGauche()) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	// PacMan se deplace dans le tableau selon sa prochaine destination
-	// On part du principte que sa destination est horizontal ou vertical à lui
-	public void deplacementPacMan() {
-		// Position de PacMan
-		int xPM = pacMan.getPositionX();
-		int yPM = pacMan.getPositionY();
-		// Position de la destination de PacMan
-		int xG = graphe.getPosActuelle().getX();
-		int yG = graphe.getPosActuelle().getY();
-
-		if (yPM > yG) {
-			// HAUT
-			pacMan.enHaut();
-		} else if(xPM < xG) {
-			// DROITE
-			pacMan.aDroite();
-		} else if(yPM < yG) {
-			// BAS
-			pacMan.enBas();
-		} else if(xPM > xG) {
-			// GAUCHE
-			pacMan.aGauche();
+	public void deplacementPersonnages() {
+		for (Personnage p: personnages) {
+			p.deplacement();
 		}
 	}
 
 	// Orientation de pacMan à chaque noeud
-	public void destinationPacMan() {
-		// Position de PacMan
-		int xPM = pacMan.getPositionX();
-		int yPM = pacMan.getPositionY();
-		// Position de la destination de PacMan
-		int xG = graphe.getPosActuelle().getX();
-		int yG = graphe.getPosActuelle().getY();
-		boolean reorientation = false;
-
-		// si PacMan se trouve sur un noeud
-		if (xPM == xG && yPM == yG) {
-			// On test s'il doit prendre une nouvelle direction..
-			if (pacMan.getProchaineDirection()==pacMan.HAUT) {
-				// HAUT
-				if(graphe.deplacementHaut()) {
-					reorientation = true;
-				}
-			} else if(pacMan.getProchaineDirection()==pacMan.DROITE) {
-				// DROITE
-				if(graphe.deplacementDroite()) {
-					reorientation = true;
-				}
-			} else if(pacMan.getProchaineDirection()==pacMan.BAS) {
-				// BAS
-				if(graphe.deplacementBas()) {
-					reorientation = true;
-				}
-			} else if(pacMan.getProchaineDirection()==pacMan.GAUCHE) {
-				// GAUCHE
-				if(graphe.deplacementGauche()) {
-					reorientation = true;
-				}
-			}
-
-			// ..et s'il n'y a pas eu de réorientation, on continue notre chemin dans la même direction
-			if (!reorientation) {
-				if (pacMan.getDirection()==pacMan.HAUT) {
-					// HAUT
-					if(!graphe.deplacementHaut()) {
-						pacMan.setProchaineDirection(pacMan.STATIQUE);
-					}
-				} else if(pacMan.getDirection()==pacMan.DROITE) {
-					// DROITE
-					if(!graphe.deplacementDroite()) {
-						pacMan.setProchaineDirection(pacMan.STATIQUE);
-					}
-				} else if(pacMan.getDirection()==pacMan.BAS) {
-					// BAS
-					if(!graphe.deplacementBas()) {
-						pacMan.setProchaineDirection(pacMan.STATIQUE);
-					}
-				} else if(pacMan.getDirection()==pacMan.GAUCHE) {
-					// GAUCHE
-					if(!graphe.deplacementGauche()) {
-						pacMan.setProchaineDirection(pacMan.STATIQUE);
-					}
-				} else {
-					// PacMan n'est pas en mouvement
-				}
-			}
-		} else {
-			// PacMan est déjà en mouvement
+	public void destinationPersonnages() {
+		for (Personnage p: personnages) {
+			p.destination();
 		}
 	}
 
@@ -190,9 +69,6 @@ public class Modelisation extends Observable {
 	// Getteur
 	public Map getMap() {
 		return map;
-	}
-	public PacMan getPM() {
-		return pacMan;
 	}
 	public int getScore() {
 		return score;

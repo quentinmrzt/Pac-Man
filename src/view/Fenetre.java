@@ -54,9 +54,9 @@ public class Fenetre extends JFrame implements Observer, Runnable {
 		// Notre horloge 
 		while(true) {
 			// Permet l'orientation au noeud
-			controler.getModel().destinationPacMan();
+			controler.getModel().destinationPersonnages();
 			// on dit à pacMan d'y aller
-			controler.getModel().deplacementPacMan();
+			controler.getModel().deplacementPersonnages();
 			// et on mange sur notre chemin
 			controler.getModel().mangerPacGomme();
 
