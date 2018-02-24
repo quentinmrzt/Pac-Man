@@ -12,7 +12,6 @@ class ControleClavier implements KeyEventDispatcher {
 		control = c;
 	}
 
-	@Override
 	public boolean dispatchKeyEvent(KeyEvent e) {
 		switch(e.getKeyCode()) {
 		case KeyEvent.VK_UP:
@@ -27,6 +26,8 @@ class ControleClavier implements KeyEventDispatcher {
 		case KeyEvent.VK_LEFT:
 			control.toucheGauche();
 			break;
+		case KeyEvent.VK_ESCAPE:
+			System.exit(0);
 		}
 		
 		return false;

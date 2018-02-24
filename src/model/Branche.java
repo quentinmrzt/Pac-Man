@@ -8,7 +8,13 @@ public class Branche {
 	public Branche(Noeud n1, Noeud n2) {
 		this.n1 = n1;
 		this.n2 = n2;
-		distance = distance(n1,n2);
+
+		// les noeuds sont forcement alignés
+		if(n1.getX()==n2.getX()) {
+			distance = Math.abs(n1.getY()-n2.getY());
+		} else {
+			distance = Math.abs(n1.getX()-n2.getX());
+		}
 	}
 
 	public Branche(Noeud n1, Noeud n2, int d) {
@@ -17,15 +23,7 @@ public class Branche {
 		distance = d;
 	}
 
-	public int distance(Noeud n1, Noeud n2) {
-		// les noeuds sont forcement alignés
-		if(n1.getX()==n2.getX()) {
-			return Math.abs(n1.getY()-n2.getY());
-		} else {
-			return Math.abs(n1.getX()-n2.getX());
-		}
-	}
-
+	// GETTEUR
 	public int getDistance() {
 		return distance;
 	}
@@ -35,8 +33,6 @@ public class Branche {
 	public Noeud getN2() {
 		return n2;
 	}
-	
-	
 	public Noeud getApres(Noeud n) {
 		// on retourne celui qu'on est pas
 		if (n1.equals(n)) {
@@ -44,5 +40,21 @@ public class Branche {
 		} else {
 			return n1;
 		}
+	}
+
+	public boolean estDessus(int x, int y) {
+		if(n1.getX()==n2.getX() && x==n1.getX()) {
+			// de haut en bas 
+			if (y>=n1.getY() && y<=n2.getY()) {
+				return true;
+			}
+		} else {
+			// de gauche à droite
+			if (x>=n1.getX() && x<=n2.getX()) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 }

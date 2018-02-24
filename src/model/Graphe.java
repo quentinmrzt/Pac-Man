@@ -42,14 +42,14 @@ public class Graphe {
 					int i = 1;
 					// Tant qu'on a pas testé toute les directions
 					while(haut || droite || bas || gauche) {
-						// HAUT: 
+						// HAUT
 						if (haut) {
 							if (tmpMap.getCase(x, y-i) != tmpMap.SOL) {
 								haut = false;
 							} else {
 								if (tabNoeud[x][y-i] != null) {
-									// on créé une branche
-									Branche tmp = new Branche(tabNoeud[x][y],tabNoeud[x][y-i]);
+									// on créé une branche: en haut (n1), en bas (n2)
+									Branche tmp = new Branche(tabNoeud[x][y-i],tabNoeud[x][y]);
 									tabNoeud[x][y].setHaut(tmp);
 									tabNoeud[x][y-i].setBas(tmp);
 									haut = false; // le lien a été établit 
@@ -57,13 +57,13 @@ public class Graphe {
 							}
 						}
 
-						// DROITE:
+						// DROITE
 						if (droite) {
 							if (tmpMap.getCase(x+i, y) != tmpMap.SOL) {
 								droite = false;
 							} else {
 								if (tabNoeud[x+i][y] != null) {
-									// on créé une branche
+									// on créé une branche: à gauche (n1), à droite (n2)
 									Branche tmp = new Branche(tabNoeud[x][y],tabNoeud[x+i][y]);
 									tabNoeud[x][y].setDroite(tmp);
 									tabNoeud[x+i][y].setGauche(tmp);
@@ -72,13 +72,13 @@ public class Graphe {
 							}
 						}
 
-						// BAS: 
+						// BAS
 						if(bas) {
 							if (tmpMap.getCase(x, y+i) != tmpMap.SOL) {
 								bas = false;
 							} else {
 								if (tabNoeud[x][y+i] != null) {
-									// on créé une branche
+									// on créé une branche: en haut (n1), en bas (n2)
 									Branche tmp = new Branche(tabNoeud[x][y],tabNoeud[x][y+i]);
 									tabNoeud[x][y].setBas(tmp);
 									tabNoeud[x][y+i].setHaut(tmp);
@@ -94,8 +94,8 @@ public class Graphe {
 								gauche = false;
 							} else {
 								if (tabNoeud[x-i][y] != null) {
-									// on créé une branche
-									Branche tmp = new Branche(tabNoeud[x][y],tabNoeud[x-i][y]);
+									// on créé une branche: à gauche (n1), à droite (n2)
+									Branche tmp = new Branche(tabNoeud[x-i][y],tabNoeud[x][y]);
 									tabNoeud[x][y].setDroite(tmp);
 									tabNoeud[x-i][y].setGauche(tmp);
 									gauche = false; // le lien a été établit 
