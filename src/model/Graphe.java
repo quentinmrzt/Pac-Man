@@ -1,17 +1,11 @@
 package model;
 
 public class Graphe {
-	private Noeud posActuelle = null;
 	private Noeud tabNoeud[][];
 	private int taille = 0;
 
 	// CONSTRUCTEUR	
-	public Graphe(Noeud n) {
-		posActuelle = n;
-		taille = 1;
-	}
-
-	public Graphe(Map map, int posX, int posY) {
+	public Graphe(Map map) {
 		// On simplie la map déjà existante 
 		Map tmpMap = new Map(map);
 		tmpMap.simplification();
@@ -31,10 +25,11 @@ public class Graphe {
 			}
 		}
 		
-		// si l'initialisation de Pac-Man n'est pas sur un noeud: à modifier si possible
-		if(tabNoeud[posX][posY]==null) {
-			tabNoeud[posX][posY] = new Noeud(posX,posY);
-		}
+		// .. on rajoute les spawns ..
+		System.out.println("x:"+map.getSpawnPacManX()+" y:"+map.getSpawnPacManY());
+		System.out.println("x:"+map.getSpawnFantomeX()+" y:"+map.getSpawnFantomeY());
+		tabNoeud[map.getSpawnPacManX()][map.getSpawnPacManY()] = new Noeud(map.getSpawnPacManX(),map.getSpawnPacManY());
+		tabNoeud[map.getSpawnFantomeX()][map.getSpawnFantomeY()] = new Noeud(map.getSpawnFantomeX(),map.getSpawnFantomeY());
 
 		// .. et on les lies entres eux
 		for (int y=0 ; y<tmpMap.getTailleY() ; y++) {
@@ -102,112 +97,14 @@ public class Graphe {
 					}
 				}
 			}
-		}
-		
-		posActuelle = tabNoeud[posX][posY];
+		}		
 	}
-
-
 
 	// GETTEUR
-	public Noeud getPosActuelle() {
-		return posActuelle;
-	}
 	public int getTaille() {
 		return taille;
 	}
-
-
-	// SETTEUR
-	public void addNoeudBas(Noeud n) {
-		posActuelle.setBas(n);
-		n.setHaut(posActuelle);
-		posActuelle = n;
-
-		taille++;
-	}
-	public void addNoeudHaut(Noeud n) {
-		posActuelle.setHaut(n);
-		n.setBas(posActuelle);
-		posActuelle = n;
-
-		taille++;
-	}
-	public void addNoeudDroite(Noeud n) {
-		posActuelle.setDroite(n);
-		n.setGauche(posActuelle);
-		posActuelle = n;
-
-		taille++;
-	}
-	public void addNoeudGauche(Noeud n) {
-		posActuelle.setGauche(n);
-		n.setDroite(posActuelle);
-		posActuelle = n;
-
-		taille++;
-	}
-
-
-	// DEPLACEMENT
-	public boolean deplacementHaut() {
-		if (posActuelle.getHaut() != null) {
-			posActuelle = posActuelle.getHaut().getApres();
-
-			return true;
-		}
-
-		return false;
-	}
-	public boolean deplacementDroite() {
-		if (posActuelle.getDroite() != null) {
-			posActuelle = posActuelle.getDroite().getApres();
-
-			return true;
-		}
-
-		return false;
-	}
-	public boolean deplacementBas() {
-		if (posActuelle.getBas() != null) {
-			posActuelle = posActuelle.getBas().getApres();
-
-			return true;
-		}
-
-		return false;
-	}
-	public boolean deplacementGauche() {
-		if (posActuelle.getGauche() != null) {
-			posActuelle = posActuelle.getGauche().getApres();
-
-			return true;
-		}
-
-		return false;
-	}
-
-
-	public static void main(String args[]) {
-		Graphe g = new Graphe(new Noeud(2,2));
-		System.out.println(g.getPosActuelle().toString());
-
-		g.addNoeudBas(new Noeud(6,2));
-		System.out.println(g.getPosActuelle().toString());
-
-		g.addNoeudBas(new Noeud(9,2));
-		System.out.println(g.getPosActuelle().toString());
-
-		g.deplacementHaut();
-		System.out.println(g.getPosActuelle().toString());
-
-		g.deplacementHaut();
-		System.out.println(g.getPosActuelle().toString());
-
-		g.deplacementBas();
-		System.out.println(g.getPosActuelle().toString()); 
-
-		g.deplacementBas();
-		System.out.println(g.getPosActuelle().toString());
+	public Noeud getNoeud(int x, int y) {
+		return tabNoeud[x][y];
 	}
 }

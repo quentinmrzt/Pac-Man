@@ -9,12 +9,16 @@ public class Map extends Observable {
 	final int SOL = 1;
 	final int GOMME = 2;
 	final int SUPERGOMME = 3;
+	
+	final int SPAWNPACMAN = 7;
+	final int SPAWNFANTOME = 8;
 	final int PRISON = 9;
-
 
 	private int map[][];
 	private int tailleX;
 	private int tailleY;
+	private int spawnPacManX, spawnPacManY;
+	private int spawnFantomeX, spawnFantomeY;
 	private int nbGomme;
 	private int nbSuperGomme;
 
@@ -62,6 +66,14 @@ public class Map extends Observable {
 							nbGomme++;
 						} else if (map[x][y]==SUPERGOMME) {
 							nbSuperGomme++;
+						} else if (map[x][y]==SPAWNPACMAN) {
+							spawnPacManX = x;
+							spawnPacManY = y;
+							map[x][y] = SOL;
+						} else if (map[x][y]==SPAWNFANTOME) {
+							spawnFantomeX = x;
+							spawnFantomeY = y;
+							map[x][y] = SOL;
 						}
 						x++;
 					}
@@ -89,6 +101,16 @@ public class Map extends Observable {
 
 	// GETTEUR
 	public int getCase(int x, int y) {
+		if (x>=tailleX || y>=tailleY) {
+			System.out.println("Aie, x:"+x+" ou y:"+y+" est hors limite.");
+			return 99999;
+		}
+		
+		if (x<0 || y<0) {
+			System.out.println("Aie, x:"+x+" ou y:"+y+" est hors limite.");
+			return -99999;
+		}
+		
 		return map[x][y];
 	}
 	public int getTailleX() {
@@ -102,6 +124,18 @@ public class Map extends Observable {
 	}
 	public int getNbSuperGomme() {
 		return nbSuperGomme;
+	}
+	public int getSpawnPacManX() {
+		return spawnPacManX;
+	}
+	public int getSpawnPacManY() {
+		return spawnPacManY;
+	}
+	public int getSpawnFantomeX() {
+		return spawnFantomeX;
+	}
+	public int getSpawnFantomeY() {
+		return spawnFantomeY;
 	}
 
 	// SETTEUR
@@ -170,9 +204,10 @@ public class Map extends Observable {
 		// map en simplifié
 		for (int y=0 ; y<tailleY ; y++) {			
 			for (int x=0 ; x<tailleX ; x++) {
-				if (getCase(x, y) == MUR) {
+				int type = getCase(x,y);
+				if (type == MUR) {
 					map[x][y] = MUR;
-				} else if (getCase(x, y) == SOL || getCase(x, y) == GOMME || getCase(x, y) == SUPERGOMME) {
+				} else if (type == SOL || type == GOMME || type == SUPERGOMME || type == SPAWNPACMAN || type == SPAWNFANTOME) {
 					map[x][y] = SOL;
 				} else if (getCase(x, y) == PRISON) {
 					map[x][y] = PRISON;

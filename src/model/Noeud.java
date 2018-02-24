@@ -6,11 +6,11 @@ public class Noeud {
 	protected Branche bas;
 	protected Branche droite;
 	protected Branche gauche;
-	
+
 	public Noeud(int x, int y) {
 		this.x = x;
 		this.y = y;
-		
+
 		haut = null;
 		bas = null;
 		droite = null;
@@ -24,8 +24,36 @@ public class Noeud {
 	public int getY() {
 		return y;
 	}
-	
-	
+
+	public Noeud enHaut() {
+		if (haut == null) {
+			return null;
+		} else {
+			return haut.getApres();
+		}
+	}
+	public Noeud aDroite() {
+		if (droite == null) {
+			return null;
+		} else {
+			return droite.getApres();
+		}
+	}
+	public Noeud enBas() {
+		if (bas == null) {
+			return null;
+		} else {
+			return bas.getApres();
+		}
+	}
+	public Noeud aGauche() {
+		if (gauche == null) {
+			return null;
+		} else {
+			return gauche.getApres();
+		}
+	}
+
 	public Branche getHaut() {
 		return haut;
 	}
@@ -38,7 +66,7 @@ public class Noeud {
 	public Branche getGauche() {
 		return gauche;
 	}
-	
+
 	// SETTEUR
 	public void setHaut(Branche haut) {
 		this.haut = haut;
@@ -53,14 +81,14 @@ public class Noeud {
 	public void setBas(Noeud n) {
 		this.bas = new Branche(this,n);
 	}
-	
+
 	public void setDroite(Branche droite) {
 		this.droite = droite;
 	}
 	public void setDroite(Noeud n) {
 		this.droite = new Branche(this,n);
 	}
-	
+
 	public void setGauche(Branche gauche) {
 		this.gauche = gauche;
 	}
@@ -87,7 +115,7 @@ public class Noeud {
 			direction = direction+"Gauche ";
 			distance = distance+"G:"+this.getGauche().getDistance()+" ";
 		}
-		
+
 		return "Pos= x: "+x+" y: "+y+". Dir= "+direction+". Dis= "+distance;
 	}
 }

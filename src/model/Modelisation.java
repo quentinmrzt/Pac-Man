@@ -5,7 +5,6 @@ import java.util.Observable;
 //import java.util.Scanner;
 
 public class Modelisation extends Observable {
-	// ----------------------------------------
 	// Donnée du model
 	private Map map;
 	private ArrayList<Personnage> personnages;
@@ -13,43 +12,49 @@ public class Modelisation extends Observable {
 	private int score;
 
 	public Modelisation() {
-		//int pacManX = 1;
-		//int pacManY = 1;
-		
-		int pacManX = 14;
-		int pacManY = 23;
-
 		map = new Map("src/map_gomme.txt");
-		graphe = new Graphe(map, pacManX, pacManY);
-		
+		graphe = new Graphe(map);
+
 		personnages = new ArrayList<Personnage>();
-		personnages.add(new PacMan());
-		personnages.add(new Blinky());
-		personnages.add(new Pinky());
-		personnages.add(new Inky());
-		personnages.add(new Clyde());
-		
+		personnages.add(new PacMan(graphe.getNoeud(map.getSpawnPacManX(), map.getSpawnPacManY())));
+		personnages.add(new Blinky(graphe.getNoeud(map.getSpawnFantomeX(), map.getSpawnFantomeY())));
+		personnages.add(new Pinky(graphe.getNoeud(map.getSpawnFantomeX(), map.getSpawnFantomeY())));
+		personnages.add(new Inky(graphe.getNoeud(map.getSpawnFantomeX(), map.getSpawnFantomeY())));
+		personnages.add(new Clyde(graphe.getNoeud(map.getSpawnFantomeX(), map.getSpawnFantomeY())));
+
 		score = 0;
 	}
 
-
-	
-
-	public void deplacementPersonnages() {
-		for (Personnage p: personnages) {
-			p.deplacement();
+	public void directionPersonnage(int direction, int perso) {		
+		if(direction==0) {
+			personnages.get(perso).directionHaut();
+		} else if(direction==1) {
+			personnages.get(perso).directionDroite();
+		} else if(direction==2) {
+			personnages.get(perso).directionBas();
+		} else if(direction==3) {
+			personnages.get(perso).directionGauche();
 		}
 	}
 
 	// Orientation de pacMan à chaque noeud
 	public void destinationPersonnages() {
+		//personnages.get(0).destination();
 		for (Personnage p: personnages) {
 			p.destination();
 		}
 	}
+	
+	// Deplacement d'une case de chaque personnage
+	public void deplacementPersonnages() {
+		//personnages.get(0).deplacement();
+		for (Personnage p: personnages) {
+			p.deplacement();
+		}
+	}
 
 	// Manger les pacGomme
-	public void mangerPacGomme() {
+	/*public void mangerPacGomme() {
 		int x = pacMan.getPositionX();
 		int y = pacMan.getPositionY();
 		int type = map.getCase(x, y);
@@ -63,7 +68,7 @@ public class Modelisation extends Observable {
 			map.mangerSuperGomme();
 			setScoreSuperGomme();
 		}
-	}
+	}*/
 
 	// ----------------------------------------
 	// Getteur
@@ -72,6 +77,9 @@ public class Modelisation extends Observable {
 	}
 	public int getScore() {
 		return score;
+	}
+	public PacMan getPM() {
+		return (PacMan) personnages.get(0);
 	}
 
 	// ----------------------------------------

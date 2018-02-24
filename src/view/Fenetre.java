@@ -46,6 +46,7 @@ public class Fenetre extends JFrame implements Observer, Runnable {
 
 	// Implementation de Observer
 	public void update(Observable o, Object arg) {
+		System.out.println("MAJ FENETRE");
 		panneau.update(o,arg);
 	}
 
@@ -58,7 +59,7 @@ public class Fenetre extends JFrame implements Observer, Runnable {
 			// on dit à pacMan d'y aller
 			controler.getModel().deplacementPersonnages();
 			// et on mange sur notre chemin
-			controler.getModel().mangerPacGomme();
+			// controler.getModel().mangerPacGomme();
 
 			// Appel tout les paint(): Fenetre, Panneau et ZoneDeJeu
 			repaint();

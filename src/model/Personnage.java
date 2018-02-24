@@ -16,17 +16,20 @@ public abstract class Personnage extends Observable {
 	private int positionY;
 	private int direction;
 	private int prochaineDirection;
-	private Graphe graphe;
 
-	public Personnage(int x, int y, int v) {
-		positionDepartX = x;
-		positionDepartY = y;
-		
-		positionX = x;
-		positionY = y;
-		
+	protected Noeud destination;
+
+	public Personnage(int v, Noeud n) {
+		positionDepartX = n.getX();
+		positionDepartY = n.getY();
+
+		positionX = positionDepartX;
+		positionY = positionDepartY;
+
 		vie = v;
-		
+
+		destination = n;
+
 		direction = STATIQUE;
 		prochaineDirection = STATIQUE;
 	}
@@ -83,106 +86,175 @@ public abstract class Personnage extends Observable {
 			return null;
 		}
 	} 
+	public int getPosDesX() {
+		return destination.getX();
+	}
+	public int getPosDesY() {
+		return destination.getY();
+	}
 
 	// SETTEUR
 	public void perteVie() {
 		vie--;
-		
+
 		setChanged();
 		notifyObservers("VIE");
 	}
 	public void enHaut() {
-		direction = HAUT;
 		positionY--;
-		
+
 		setChanged();
 		notifyObservers("Y");
 	}
 	public void aDroite() {
-		direction = DROITE;
 		positionX++;
-		
+
 		setChanged();
 		notifyObservers("X");
 	}
 	public void enBas() {
-		direction = BAS;
 		positionY++;
-		
+
 		setChanged();
 		notifyObservers("Y");
 	}
 	public void aGauche() {
-		direction = GAUCHE;
 		positionX--;
-		
+
 		setChanged();
 		notifyObservers("X");
 	}
-	public void etreStatique() {
-		direction = STATIQUE;
-	}
-	
-	
+
 	// FONCTION
-	public void setProchaineDirection(int prochaine) {
-		if (prochaine==HAUT || prochaine==DROITE || prochaine==BAS || prochaine==GAUCHE  || prochaine==STATIQUE ) {
-			prochaineDirection = prochaine;
+
+	// Change la direction ou la prochaine direction
+	public void directionHaut() {
+		System.out.println("PERSO HAUT");
+		if (getDirection()==BAS) {
+			direction = HAUT;
+			prochaineDirection = STATIQUE;
 		} else {
-			System.err.println("Une direction est initialisé avec une valeur interdite.");
+			prochaineDirection = HAUT;
+		}
+	}
+	public void directionDroite() {
+		if (getDirection()==GAUCHE) {
+			direction = DROITE;
+			prochaineDirection = STATIQUE;
+		} else {
+			prochaineDirection = DROITE;
+		}
+	}
+	public void directionBas() {
+		if (getDirection()==HAUT) {
+			direction = BAS;
+			prochaineDirection = STATIQUE;
+		} else {
+			prochaineDirection = BAS;
+		}
+	}
+	public void directionGauche() {
+		if (getDirection()==DROITE) {
+			direction = GAUCHE;
+			prochaineDirection = STATIQUE;
+		} else {
+			prochaineDirection = GAUCHE;
+		}
+	}
+
+	// Orientation dans les noeuds
+	public void destination() {
+		// Position du personnage
+		int persoX = this.getPositionX();
+		int persoY = this.getPositionY();
+		
+		// Position de la destination
+		int destiX = destination.getX();
+		int destiY = destination.getY();
+		
+		boolean reorientation = false;
+
+		// si le perso se trouve à sa destination
+		if (persoX == destiX && persoY == destiY) {
+			// On test s'il doit prendre une nouvelle direction..
+			if (prochaineDirection==HAUT) {
+				if (destination.getHaut()!=null) { // si la branche n'est pas vide
+					direction = HAUT;
+					destination = destination.enHaut();
+					reorientation = true;
+				}
+				prochaineDirection = STATIQUE;
+			} else if(prochaineDirection==DROITE) {
+				System.out.println("A DROITE TOUTE");
+				if (destination.getDroite()!=null) { // si la branche n'est pas vide
+					direction = DROITE;
+					destination = destination.aDroite();
+					reorientation = true;
+				}
+				prochaineDirection = STATIQUE;
+			} else if(prochaineDirection==BAS) {
+				if (destination.getBas()!=null) { // si la branche n'est pas vide
+					direction = BAS;
+					destination = destination.enBas();
+					reorientation = true;
+				}
+				prochaineDirection = STATIQUE;
+			} else if(prochaineDirection==GAUCHE) {
+				if (destination.getGauche()!=null) { // si la branche n'est pas vide
+					direction = GAUCHE;
+					destination = destination.aGauche();
+					reorientation = true;
+				}
+				prochaineDirection = STATIQUE;
+			}
+
+			// ..et s'il n'y a pas eu de réorientation, on continue notre chemin dans la même direction
+			// A partir d'ici, prochaineDirection vaut forcement statique
+			if (!reorientation) {
+				if (direction==HAUT) {
+					if (destination.getHaut()!=null) { // si la branche n'est pas vide
+						destination = destination.enHaut();
+					} else {
+						direction = STATIQUE;
+					}
+				} else if(direction==DROITE) {
+					if (destination.getDroite()!=null) { // si la branche n'est pas vide
+						destination = destination.aDroite();
+					} else {
+						direction = STATIQUE;
+					}
+				} else if(direction==BAS) {
+					if (destination.getBas()!=null) { // si la branche n'est pas vide
+						destination = destination.enBas();
+					} else {
+						direction = STATIQUE;
+					}
+				} else if(this.getDirection()==GAUCHE) {
+					if (destination.getGauche()!=null) { // si la branche n'est pas vide
+						destination = destination.aGauche();
+					} else {
+						direction = STATIQUE;
+					}
+				}
+			}
+		}
+	}
+
+	// Se deplace selon la direction du personnage
+	public void deplacement() {
+		if (direction==HAUT) {
+			this.enHaut();
+		} else if(direction==DROITE) {
+			this.aDroite();
+		} else if(direction==BAS) {
+			this.enBas();
+		} else if(direction==GAUCHE) {
+			this.aGauche();
 		}
 	}
 	
-	public boolean deplacementHaut() {
-		// Prochaine direction de PacMan
-		setProchaineDirection(HAUT);
-
-		// Si pacMan va en bas changement de direction direct (cas de changement de direction dans un couloir)
-		if (getDirection() == BAS && graphe.deplacementHaut()) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-	public boolean deplacementDroite() {
-		// Prochaine direction de PacMan
-		setProchaineDirection(DROITE);
-
-		// Si pacMan va a gauche changement de direction direct 
-		if (getDirection() == GAUCHE && graphe.deplacementDroite()) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-	public boolean deplacementBas() {
-		// Prochaine direction de PacMan
-		setProchaineDirection(BAS);
-
-		// Si pacMan va en bas changement de direction direct 
-		if (getDirection() == HAUT && deplacementBas()) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-	public boolean deplacementGauche() {
-		// Prochaine direction de PacMan
-		setProchaineDirection(GAUCHE);
-
-		// Si pacMan va a droite changement de direction direct
-		if (getDirection() == DROITE && graphe.deplacementGauche()) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
 	public String toString() {		
 		return "X: " + positionX + ", Y: " + positionY + ", direction: "+ getDirectionStr() + ", prochaineDirection: " + getProchaineDirectionStr()+".";
 	}
 	
-	// ABSTRACT
-	public abstract void deplacement();
-	public abstract void destination();
 }
