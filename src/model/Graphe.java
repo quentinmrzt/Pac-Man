@@ -33,10 +33,11 @@ public class Graphe {
 		for (int y=0 ; y<tmpMap.getTailleY() ; y++) {
 			for (int x=0 ; x<map.getTailleX() ; x++) {
 				if (tabNoeud[x][y] != null) {
-					boolean haut = true;
-					boolean droite = true;
-					boolean bas = true;
-					boolean gauche = true;
+					// On vérifie que le lien n'a pas déjà été fais
+					boolean haut = tabNoeud[x][y].getHaut()==null;
+					boolean droite = tabNoeud[x][y].getDroite()==null;
+					boolean bas = tabNoeud[x][y].getBas()==null;
+					boolean gauche = tabNoeud[x][y].getGauche()==null;
 
 					int i = 1;
 					// Tant qu'on a pas testé toute les directions
@@ -47,8 +48,11 @@ public class Graphe {
 								haut = false;
 							} else {
 								if (tabNoeud[x][y-i] != null) {
-									tabNoeud[x][y].setHaut(tabNoeud[x][y-i]);
-									haut = false;
+									// on créé une branche
+									Branche tmp = new Branche(tabNoeud[x][y],tabNoeud[x][y-i]);
+									tabNoeud[x][y].setHaut(tmp);
+									tabNoeud[x][y-i].setBas(tmp);
+									haut = false; // le lien a été établit 
 								}
 							}
 						}
@@ -59,11 +63,13 @@ public class Graphe {
 								droite = false;
 							} else {
 								if (tabNoeud[x+i][y] != null) {
-									tabNoeud[x][y].setDroite(tabNoeud[x+i][y]);
-									droite = false;
+									// on créé une branche
+									Branche tmp = new Branche(tabNoeud[x][y],tabNoeud[x+i][y]);
+									tabNoeud[x][y].setDroite(tmp);
+									tabNoeud[x+i][y].setGauche(tmp);
+									droite = false; // le lien a été établit 
 								}
 							}
-
 						}
 
 						// BAS: 
@@ -72,8 +78,11 @@ public class Graphe {
 								bas = false;
 							} else {
 								if (tabNoeud[x][y+i] != null) {
-									tabNoeud[x][y].setBas(tabNoeud[x][y+i]);
-									bas = false;
+									// on créé une branche
+									Branche tmp = new Branche(tabNoeud[x][y],tabNoeud[x][y+i]);
+									tabNoeud[x][y].setBas(tmp);
+									tabNoeud[x][y+i].setHaut(tmp);
+									bas = false; // le lien a été établit 
 								}
 							}
 
@@ -85,8 +94,11 @@ public class Graphe {
 								gauche = false;
 							} else {
 								if (tabNoeud[x-i][y] != null) {
-									tabNoeud[x][y].setGauche(tabNoeud[x-i][y]);
-									gauche = false;
+									// on créé une branche
+									Branche tmp = new Branche(tabNoeud[x][y],tabNoeud[x-i][y]);
+									tabNoeud[x][y].setDroite(tmp);
+									tabNoeud[x-i][y].setGauche(tmp);
+									gauche = false; // le lien a été établit 
 								}
 							}
 						}

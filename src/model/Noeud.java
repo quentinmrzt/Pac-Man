@@ -29,28 +29,28 @@ public class Noeud {
 		if (haut == null) {
 			return null;
 		} else {
-			return haut.getApres();
+			return haut.getApres(this);
 		}
 	}
 	public Noeud aDroite() {
 		if (droite == null) {
 			return null;
 		} else {
-			return droite.getApres();
+			return droite.getApres(this);
 		}
 	}
 	public Noeud enBas() {
 		if (bas == null) {
 			return null;
 		} else {
-			return bas.getApres();
+			return bas.getApres(this);
 		}
 	}
 	public Noeud aGauche() {
 		if (gauche == null) {
 			return null;
 		} else {
-			return gauche.getApres();
+			return gauche.getApres(this);
 		}
 	}
 

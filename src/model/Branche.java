@@ -1,22 +1,22 @@
 package model;
 
 public class Branche {
-	protected Noeud avant = null;
-	protected Noeud apres = null;
-	protected int distance = 0;
-	
+	private Noeud n1 = null;
+	private Noeud n2 = null;
+	private int distance = 0;
+
 	public Branche(Noeud n1, Noeud n2) {
-		avant = n1;
-		apres = n2;
+		this.n1 = n1;
+		this.n2 = n2;
 		distance = distance(n1,n2);
 	}
-	
+
 	public Branche(Noeud n1, Noeud n2, int d) {
-		avant = n1;
-		apres = n2;
+		this.n1 = n1;
+		this.n2 = n2;
 		distance = d;
 	}
-	
+
 	public int distance(Noeud n1, Noeud n2) {
 		// les noeuds sont forcement alignés
 		if(n1.getX()==n2.getX()) {
@@ -25,16 +25,24 @@ public class Branche {
 			return Math.abs(n1.getX()-n2.getX());
 		}
 	}
-	
+
 	public int getDistance() {
 		return distance;
 	}
-	
-	public Noeud getAvant() {
-		return avant;
+	public Noeud getN1() {
+		return n1;
+	}
+	public Noeud getN2() {
+		return n2;
 	}
 	
-	public Noeud getApres() {
-		return apres;
+	
+	public Noeud getApres(Noeud n) {
+		// on retourne celui qu'on est pas
+		if (n1.equals(n)) {
+			return n2;
+		} else {
+			return n1;
+		}
 	}
 }

@@ -10,7 +10,6 @@ import javax.swing.JPanel;
 
 import controller.Controller;
 import model.Map;
-import model.Modelisation;
 import model.PacMan;
 
 public class ZoneDeJeu extends JPanel implements Observer {

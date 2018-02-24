@@ -18,6 +18,9 @@ public abstract class Personnage extends Observable {
 	private int prochaineDirection;
 
 	protected Noeud destination;
+	
+	// Test
+	protected Branche branche;
 
 	public Personnage(int v, Noeud n) {
 		positionDepartX = n.getX();
