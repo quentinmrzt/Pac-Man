@@ -7,12 +7,7 @@ public class Blinky extends Personnage {
 	}
 
 	// ABSTRACT
-	public void deplacement() {
-		
-	}
-
-	
-	public void destination() {
+	public void manger() {
 		
 	}
 }

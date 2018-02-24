@@ -19,19 +19,15 @@ public class Controller {
 	
 	// CLAVIER PANNEAU
 	public void toucheHaut() {
-		System.out.println("HAUT");
 		model.directionPersonnage(HAUT,PACMAN);
 	}
 	public void toucheDroite() {
-		System.out.println("DROITE");
 		model.directionPersonnage(DROITE,PACMAN);
 	}
 	public void toucheBas() {
-		System.out.println("BAS");
 		model.directionPersonnage(BAS,PACMAN);
 	}
 	public void toucheGauche() {
-		System.out.println("GAUCHE");
 		model.directionPersonnage(GAUCHE,PACMAN);
 	}
 

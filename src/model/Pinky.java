@@ -7,12 +7,7 @@ public class Pinky extends Personnage {
 	}
 
 	// ABSTRACT
-	public void deplacement() {
-				
-	}
-
-	public void destination() {
+	public void manger() {
 		
 	}
-	
 }

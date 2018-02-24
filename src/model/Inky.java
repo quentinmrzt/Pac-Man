@@ -6,11 +6,8 @@ public class Inky extends Personnage {
 		super(1,n);	
 	}
 
-	public void deplacement() {
-		
-	}
-
-	public void destination() {
+	// ABSTRACT
+	public void manger() {
 		
 	}
 }

@@ -129,9 +129,9 @@ public abstract class Personnage extends Observable {
 
 	// Change la direction ou la prochaine direction
 	public void directionHaut() {
-		System.out.println("PERSO HAUT");
 		if (getDirection()==BAS) {
 			direction = HAUT;
+			destination = destination.enHaut();
 			prochaineDirection = STATIQUE;
 		} else {
 			prochaineDirection = HAUT;
@@ -140,6 +140,7 @@ public abstract class Personnage extends Observable {
 	public void directionDroite() {
 		if (getDirection()==GAUCHE) {
 			direction = DROITE;
+			destination = destination.aDroite();
 			prochaineDirection = STATIQUE;
 		} else {
 			prochaineDirection = DROITE;
@@ -148,6 +149,7 @@ public abstract class Personnage extends Observable {
 	public void directionBas() {
 		if (getDirection()==HAUT) {
 			direction = BAS;
+			destination = destination.enBas();
 			prochaineDirection = STATIQUE;
 		} else {
 			prochaineDirection = BAS;
@@ -156,6 +158,7 @@ public abstract class Personnage extends Observable {
 	public void directionGauche() {
 		if (getDirection()==DROITE) {
 			direction = GAUCHE;
+			destination = destination.aGauche();
 			prochaineDirection = STATIQUE;
 		} else {
 			prochaineDirection = GAUCHE;
@@ -180,36 +183,34 @@ public abstract class Personnage extends Observable {
 			if (prochaineDirection==HAUT) {
 				if (destination.getHaut()!=null) { // si la branche n'est pas vide
 					direction = HAUT;
+					prochaineDirection = STATIQUE;
 					destination = destination.enHaut();
 					reorientation = true;
 				}
-				prochaineDirection = STATIQUE;
 			} else if(prochaineDirection==DROITE) {
-				System.out.println("A DROITE TOUTE");
 				if (destination.getDroite()!=null) { // si la branche n'est pas vide
 					direction = DROITE;
+					prochaineDirection = STATIQUE;
 					destination = destination.aDroite();
 					reorientation = true;
 				}
-				prochaineDirection = STATIQUE;
 			} else if(prochaineDirection==BAS) {
 				if (destination.getBas()!=null) { // si la branche n'est pas vide
 					direction = BAS;
+					prochaineDirection = STATIQUE;
 					destination = destination.enBas();
 					reorientation = true;
 				}
-				prochaineDirection = STATIQUE;
 			} else if(prochaineDirection==GAUCHE) {
 				if (destination.getGauche()!=null) { // si la branche n'est pas vide
 					direction = GAUCHE;
+					prochaineDirection = STATIQUE;
 					destination = destination.aGauche();
 					reorientation = true;
 				}
-				prochaineDirection = STATIQUE;
 			}
 
 			// ..et s'il n'y a pas eu de réorientation, on continue notre chemin dans la même direction
-			// A partir d'ici, prochaineDirection vaut forcement statique
 			if (!reorientation) {
 				if (direction==HAUT) {
 					if (destination.getHaut()!=null) { // si la branche n'est pas vide
@@ -257,4 +258,6 @@ public abstract class Personnage extends Observable {
 		return "X: " + positionX + ", Y: " + positionY + ", direction: "+ getDirectionStr() + ", prochaineDirection: " + getProchaineDirectionStr()+".";
 	}
 	
+	// ABSTRACT
+	public abstract void manger();
 }

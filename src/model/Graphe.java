@@ -26,8 +26,6 @@ public class Graphe {
 		}
 		
 		// .. on rajoute les spawns ..
-		System.out.println("x:"+map.getSpawnPacManX()+" y:"+map.getSpawnPacManY());
-		System.out.println("x:"+map.getSpawnFantomeX()+" y:"+map.getSpawnFantomeY());
 		tabNoeud[map.getSpawnPacManX()][map.getSpawnPacManY()] = new Noeud(map.getSpawnPacManX(),map.getSpawnPacManY());
 		tabNoeud[map.getSpawnFantomeX()][map.getSpawnFantomeY()] = new Noeud(map.getSpawnFantomeX(),map.getSpawnFantomeY());
 

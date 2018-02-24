@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import controller.Controller;
+import model.Modelisation;
 
 
 public class Panneau extends JPanel implements Observer {
@@ -21,9 +22,9 @@ public class Panneau extends JPanel implements Observer {
 
 	public Panneau(Controller control) {
 		super();
-		
+
 		controller = control;
-		
+
 		// Ajout d'un écouteur sur le clavier
 		KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new ControleClavier(control));
 
@@ -32,7 +33,7 @@ public class Panneau extends JPanel implements Observer {
 
 		// Contraintes
 		GridBagConstraints constraints = new GridBagConstraints();
-		
+
 		// Definition des contraintes pour la zone de jeu
 		constraints.fill = GridBagConstraints.BOTH;
 		constraints.gridx = 0; 
@@ -62,7 +63,7 @@ public class Panneau extends JPanel implements Observer {
 		constraints.gridheight = 1;
 		constraints.gridx = 1;
 		constraints.gridy = 1;
-		
+
 		gommeTxt = new JLabel("Gomme: ");
 		gommeTxt.setPreferredSize(new Dimension(400, 30)) ;
 		this.add(gommeTxt, constraints);
@@ -73,18 +74,20 @@ public class Panneau extends JPanel implements Observer {
 		constraints.gridx = 1;
 		constraints.gridy = 2;
 		constraints.anchor = GridBagConstraints.FIRST_LINE_START; // place toi en haut à gauche
-		
-		score = new JLabel("Score: ");
+
+		score = new JLabel("Score: ");	
 		score.setPreferredSize(new Dimension(400, 30)) ;
-		this.add(score, constraints);		
+		this.add(score, constraints);
 	}
 
 	public void update(Observable o, Object arg) {
-		System.out.println("MAJ UPDATE");
-		zdj.update(o, arg);
+		pacManTxt.setText("Pac-Man: "+controller.getModel().getPM().toString());
 		
-		//pacManTxt.setText("Pac-Man: "+controller.getModel().getPM().toString());
-		gommeTxt.setText("Gomme: "+controller.getModel().getMap().getNbGomme()+". Super gomme: "+controller.getModel().getMap().getNbSuperGomme()+".");
-		score.setText("Score: "+controller.getModel().getScore()+".");
+		if(o instanceof Modelisation) {
+			gommeTxt.setText("Gomme: "+controller.getModel().getMap().getNbGomme()+". Super gomme: "+controller.getModel().getMap().getNbSuperGomme()+".");
+			score.setText("Score: "+controller.getModel().getScore()+".");
+		}
+
+		zdj.update(o, arg);
 	}
 }

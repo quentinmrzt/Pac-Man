@@ -57,13 +57,7 @@ public class ZoneDeJeu extends JPanel implements Observer {
 		}
 	}
 
-	public void update(Observable o, Object arg) {
-		System.out.println("MAJ ZONE DE JEU");
-		
-		if(o instanceof Modelisation) {
-			// On ne fait rien pour le moment
-		}
-
+	public void update(Observable o, Object arg) {		
 		if(o instanceof PacMan) {
 			pacManView.update(o, arg);
 		}

@@ -5,13 +5,9 @@ public class Clyde extends Personnage {
 	public Clyde(Noeud n) {
 		super(1,n);
 	}
-
+	
 	// ABSTRACT
-	public void deplacement() {
-				
-	}
-
-	public void destination() {
+	public void manger() {
 		
 	}
 }

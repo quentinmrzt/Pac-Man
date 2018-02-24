@@ -8,10 +8,19 @@ public class PacMan extends Personnage {
 		super(3,n);
 	}
 
-	// ABSTRACT
-	// PacMan se deplace dans le tableau selon sa prochaine destination
-	// On part du principte que sa destination est horizontal ou vertical à lui
-	
+	public void manger() {
+		/*int x = getPositionX();
+		int y = getPositionY();
+		int type = map.getCase(x, y);
 
-	
+		if (type==map.GOMME) {
+			map.setCase(x, y, map.SOL);
+			map.mangerGomme();
+			setScoreGomme();
+		} else if (type==map.SUPERGOMME) {
+			map.setCase(x, y, map.SOL);
+			map.mangerSuperGomme();
+			setScoreSuperGomme();
+		}*/
+	}
 }

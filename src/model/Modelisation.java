@@ -54,7 +54,8 @@ public class Modelisation extends Observable {
 	}
 
 	// Manger les pacGomme
-	/*public void mangerPacGomme() {
+	public void manger() {
+		Personnage pacMan =  personnages.get(0);
 		int x = pacMan.getPositionX();
 		int y = pacMan.getPositionY();
 		int type = map.getCase(x, y);
@@ -68,7 +69,7 @@ public class Modelisation extends Observable {
 			map.mangerSuperGomme();
 			setScoreSuperGomme();
 		}
-	}*/
+	}
 
 	// ----------------------------------------
 	// Getteur
@@ -86,9 +87,15 @@ public class Modelisation extends Observable {
 	// Setteur
 	public void setScoreGomme() {
 		score = score+10;
+		
+		setChanged();
+		notifyObservers("G");
 	}
 	public void setScoreSuperGomme() {
 		score = score+50;
+		
+		setChanged();
+		notifyObservers("SP");
 	}
 
 	/*public static void main(String[] args) {

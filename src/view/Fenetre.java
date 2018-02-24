@@ -46,7 +46,6 @@ public class Fenetre extends JFrame implements Observer, Runnable {
 
 	// Implementation de Observer
 	public void update(Observable o, Object arg) {
-		System.out.println("MAJ FENETRE");
 		panneau.update(o,arg);
 	}
 
@@ -59,13 +58,13 @@ public class Fenetre extends JFrame implements Observer, Runnable {
 			// on dit à pacMan d'y aller
 			controler.getModel().deplacementPersonnages();
 			// et on mange sur notre chemin
-			// controler.getModel().mangerPacGomme();
+			controler.getModel().manger();
 
 			// Appel tout les paint(): Fenetre, Panneau et ZoneDeJeu
 			repaint();
 
 			try {
-				Thread.sleep(100 ); // attente de 100 ms
+				Thread.sleep(80); // attente de 100 ms
 			} catch(InterruptedException e) { 
 				System.err.println("ERREUR: Problème sur l'horloge.");
 			}
