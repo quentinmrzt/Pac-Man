@@ -6,12 +6,22 @@ import java.util.Observable;
 
 public class Modelisation extends Observable {
 	// Donnée du model
+	public final static int PACMAN=0;
+	public final static int BLINKY=1;
+	public final static int PINKY=2;
+	public final static int INKY=3;
+	public final static int CLYDE=4; 	
+
 	private Map map;
 	private ArrayList<Personnage> personnages;
 	private Graphe graphe;
 	private int score;
+	
+	
 
 	public Modelisation() {
+		super();
+		
 		map = new Map("src/map_gomme.txt");
 		graphe = new Graphe(map);
 		
@@ -24,27 +34,31 @@ public class Modelisation extends Observable {
 		Branche brancheFantome = graphe.getBranche(fantomeX, fantomeY);
 	
 		personnages = new ArrayList<Personnage>();
-		
 		personnages.add(new PacMan(pacManX,pacManY,branchePacMan));
-		
 		personnages.add(new Blinky(fantomeX,fantomeY,brancheFantome));
 		personnages.add(new Pinky(fantomeX,fantomeY,brancheFantome));
 		personnages.add(new Inky(fantomeX,fantomeY,brancheFantome));
 		personnages.add(new Clyde(fantomeX,fantomeY,brancheFantome));
 
+		personnages.get(BLINKY).enBas();
+		
 		score = 0;
 	}
 
 	public void directionPersonnage(int direction, int perso) {		
-		if(direction==0) {
+		if(direction==Personnage.HAUT) {
 			personnages.get(perso).directionHaut();
-		} else if(direction==1) {
+		} else if(direction==Personnage.DROITE) {
 			personnages.get(perso).directionDroite();
-		} else if(direction==2) {
+		} else if(direction==Personnage.BAS) {
 			personnages.get(perso).directionBas();
-		} else if(direction==3) {
+		} else if(direction==Personnage.GAUCHE) {
 			personnages.get(perso).directionGauche();
 		}
+	}
+	
+	public Personnage getPersonnage(int index) {
+		return personnages.get(index);
 	}
 
 	// Orientation de pacMan à chaque noeud
@@ -107,6 +121,7 @@ public class Modelisation extends Observable {
 		notifyObservers("SP");
 	}
 
+	
 	/*public static void main(String[] args) {
 		Modelisation modelisation = new Modelisation();
 

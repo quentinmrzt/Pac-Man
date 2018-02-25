@@ -3,11 +3,11 @@ package model;
 import java.util.Observable;
 
 public abstract class Personnage extends Observable {
-	final int HAUT = 0;
-	final int DROITE = 1;
-	final int BAS = 2;
-	final int GAUCHE = 3;
-	final int STATIQUE = 4;
+	public final static int HAUT = 0;
+	public final static int DROITE = 1;
+	public final static int BAS = 2;
+	public final static int GAUCHE = 3;
+	public final static int STATIQUE = 4;
 
 	private int vie;
 	private int positionDepartX;
@@ -91,18 +91,6 @@ public abstract class Personnage extends Observable {
 
 	// Implémentation de la branche
 	public Noeud getNoeudDestination() {
-		if(branche.getN1().getX()==branche.getN2().getX()) {
-			// Vertical
-			if(direction==DROITE || direction==GAUCHE) {
-				System.err.println("Vertical mais demande horizontal.");
-			}
-		} else {
-			// Horizontal
-			if(direction==HAUT || direction==BAS) {
-				System.err.println("Horizontal mais demande vertical.");
-			}
-		}
-
 		if (direction==HAUT || direction==GAUCHE) {
 			return branche.getN1();
 		} else if (direction==DROITE || direction==BAS) {

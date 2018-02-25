@@ -5,14 +5,13 @@ import java.util.Observable;
 
 
 public class Map extends Observable {
-	final int MUR = 0;
-	final int SOL = 1;
-	final int GOMME = 2;
-	final int SUPERGOMME = 3;
-	
-	final int SPAWNPACMAN = 7;
-	final int SPAWNFANTOME = 8;
-	final int PRISON = 9;
+	public final static int MUR = 0;
+	public final static int SOL = 1;
+	public final static int GOMME = 2;
+	public final static int SUPERGOMME = 3;
+	public final static int SPAWNPACMAN = 7;
+	public final static int SPAWNFANTOME = 8;
+	public final static int PRISON = 9;
 
 	private int map[][];
 	private int tailleX;

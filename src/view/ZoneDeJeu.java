@@ -16,11 +16,20 @@ public class ZoneDeJeu extends JPanel implements Observer {
 	//private Controller controller;
 	private Case tabCases[][];
 	private PacManView pacManView;
+	private FantomeView blinky;
+	private FantomeView pinky;
+	private FantomeView inky;
+	private FantomeView clyde;
 
 	public ZoneDeJeu(Controller c) {		
 		// On récupére la map du modèle
 		Map map = c.getModel().getMap();
 		pacManView = new PacManView(c.getModel().getPM());
+		
+		blinky = new FantomeView(1,1);
+		pinky = new FantomeView(1,1);
+		inky = new FantomeView(1,1);
+		clyde = new FantomeView(1,1);
 		
 		// On fait un tableau de case contenant les images a afficher
 		tabCases = new Case[map.getTailleX()][map.getTailleY()];
@@ -56,7 +65,13 @@ public class ZoneDeJeu extends JPanel implements Observer {
 		}
 	}
 
-	public void update(Observable o, Object arg) {		
+	public void update(Observable o, Object arg) {
+		System.out.println("MAJ ZDJ");
+		blinky.update(o,arg);
+		pinky.update(o,arg);
+		inky.update(o,arg);
+		clyde.update(o,arg);
+		
 		if(o instanceof PacMan) {
 			pacManView.update(o, arg);
 		}

@@ -6,15 +6,10 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import model.Map;
+
 
 public class Case extends ElementDuJeu{
-	// Nos constantes
-	final static int MUR = 0;
-	final static int SOL = 1;
-	final static int GOMME = 2;
-	final static int SUPERGOMME = 3;
-	final static int PRISON = 9;
-
 	// On ouvre qu'une fois les images et elle ne change pas
 	final static BufferedImage IMG_MUR = setImage("image/1.png");
 	final static BufferedImage IMG_SOL = setImage("image/2.png");
@@ -30,13 +25,13 @@ public class Case extends ElementDuJeu{
 
 	// GETTEUR
 	public BufferedImage getImage() {
-		if (type==MUR) {
+		if (type==Map.MUR) {
 			return IMG_MUR;
-		} else if (type==SOL || type==PRISON) {
+		} else if (type==Map.SOL || type==Map.PRISON) {
 			return IMG_SOL;
-		} else if (type==GOMME) {
+		} else if (type==Map.GOMME) {
 			return IMG_GOMME;
-		} else if (type==SUPERGOMME) {
+		} else if (type==Map.SUPERGOMME) {
 			return IMG_SUPERGOMME;
 		} else {
 			System.out.println("ERREUR: Un type d'image demandé n'existe pas.");
@@ -46,12 +41,7 @@ public class Case extends ElementDuJeu{
 
 	// SETTEUR
 	public void setImage(int t) {
-		// La seule modification autorisée est la consommation de pacGomme
-		//if (t==SOL && (type==SUPERGOMME || type==GOMME)) {
-			type = t;
-		//} else {
-			//System.err.println("ERREUR: Initialisation d'une case interdite.");
-		//}
+		type = t;
 	}
 
 	private static BufferedImage setImage(String chemin) {

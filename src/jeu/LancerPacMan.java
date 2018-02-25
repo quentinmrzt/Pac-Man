@@ -17,7 +17,13 @@ public class LancerPacMan {
 		
 		// La fenêtre devient observeur du model
 		model.addObserver(fenetre);
-		model.getPM().addObserver(fenetre);
+		
+		model.getPersonnage(Modelisation.PACMAN).addObserver(fenetre);
+		model.getPersonnage(Modelisation.BLINKY).addObserver(fenetre);
+		model.getPersonnage(Modelisation.PINKY).addObserver(fenetre);
+		model.getPersonnage(Modelisation.INKY).addObserver(fenetre);
+		model.getPersonnage(Modelisation.CLYDE).addObserver(fenetre);
+		
 		model.getMap().addObserver(fenetre);
 	}
 }

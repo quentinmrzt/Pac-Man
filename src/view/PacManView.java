@@ -9,14 +9,9 @@ import java.util.Observer;
 import javax.imageio.ImageIO;
 
 import model.PacMan;
+import model.Personnage;
 
 public class PacManView extends ElementDuJeu implements Observer {
-	// Les constantes
-	final int HAUT = 0;
-	final int DROITE = 1;
-	final int BAS = 2;
-	final int GAUCHE = 3;
-	final int STATIQUE = 4;
 	final int OUVERT = 0 ;
 	final int FERME = 1;
 
@@ -38,17 +33,17 @@ public class PacManView extends ElementDuJeu implements Observer {
 			mouvement = new BufferedImage[4][2];
 
 			// SPRITE PM HAUT
-			mouvement[HAUT][OUVERT] = tmpMouvement.getSubimage(0, COTE*0, COTE, COTE);
-			mouvement[HAUT][FERME] = tmpMouvement.getSubimage(COTE, COTE*0, COTE, COTE);
+			mouvement[Personnage.HAUT][OUVERT] = tmpMouvement.getSubimage(0, COTE*0, COTE, COTE);
+			mouvement[Personnage.HAUT][FERME] = tmpMouvement.getSubimage(COTE, COTE*0, COTE, COTE);
 			// SPRITE PM DROITE
-			mouvement[DROITE][OUVERT] = tmpMouvement.getSubimage(0, COTE*1, COTE, COTE);
-			mouvement[DROITE][FERME] = tmpMouvement.getSubimage(COTE, COTE*1, COTE, COTE);
+			mouvement[Personnage.DROITE][OUVERT] = tmpMouvement.getSubimage(0, COTE*1, COTE, COTE);
+			mouvement[Personnage.DROITE][FERME] = tmpMouvement.getSubimage(COTE, COTE*1, COTE, COTE);
 			// SPRITE PM BAS
-			mouvement[BAS][OUVERT] = tmpMouvement.getSubimage(0, COTE*2, COTE, COTE);
-			mouvement[BAS][FERME] = tmpMouvement.getSubimage(COTE, COTE*2, COTE, COTE);
+			mouvement[Personnage.BAS][OUVERT] = tmpMouvement.getSubimage(0, COTE*2, COTE, COTE);
+			mouvement[Personnage.BAS][FERME] = tmpMouvement.getSubimage(COTE, COTE*2, COTE, COTE);
 			// SPRITE PM GAUCHE
-			mouvement[GAUCHE][OUVERT] = tmpMouvement.getSubimage(0, COTE*3, COTE, COTE);
-			mouvement[GAUCHE][FERME] = tmpMouvement.getSubimage(COTE, COTE*3, COTE, COTE);
+			mouvement[Personnage.GAUCHE][OUVERT] = tmpMouvement.getSubimage(0, COTE*3, COTE, COTE);
+			mouvement[Personnage.GAUCHE][FERME] = tmpMouvement.getSubimage(COTE, COTE*3, COTE, COTE);
 
 			// Pour la mort de PacMan
 			BufferedImage tmpMort = ImageIO.read(new File("image/PacManMort.png"));
@@ -63,7 +58,7 @@ public class PacManView extends ElementDuJeu implements Observer {
 
 	// GETTEUR
 	public BufferedImage getImage() {
-		if (direction == STATIQUE) {
+		if (direction == Personnage.STATIQUE) {
 			return mort[0];
 		}
 
