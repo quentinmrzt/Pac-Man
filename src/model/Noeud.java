@@ -67,6 +67,19 @@ public class Noeud {
 		return gauche;
 	}
 
+	public boolean existeHaut() {
+		return (haut!=null);
+	}
+	public boolean existeDroite() {
+		return (droite!=null);
+	}
+	public boolean existeBas() {
+		return (bas!=null);
+	}
+	public boolean existeGauche() {
+		return (gauche!=null);
+	}
+	
 	// SETTEUR
 	public void setHaut(Branche haut) {
 		this.haut = haut;

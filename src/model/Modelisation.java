@@ -14,6 +14,10 @@ public class Modelisation extends Observable {
 	public Modelisation() {
 		map = new Map("src/map_gomme.txt");
 		graphe = new Graphe(map);
+		
+		
+		
+		
 
 		personnages = new ArrayList<Personnage>();
 		personnages.add(new PacMan(graphe.getNoeud(map.getSpawnPacManX(), map.getSpawnPacManY())));
