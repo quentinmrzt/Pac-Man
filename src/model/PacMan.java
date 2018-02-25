@@ -3,9 +3,9 @@ package model;
 public class PacMan extends Personnage {
 	
 
-	public PacMan(Noeud n) {
+	public PacMan(int x, int y, Branche b) {
 		// X: 14 - Y: 23 - Vie: 3
-		super(3,n);
+		super(3,x,y,b);
 	}
 
 	public void manger() {

@@ -15,16 +15,22 @@ public class Modelisation extends Observable {
 		map = new Map("src/map_gomme.txt");
 		graphe = new Graphe(map);
 		
+		int pacManX = map.getSpawnPacManX();
+		int pacManY = map.getSpawnPacManY();
+		Branche branchePacMan = graphe.getBranche(pacManX, pacManY);
 		
-		
-		
-
+		int fantomeX = map.getSpawnFantomeX();
+		int fantomeY = map.getSpawnFantomeY();
+		Branche brancheFantome = graphe.getBranche(fantomeX, fantomeY);
+	
 		personnages = new ArrayList<Personnage>();
-		personnages.add(new PacMan(graphe.getNoeud(map.getSpawnPacManX(), map.getSpawnPacManY())));
-		personnages.add(new Blinky(graphe.getNoeud(map.getSpawnFantomeX(), map.getSpawnFantomeY())));
-		personnages.add(new Pinky(graphe.getNoeud(map.getSpawnFantomeX(), map.getSpawnFantomeY())));
-		personnages.add(new Inky(graphe.getNoeud(map.getSpawnFantomeX(), map.getSpawnFantomeY())));
-		personnages.add(new Clyde(graphe.getNoeud(map.getSpawnFantomeX(), map.getSpawnFantomeY())));
+		
+		personnages.add(new PacMan(pacManX,pacManY,branchePacMan));
+		
+		personnages.add(new Blinky(fantomeX,fantomeY,brancheFantome));
+		personnages.add(new Pinky(fantomeX,fantomeY,brancheFantome));
+		personnages.add(new Inky(fantomeX,fantomeY,brancheFantome));
+		personnages.add(new Clyde(fantomeX,fantomeY,brancheFantome));
 
 		score = 0;
 	}
@@ -43,9 +49,8 @@ public class Modelisation extends Observable {
 
 	// Orientation de pacMan à chaque noeud
 	public void destinationPersonnages() {
-		//personnages.get(0).destination();
 		for (Personnage p: personnages) {
-			p.destination();
+			p.destinationBranche();
 		}
 	}
 	

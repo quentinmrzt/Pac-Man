@@ -2,8 +2,8 @@ package model;
 
 public class Clyde extends Personnage {
 	// Clyde feint l'indifférence. De temps en temps, il choisit une direction au hasard (qui peut être celle de Pac-Man).
-	public Clyde(Noeud n) {
-		super(1,n);
+	public Clyde(int x, int y, Branche b) {
+		super(1,x,y,b);
 	}
 	
 	// ABSTRACT

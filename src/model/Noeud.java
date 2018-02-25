@@ -110,7 +110,7 @@ public class Noeud {
 	}
 
 	public String toString() {
-		String direction = "";
+		/*String direction = "";
 		String distance = "";
 		if (this.getHaut()!=null) {
 			direction = direction+"Haut ";
@@ -129,6 +129,7 @@ public class Noeud {
 			distance = distance+"G:"+this.getGauche().getDistance()+" ";
 		}
 
-		return "Pos= x: "+x+" y: "+y+". Dir= "+direction+". Dis= "+distance;
+		return "Pos= x: "+x+" y: "+y+". Dir= "+direction+". Dis= "+distance;*/
+		return "Pos= x: "+x+" y: "+y;
 	}
 }
