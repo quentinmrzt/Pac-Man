@@ -16,7 +16,7 @@ public class Graphe {
 		// On récupérer les différents Noeuds ..
 		for (int y=0 ; y<tmpMap.getTailleY() ; y++) {			
 			for (int x=0 ; x<tmpMap.getTailleX() ; x++) {
-				if(tmpMap.getCase(x, y) == map.SOL) {
+				if(tmpMap.getCase(x, y) == Map.SOL) {
 					if (tmpMap.isIntersection(x, y)) {
 						tabNoeud[x][y] = new Noeud(x,y);
 						taille++;
@@ -44,7 +44,7 @@ public class Graphe {
 					while(haut || droite || bas || gauche) {
 						// HAUT
 						if (haut) {
-							if (tmpMap.getCase(x, y-i) != tmpMap.SOL) {
+							if (tmpMap.getCase(x, y-i) != Map.SOL) {
 								haut = false;
 							} else {
 								if (tabNoeud[x][y-i] != null) {
@@ -59,7 +59,7 @@ public class Graphe {
 
 						// DROITE
 						if (droite) {
-							if (tmpMap.getCase(x+i, y) != tmpMap.SOL) {
+							if (tmpMap.getCase(x+i, y) != Map.SOL) {
 								droite = false;
 							} else {
 								if (tabNoeud[x+i][y] != null) {
@@ -74,7 +74,7 @@ public class Graphe {
 
 						// BAS
 						if(bas) {
-							if (tmpMap.getCase(x, y+i) != tmpMap.SOL) {
+							if (tmpMap.getCase(x, y+i) != Map.SOL) {
 								bas = false;
 							} else {
 								if (tabNoeud[x][y+i] != null) {
@@ -90,7 +90,7 @@ public class Graphe {
 
 						// GAUCHE
 						if (gauche) {
-							if (tmpMap.getCase(x-i, y) != tmpMap.SOL) {
+							if (tmpMap.getCase(x-i, y) != Map.SOL) {
 								gauche = false;
 							} else {
 								if (tabNoeud[x-i][y] != null) {

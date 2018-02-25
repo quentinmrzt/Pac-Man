@@ -136,7 +136,7 @@ public abstract class Personnage extends Observable {
 	}
 	public void aDroite() {
 		positionX++;
-
+		
 		setChanged();
 		notifyObservers("X");
 	}

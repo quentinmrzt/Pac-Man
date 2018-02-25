@@ -39,8 +39,6 @@ public class Modelisation extends Observable {
 		personnages.add(new Pinky(fantomeX,fantomeY,brancheFantome));
 		personnages.add(new Inky(fantomeX,fantomeY,brancheFantome));
 		personnages.add(new Clyde(fantomeX,fantomeY,brancheFantome));
-
-		personnages.get(BLINKY).enBas();
 		
 		score = 0;
 	}
@@ -83,12 +81,12 @@ public class Modelisation extends Observable {
 		int y = pacMan.getPositionY();
 		int type = map.getCase(x, y);
 
-		if (type==map.GOMME) {
-			map.setCase(x, y, map.SOL);
+		if (type==Map.GOMME) {
+			map.setCase(x, y, Map.SOL);
 			map.mangerGomme();
 			setScoreGomme();
-		} else if (type==map.SUPERGOMME) {
-			map.setCase(x, y, map.SOL);
+		} else if (type==Map.SUPERGOMME) {
+			map.setCase(x, y, Map.SOL);
 			map.mangerSuperGomme();
 			setScoreSuperGomme();
 		}

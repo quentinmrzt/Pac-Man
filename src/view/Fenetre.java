@@ -46,7 +46,6 @@ public class Fenetre extends JFrame implements Observer, Runnable {
 
 	// Implementation de Observer
 	public void update(Observable o, Object arg) {
-		System.out.println("MAJ FENETRE");
 		panneau.update(o,arg);
 	}
 

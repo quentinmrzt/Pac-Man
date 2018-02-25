@@ -81,7 +81,6 @@ public class Panneau extends JPanel implements Observer {
 	}
 
 	public void update(Observable o, Object arg) {
-		System.out.println("MAJ PANNEAU");
 		pacManTxt.setText("Pac-Man: "+controller.getModel().getPM().toString());
 		
 		if(o instanceof Modelisation) {
