@@ -1,29 +1,34 @@
 package view;
 
+import java.awt.KeyboardFocusManager;
 import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.JFrame;
 
 import controller.Controller;
+import model.Modelisation;
 
 public class Fenetre extends JFrame implements Observer, Runnable {
-	private Controller controler;
+	private Modelisation modelisation;
 	private Menu menu;
 	private Panneau panneau;
 	private Thread horloge; 
 
-	public Fenetre(Controller c) {
+	public Fenetre(Controller controller, Modelisation model) {
 		this.setSize(900, 600);
 		this.setTitle("Pac-Man");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
 
-		this.controler = c;
+		modelisation = model;
+
+		// Ajout d'un écouteur sur le clavier
+		KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new ControleClavier(controller));
 
 		// Panneau
-		panneau = new Panneau(this.controler);
+		panneau = new Panneau(modelisation);
 		this.add(panneau);
 
 		// Menu
@@ -54,11 +59,11 @@ public class Fenetre extends JFrame implements Observer, Runnable {
 		// Notre horloge 
 		while(true) {
 			// Permet l'orientation au noeud
-			controler.getModel().destinationPersonnages();
+			modelisation.destinationPersonnages();
 			// on dit à pacMan d'y aller
-			controler.getModel().deplacementPersonnages();
+			modelisation.deplacementPersonnages();
 			// et on mange sur notre chemin
-			controler.getModel().manger();
+			modelisation.manger();
 
 			// Appel tout les paint(): Fenetre, Panneau et ZoneDeJeu
 			repaint();

@@ -8,7 +8,6 @@ import java.util.Observer;
 
 import javax.swing.JPanel;
 
-import controller.Controller;
 import model.Blinky;
 import model.Clyde;
 import model.Inky;
@@ -18,7 +17,7 @@ import model.PacMan;
 import model.Pinky;
 
 public class ZoneDeJeu extends JPanel implements Observer {
-	//private Controller controller;
+	private Modelisation modelisation;
 	private Case tabCases[][];
 	private PacManView pacManView;
 	private FantomeView blinky;
@@ -26,10 +25,12 @@ public class ZoneDeJeu extends JPanel implements Observer {
 	private FantomeView inky;
 	private FantomeView clyde;
 
-	public ZoneDeJeu(Controller c) {		
+	public ZoneDeJeu(Modelisation model) {	
+		modelisation = model;
+		
 		// On récupére la map du modèle
-		Map map = c.getModel().getMap();
-		pacManView = new PacManView(c.getModel().getPM());
+		Map map = modelisation.getMap();
+		pacManView = new PacManView(modelisation.getPersonnage(Modelisation.PACMAN));
 
 		blinky = new FantomeView(12,14,Modelisation.BLINKY);
 		pinky = new FantomeView(13,14,Modelisation.PINKY);

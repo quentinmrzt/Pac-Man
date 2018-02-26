@@ -8,12 +8,8 @@ import java.util.Observer;
 
 import javax.imageio.ImageIO;
 
-import model.Blinky;
-import model.Clyde;
-import model.Inky;
 import model.Modelisation;
 import model.Personnage;
-import model.Pinky;
 
 public class FantomeView extends ElementDuJeu implements Observer{
 	final int MONTER = 0 ;
@@ -46,8 +42,8 @@ public class FantomeView extends ElementDuJeu implements Observer{
 			mouvement = new BufferedImage[4][2];
 
 			for (int i=0 ; i<4 ; i++) {
-				mouvement[i][MONTER] = tmpMouvement.getSubimage(COTE*i, 0, COTE, COTE);
-				mouvement[i][DESCENDRE] = tmpMouvement.getSubimage(COTE*i, 0, COTE, COTE);
+				mouvement[i][MONTER] = tmpMouvement.getSubimage(COTE*(i*2), 0, COTE, COTE);
+				mouvement[i][DESCENDRE] = tmpMouvement.getSubimage(COTE*((i*2)+1), 0, COTE, COTE);
 			}
 		} catch (IOException e) {
 			System.err.println("Il y a eu un problème dans l'initialisation des sprites de PacMan.");
@@ -64,20 +60,12 @@ public class FantomeView extends ElementDuJeu implements Observer{
 	}
 
 	public void update(Observable obs, Object arg) {
-		if(obs instanceof Blinky) {
-			System.out.println("Blinky a été modifié.");
-		}
-
-		if(obs instanceof Pinky) {
-			System.out.println("Pinky a été modifié.");
-		}
-
-		if(obs instanceof Inky) {
-			System.out.println("Inky a été modifié.");
-		}
-
-		if(obs instanceof Clyde) {
-			System.out.println("Clyde a été modifié.");
-		}
+		Personnage tmp = (Personnage) obs;
+		
+		this.setPositionTabX(tmp.getPositionX());
+		this.setPositionTabY(tmp.getPositionY());
+		System.out.println(tmp.getDirection());
+		direction = tmp.getDirection();
+		monter = !monter;
 	}
 }

@@ -4,29 +4,24 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.KeyboardFocusManager;
 import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import controller.Controller;
 import model.Modelisation;
 
 
 public class Panneau extends JPanel implements Observer {
+	private Modelisation modelisation;
 	protected ZoneDeJeu zdj;
 	protected JLabel pacManTxt, gommeTxt, score;
-	protected Controller controller;
 
-	public Panneau(Controller control) {
+	public Panneau(Modelisation model) {
 		super();
 
-		controller = control;
-
-		// Ajout d'un écouteur sur le clavier
-		KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new ControleClavier(control));
+		modelisation = model;
 
 		// Ajout du layout GridBag
 		this.setLayout(new GridBagLayout());
@@ -43,7 +38,7 @@ public class Panneau extends JPanel implements Observer {
 		constraints.insets = new Insets(5, 5, 5, 5);
 
 		// Zone de jeu
-		zdj = new ZoneDeJeu(control);
+		zdj = new ZoneDeJeu(modelisation);
 		//zdj.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
 		this.add(zdj, constraints);
 
@@ -81,11 +76,11 @@ public class Panneau extends JPanel implements Observer {
 	}
 
 	public void update(Observable o, Object arg) {
-		pacManTxt.setText("Pac-Man: "+controller.getModel().getPM().toString());
+		pacManTxt.setText("Pac-Man: "+modelisation.getPM().toString());
 		
 		if(o instanceof Modelisation) {
-			gommeTxt.setText("Gomme: "+controller.getModel().getMap().getNbGomme()+". Super gomme: "+controller.getModel().getMap().getNbSuperGomme()+".");
-			score.setText("Score: "+controller.getModel().getScore()+".");
+			gommeTxt.setText("Gomme: "+modelisation.getMap().getNbGomme()+". Super gomme: "+modelisation.getMap().getNbSuperGomme()+".");
+			score.setText("Score: "+modelisation.getScore()+".");
 		}
 
 		zdj.update(o, arg);

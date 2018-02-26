@@ -14,7 +14,7 @@ public class Controller {
 		return model;
 	}
 	
-	// CLAVIER PANNEAU
+	// CLAVIER PACMAN
 	public void toucheHaut() {
 		model.directionPersonnage(Personnage.HAUT, Modelisation.PACMAN);
 	}
@@ -26,5 +26,19 @@ public class Controller {
 	}
 	public void toucheGauche() {
 		model.directionPersonnage(Personnage.GAUCHE, Modelisation.PACMAN);
+	}
+	
+	// CLAVIER BLINKY
+	public void toucheHautBlinky() {
+		model.directionPersonnage(Personnage.HAUT, Modelisation.BLINKY);
+	}
+	public void toucheDroiteBlinky() {
+		model.directionPersonnage(Personnage.DROITE, Modelisation.BLINKY);
+	}
+	public void toucheBasBlinky() {
+		model.directionPersonnage(Personnage.BAS, Modelisation.BLINKY);
+	}
+	public void toucheGaucheBlinky() {
+		model.directionPersonnage(Personnage.GAUCHE, Modelisation.BLINKY);
 	}
 }

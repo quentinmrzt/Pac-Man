@@ -20,9 +20,8 @@ public class PacManView extends ElementDuJeu implements Observer {
 	private BufferedImage mouvement[][];
 	private BufferedImage mort[];
 
-	public PacManView(PacMan pm) {
-		super(pm.getPositionX(), pm.getPositionY());
-		PacMan pacMan = pm;
+	public PacManView(Personnage pacMan) {
+		super(pacMan.getPositionX(), pacMan.getPositionY());
 		direction = pacMan.getDirection();
 		boucheOuverte = true;
 
@@ -73,7 +72,7 @@ public class PacManView extends ElementDuJeu implements Observer {
 	public void update(Observable obs, Object arg) {
 		if(obs instanceof PacMan) {
 			PacMan tmp = (PacMan) obs;
-			
+						
 			this.setPositionTabX(tmp.getPositionX());
 			this.setPositionTabY(tmp.getPositionY());
 			direction = tmp.getDirection();
