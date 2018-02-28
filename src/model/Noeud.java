@@ -6,11 +6,15 @@ public class Noeud {
 	protected Branche bas;
 	protected Branche droite;
 	protected Branche gauche;
+	
+
 
 	public Noeud(int x, int y) {
 		this.x = x;
 		this.y = y;
 
+
+		
 		haut = null;
 		bas = null;
 		droite = null;
@@ -81,6 +85,7 @@ public class Noeud {
 	}
 	
 	// SETTEUR
+	
 	public void setHaut(Branche haut) {
 		this.haut = haut;
 	}
@@ -109,6 +114,8 @@ public class Noeud {
 		this.gauche = new Branche(this,n);
 	}
 
+	
+	// FONCTION
 	public String toString() {
 		/*String direction = "";
 		String distance = "";
@@ -131,5 +138,9 @@ public class Noeud {
 
 		return "Pos= x: "+x+" y: "+y+". Dir= "+direction+". Dis= "+distance;*/
 		return "Pos= x: "+x+" y: "+y;
+	}
+
+	public boolean equals(Noeud n) {
+		return (this.getX()==n.getX() && this.getY()==n.getY());
 	}
 }

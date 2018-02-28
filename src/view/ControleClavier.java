@@ -40,6 +40,9 @@ class ControleClavier implements KeyEventDispatcher {
 		case KeyEvent.VK_J:
 			control.toucheGaucheBlinky();
 			break;
+		case KeyEvent.VK_T:
+			control.toucheTrouveBlinky();
+			break;
 		// AUTRE
 		case KeyEvent.VK_ESCAPE:
 			System.exit(0);

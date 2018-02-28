@@ -64,7 +64,6 @@ public class FantomeView extends ElementDuJeu implements Observer{
 		
 		this.setPositionTabX(tmp.getPositionX());
 		this.setPositionTabY(tmp.getPositionY());
-		System.out.println(tmp.getDirection());
 		direction = tmp.getDirection();
 		monter = !monter;
 	}

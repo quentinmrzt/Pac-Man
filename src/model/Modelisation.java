@@ -35,7 +35,7 @@ public class Modelisation extends Observable {
 	
 		personnages = new ArrayList<Personnage>();
 		personnages.add(new PacMan(pacManX,pacManY,branchePacMan));
-		personnages.add(new Blinky(fantomeX,fantomeY,brancheFantome));
+		personnages.add(new Blinky(fantomeX,fantomeY,brancheFantome,personnages.get(PACMAN)));
 		personnages.add(new Pinky(fantomeX,fantomeY,brancheFantome));
 		personnages.add(new Inky(fantomeX,fantomeY,brancheFantome));
 		personnages.add(new Clyde(fantomeX,fantomeY,brancheFantome));
@@ -72,6 +72,10 @@ public class Modelisation extends Observable {
 		for (Personnage p: personnages) {
 			p.deplacement();
 		}
+	}
+	
+	public void decideBlinky() {
+		personnages.get(BLINKY).decisionDirection();
 	}
 
 	// Manger les pacGomme

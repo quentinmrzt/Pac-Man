@@ -16,6 +16,7 @@ public abstract class Personnage extends Observable {
 	private int positionY;
 	private int direction;
 	private int prochaineDirection;
+	private boolean invulnerable;
 
 	// Test
 	protected Branche branche;
@@ -116,8 +117,18 @@ public abstract class Personnage extends Observable {
 		} else if (direction==DROITE || direction==BAS) {
 			return branche.getN1();
 		} else {
-			// Si on est STATIQUE: cela veut dire qu'on est à l'arrêt sur un noeud, donc pas de départ
-			return null;
+			// DIRECTION STATIQUE: on ne sait pas d'ou l'on vient
+			if (positionX==branche.getN1().getX() && positionY==branche.getN1().getY()) {
+				// Si personnage sur N1
+				return branche.getN2();
+			} else if (positionX==branche.getN2().getX() && positionY==branche.getN2().getY()) {
+				// Si personnage sur N2
+				return branche.getN1();
+			} else {
+				// On est à l'arrêt entre deux noeud: pas de destination
+				
+				return null;
+			}
 		}
 	}
 
@@ -152,8 +163,17 @@ public abstract class Personnage extends Observable {
 		setChanged();
 		notifyObservers("X");
 	}
-
+	public void invulnerable() {
+		invulnerable = true;
+	}
+	public void vulnerable() {
+		invulnerable = false;
+	}
+	
 	// FONCTION
+	public boolean estInvulnerable() {
+		return invulnerable;
+	}
 
 	// Change la direction ou la prochaine direction
 	public void directionHaut() {
@@ -290,4 +310,6 @@ public abstract class Personnage extends Observable {
 
 	// ABSTRACT
 	public abstract void manger();
+	public abstract void trouverChemin();
+	public abstract void decisionDirection();
 }

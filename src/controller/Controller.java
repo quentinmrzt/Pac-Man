@@ -41,4 +41,8 @@ public class Controller {
 	public void toucheGaucheBlinky() {
 		model.directionPersonnage(Personnage.GAUCHE, Modelisation.BLINKY);
 	}
+	public void toucheTrouveBlinky() {
+		System.out.println("Cherche Blinky !");
+		model.decideBlinky();
+	}
 }
