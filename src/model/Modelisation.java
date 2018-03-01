@@ -74,8 +74,8 @@ public class Modelisation extends Observable {
 		}
 	}
 	
-	public void decideBlinky() {
-		personnages.get(BLINKY).decisionDirection();
+	public void trouverCheminBlinky() {
+		personnages.get(BLINKY).trouverChemin();
 	}
 
 	// Manger les pacGomme

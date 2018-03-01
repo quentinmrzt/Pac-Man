@@ -8,17 +8,23 @@ public class NoeudAStar {
 	private int coutF;
 
 	private NoeudAStar parent;
+	private int direction;
 
-	public NoeudAStar(Noeud n, NoeudAStar nas) {
+	public NoeudAStar(Noeud n, NoeudAStar nas, int d) {
 		noeud = n;
 		parent = nas;
 
 		coutG = 0;
 		coutH = 0;
 		coutF = 0;
+		
+		direction = d;
 	}
 
 	// GETTEUR
+	public NoeudAStar getParent() {
+		return parent;
+	}
 	public Noeud getNoeud() {
 		return noeud;
 	}
@@ -36,6 +42,22 @@ public class NoeudAStar {
 	}
 	public int getCoutF() {
 		return coutF;
+	}
+	public int getDirection() {
+		return direction;
+	}
+	public String getDirectionStr() {
+		if (direction==Personnage.HAUT) {
+			return "Haut";
+		} else if (direction==Personnage.DROITE) {
+			return "Droite";
+		} else if (direction==Personnage.BAS) {
+			return "Bas";
+		} else if (direction==Personnage.GAUCHE) {
+			return "Gauche";
+		} else {
+			return "Statique";
+		}
 	}
 
 	public Noeud enHaut() {
@@ -85,12 +107,16 @@ public class NoeudAStar {
 			System.err.println("ERREUR: Objet vide.");
 			return false;
 		} else {
+			
 			NoeudAStar nas = (NoeudAStar) obj;
 
+			//System.out.print("["+this.getX()+","+this.getY()+"] - ["+nas.getX()+","+nas.getY()+"] = ");
 			if(this.getX()==nas.getX() && this.getY()==nas.getY()) {
+				//System.out.println("Vrai.");
 				return true;
 			}
 
+			//System.out.println("Faux.");
 			return false;
 		}
 	}

@@ -98,16 +98,28 @@ public abstract class Personnage extends Observable {
 			return branche.getN2();
 		} else {
 			// DIRECTION STATIQUE: on ne sait pas d'ou l'on vient
-			if (positionX==branche.getN1().getX() && positionY==branche.getN1().getY()) {
+			int n1X = branche.getN1().getX();
+			int n1Y = branche.getN1().getY();
+			int n2X = branche.getN2().getX();
+			int n2Y = branche.getN2	().getY();
+			
+			if (positionX==n1X && positionY==n1Y) {
 				// Si personnage sur N1
 				return branche.getN1();
-			} else if (positionX==branche.getN2().getX() && positionY==branche.getN2().getY()) {
+			} else if (positionX==n2X && positionY==n2Y) {
 				// Si personnage sur N2
 				return branche.getN2();
 			} else {
 				// On est à l'arrêt entre deux noeud: pas de destination
+				int distance1 = Math.abs(positionX-n1X)+Math.abs(positionY-n1Y);
+				int distance2 = Math.abs(positionX-n2X)+Math.abs(positionY-n2Y);
 				
-				return null;
+				// On renvoie le noeud le plus proche
+				if (distance1 <= distance2) {
+					return branche.getN1();
+				} else {
+					return branche.getN2();
+				}
 			}
 		}
 	}
@@ -118,16 +130,28 @@ public abstract class Personnage extends Observable {
 			return branche.getN1();
 		} else {
 			// DIRECTION STATIQUE: on ne sait pas d'ou l'on vient
-			if (positionX==branche.getN1().getX() && positionY==branche.getN1().getY()) {
+			int n1X = branche.getN1().getX();
+			int n1Y = branche.getN1().getY();
+			int n2X = branche.getN2().getX();
+			int n2Y = branche.getN2	().getY();
+			
+			if (positionX==n1X && positionY==n1Y) {
 				// Si personnage sur N1
 				return branche.getN2();
-			} else if (positionX==branche.getN2().getX() && positionY==branche.getN2().getY()) {
+			} else if (positionX==n2X && positionY==n2Y) {
 				// Si personnage sur N2
 				return branche.getN1();
 			} else {
 				// On est à l'arrêt entre deux noeud: pas de destination
+				int distance1 = Math.abs(positionX-n1X)+Math.abs(positionY-n1Y);
+				int distance2 = Math.abs(positionX-n2X)+Math.abs(positionY-n2Y);
 				
-				return null;
+				// On renvoie le noeud le plus éloigné
+				if (distance1 < distance2) {
+					return branche.getN2();
+				} else {
+					return branche.getN1();
+				}
 			}
 		}
 	}
@@ -228,6 +252,8 @@ public abstract class Personnage extends Observable {
 
 			// si le perso se trouve à sa destination 
 			if (positionX == destiX && positionY == destiY) {
+				this.decisionDirection();
+				
 				// On test s'il doit prendre une nouvelle direction..
 				if (prochaineDirection==HAUT) {
 					if (desti.getHaut()!=null) { // si la branche n'est pas vide

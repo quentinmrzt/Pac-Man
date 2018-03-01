@@ -30,147 +30,28 @@ public class Blinky extends Personnage {
 	}
 
 	public void decisionDirection() {
+		if (chemin.size()!=0) {
+			NoeudAStar destination = chemin.get(chemin.size()-1);
 
+			if (destination.getDirection()==HAUT) {
+				this.directionHaut();
+			} else if (destination.getDirection()==DROITE) {
+				this.directionDroite();
+			} else if (destination.getDirection()==BAS) {
+				this.directionBas();
+			} else if (destination.getDirection()==GAUCHE) {
+				this.directionGauche();
+			} else {
+				System.err.println("ERREUR: decision direction.");
+			}
+
+			chemin.remove(destination);
+		}
 	}
-
+	
 	public void trouverChemin() {
-		ArrayList<NoeudAStar> listeOuverte = new ArrayList<NoeudAStar>();
-		ArrayList<NoeudAStar> listeFermee = new ArrayList<NoeudAStar>();
-
-		// DESTINATION: elle ne change pas
-		NoeudAStar arrivee = new NoeudAStar(pacMan.getNoeudDepart(), null);
-		int arriveeX = arrivee.getX();
-		int arriveeY = arrivee.getY();
-
-		// DEPART: C'est le noeud courant 
-		NoeudAStar courant = new NoeudAStar(this.getNoeudDestination(), null);
-		NoeudAStar tmp;
-		
-		// On arrête pas tant qu'on est pas arrivé
-		while(!courant.equals(arrivee)) {
-			if (courant.existeHaut()) {
-				tmp = new NoeudAStar(courant.enHaut(), courant);
-
-				if(!listeFermee.equals(tmp)) {
-					// Calcul de l'heuristique
-					tmp.setCoutG();
-					tmp.setCoutH(arriveeX, arriveeY);
-					tmp.setCoutF();
-
-					// en haut est présent dans la listeOuverte ? 
-					int index = listeOuverte.indexOf(tmp);
-					if (index!=-1) {
-						// Si le nouveau est meilleur que l'ancien
-						if(compare2Noeuds(tmp,listeOuverte.get(index))==1) {
-							// On remplace l'ancien par le nouveau
-							listeOuverte.set(index, tmp);							
-						}
-					} else {
-						listeOuverte.add(tmp);
-					}
-				}
-			}
-
-			if (courant.aDroite()!=null) {
-				tmp = new NoeudAStar(courant.aDroite(), courant);
-
-				if(!listeFermee.equals(tmp)) {
-					// Calcul de l'heuristique
-					tmp.setCoutG();
-					tmp.setCoutH(arriveeX, arriveeY);
-					tmp.setCoutF();
-
-					// en haut est présent dans la listeOuverte ? 
-					int index = listeOuverte.indexOf(tmp);
-					if (index!=-1) {
-						// Si le nouveau est meilleur que l'ancien
-						if(compare2Noeuds(tmp,listeOuverte.get(index))==1) {
-							// On remplace l'ancien par le nouveau
-							listeOuverte.set(index, tmp);							
-						}
-					} else {
-						listeOuverte.add(tmp);
-					}
-				}
-			}
-
-			if (courant.enBas()!=null) {
-				tmp = new NoeudAStar(courant.enBas(), courant);
-
-				if(!listeFermee.equals(tmp)) {
-					// Calcul de l'heuristique
-					tmp.setCoutG();
-					tmp.setCoutH(arriveeX, arriveeY);
-					tmp.setCoutF();
-
-					// en haut est présent dans la listeOuverte ? 
-					int index = listeOuverte.indexOf(tmp);
-					if (index!=-1) {
-						// Si le nouveau est meilleur que l'ancien
-						if(compare2Noeuds(tmp,listeOuverte.get(index))==1) {
-							// On remplace l'ancien par le nouveau
-							listeOuverte.set(index, tmp);							
-						}
-					} else {
-						listeOuverte.add(tmp);
-					}
-				}
-			}
-
-			if (courant.aGauche()!=null) {
-				tmp = new NoeudAStar(courant.aGauche(), courant);
-
-				if(!listeFermee.equals(tmp)) {
-					// Calcul de l'heuristique
-					tmp.setCoutG();
-					tmp.setCoutH(arriveeX, arriveeY);
-					tmp.setCoutF();
-
-					// en haut est présent dans la listeOuverte ? 
-					int index = listeOuverte.indexOf(tmp);
-					if (index!=-1) {
-						// Si le nouveau est meilleur que l'ancien
-						if(compare2Noeuds(tmp,listeOuverte.get(index))==1) {
-							// On remplace l'ancien par le nouveau
-							listeOuverte.set(index, tmp);							
-						}
-					} else {
-						listeOuverte.add(tmp);
-					}
-				}
-			}
-
-			// ON CHERCHE LE MEILLEUR NOEUD DE LA LISTE OUVERTE
-			int qualite = 99999;
-			NoeudAStar meilleur = null;
-			for (NoeudAStar nas: listeOuverte) {
-				if (nas.getCoutF()<qualite) {
-					qualite = nas.getCoutF();
-					meilleur = nas;
-				}
-			}
-			
-			// LISTEOUVERTE VIDE
-			if (meilleur==null) {
-				System.err.println("ERREUR: Il n'y a pas de solution pour Blinky.");
-				System.exit(0);
-			}
-
-			// ON L'AJOUTE A LA LISTE FERMEE
-			listeFermee.add(meilleur);
-			listeOuverte.remove(meilleur);
-
-			// DEVIENT LE NOUVEAU NOEUD COURANT
-			courant = meilleur;
-		}
-		
-		chemin = listeFermee;
-		
-		for (NoeudAStar nas: listeFermee) {
-			System.out.print("["+nas.getX()+","+nas.getY()+"] -> ");
-		}
-		System.out.println("");
-		
-		System.out.println("BRAVO TU AS TROUVE !");
+		// Blinky regarde la ou pacMan était 
+		chemin = AStar.trouverChemin(this.getNoeudDestination(), pacMan.getNoeudDepart());
 	}
+
 }
