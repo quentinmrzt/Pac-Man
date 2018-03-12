@@ -30,7 +30,7 @@ public class ZoneDeJeu extends JPanel implements Observer {
 		
 		// On récupére la map du modèle
 		Map map = modelisation.getMap();
-		pacManView = new PacManView(modelisation.getPersonnage(Modelisation.PACMAN));
+		pacManView = new PacManView(modelisation.getPM());
 
 		blinky = new FantomeView(12,14,Modelisation.BLINKY);
 		pinky = new FantomeView(13,14,Modelisation.PINKY);

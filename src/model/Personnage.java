@@ -9,43 +9,51 @@ public abstract class Personnage extends Observable {
 	public final static int GAUCHE = 3;
 	public final static int STATIQUE = 4;
 
-	private int vie;
 	private int positionDepartX;
 	private int positionDepartY;
+	private Branche brancheDepart;
+	private Noeud noeudDepart;
+
+	// Position courante
 	private int positionX;
 	private int positionY;
+	private Branche branche;
+	private Noeud noeud;
+
+	private int vie;
 	private int direction;
 	private int prochaineDirection;
 	private boolean invulnerable;
-
-	// Test
-	protected Branche branche;
+	private boolean enJeu;
 
 	public Personnage(int v, int x, int y, Branche b) {
-		positionDepartX = x;
-		positionDepartY = y;
+		// Position initiale
+		this.positionDepartX = x;
+		this.positionDepartY = y;
+		this.brancheDepart = b;
+		this.noeudDepart = b.getNoeud(x, y);
 
-		positionX = positionDepartX;
-		positionY = positionDepartY;
-
-		vie = v;
-
-		//destination = n;
-		branche = b;
-
-		direction = STATIQUE;
-		prochaineDirection = STATIQUE;
+		// Position courante
+		this.positionX = positionDepartX;
+		this.positionY = positionDepartY;
+		this.branche = brancheDepart;
+		this.noeud = noeudDepart;
+		
+		// Caractéristiques
+		this.vie = v;
+		this.direction = STATIQUE;
+		this.prochaineDirection = STATIQUE;
 	}
 
 	// GETTEUR
+	public boolean estEnJeu() {
+		return enJeu;
+	}
+	public Noeud getNoeud() {
+		return noeud;
+	}
 	public int getVie() {
 		return vie;
-	}
-	public int getPositionDepartX() {
-		return positionDepartX;
-	}
-	public int getPositionDepartY() {
-		return positionDepartY;
 	}
 	public int getPositionX() {
 		return positionX;
@@ -102,7 +110,7 @@ public abstract class Personnage extends Observable {
 			int n1Y = branche.getN1().getY();
 			int n2X = branche.getN2().getX();
 			int n2Y = branche.getN2	().getY();
-			
+
 			if (positionX==n1X && positionY==n1Y) {
 				// Si personnage sur N1
 				return branche.getN1();
@@ -113,7 +121,7 @@ public abstract class Personnage extends Observable {
 				// On est à l'arrêt entre deux noeud: pas de destination
 				int distance1 = Math.abs(positionX-n1X)+Math.abs(positionY-n1Y);
 				int distance2 = Math.abs(positionX-n2X)+Math.abs(positionY-n2Y);
-				
+
 				// On renvoie le noeud le plus proche
 				if (distance1 <= distance2) {
 					return branche.getN1();
@@ -134,7 +142,7 @@ public abstract class Personnage extends Observable {
 			int n1Y = branche.getN1().getY();
 			int n2X = branche.getN2().getX();
 			int n2Y = branche.getN2	().getY();
-			
+
 			if (positionX==n1X && positionY==n1Y) {
 				// Si personnage sur N1
 				return branche.getN2();
@@ -145,7 +153,7 @@ public abstract class Personnage extends Observable {
 				// On est à l'arrêt entre deux noeud: pas de destination
 				int distance1 = Math.abs(positionX-n1X)+Math.abs(positionY-n1Y);
 				int distance2 = Math.abs(positionX-n2X)+Math.abs(positionY-n2Y);
-				
+
 				// On renvoie le noeud le plus éloigné
 				if (distance1 < distance2) {
 					return branche.getN2();
@@ -157,6 +165,9 @@ public abstract class Personnage extends Observable {
 	}
 
 	// SETTEUR
+	public void setNoeud(Noeud noeud) {
+		this.noeud = noeud;
+	}
 	public void perteVie() {
 		vie--;
 
@@ -171,7 +182,7 @@ public abstract class Personnage extends Observable {
 	}
 	public void aDroite() {
 		positionX++;
-		
+
 		setChanged();
 		notifyObservers("X");
 	}
@@ -193,7 +204,13 @@ public abstract class Personnage extends Observable {
 	public void vulnerable() {
 		invulnerable = false;
 	}
-	
+	public void enJeu() {
+		enJeu = true;
+	}
+	public void horsJeu() {
+		enJeu = false;
+	}
+
 	// FONCTION
 	public boolean estInvulnerable() {
 		return invulnerable;
@@ -252,8 +269,8 @@ public abstract class Personnage extends Observable {
 
 			// si le perso se trouve à sa destination 
 			if (positionX == destiX && positionY == destiY) {
-				this.decisionDirection();
-				
+				//this.decisionDirection(); ***********************************************************
+
 				// On test s'il doit prendre une nouvelle direction..
 				if (prochaineDirection==HAUT) {
 					if (desti.getHaut()!=null) { // si la branche n'est pas vide
@@ -334,8 +351,4 @@ public abstract class Personnage extends Observable {
 		return "X: " + positionX + ", Y: " + positionY + ", direction: "+ getDirectionStr() + ", prochaineDirection: " + getProchaineDirectionStr()+".";
 	}
 
-	// ABSTRACT
-	public abstract void manger();
-	public abstract void trouverChemin();
-	public abstract void decisionDirection();
 }

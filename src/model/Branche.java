@@ -18,7 +18,7 @@ public class Branche {
 			distance = Math.abs(n1.getX()-n2.getX());
 			horizontal = true;
 		}
-		
+
 	}
 
 
@@ -42,6 +42,16 @@ public class Branche {
 	}
 
 	// TEST
+	public Noeud getNoeud(int x, int y) {
+		if(n1.getX()==x && n1.getY()==y) {
+			return n1;
+		} else if(n2.getX()==x && n2.getY()==y) {
+			return n2;
+		} else {
+			return null;
+		}
+	}
+
 	public boolean estDessus(int x, int y) {
 		if(n1.getX()==n2.getX() && x==n1.getX()) {
 			// de haut en bas 
@@ -60,7 +70,7 @@ public class Branche {
 	public boolean estHorizontal() {
 		return horizontal;
 	}
-	
+
 	// FONCTION
 	public String toString() {
 		return "Branche [N1=(" + n1 + "), N2=(" + n2 + "), distance=" + distance + "]";

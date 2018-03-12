@@ -6,93 +6,131 @@ import java.util.Observable;
 
 public class Modelisation extends Observable {
 	// Donnée du model
-	public final static int PACMAN=0;
-	public final static int BLINKY=1;
-	public final static int PINKY=2;
-	public final static int INKY=3;
-	public final static int CLYDE=4; 	
+	public final static int BLINKY=0;
+	public final static int PINKY=1;
+	public final static int INKY=2;
+	public final static int CLYDE=3; 
+	public final static int PACMAN=4;
+	
+	public final static int SCORE_GOMME=10;
+	public final static int SCORE_SUPERGOMME=50;
+	public final static int SCORE_FANTOME=200;
 
 	private Map map;
-	private ArrayList<Personnage> personnages;
+	private PacMan pacMan;
+	private ArrayList<Fantome> fantomes;
 	private Graphe graphe;
 	private int score;
-	
-	
+	private int mangerDeSuite;
+
+
 
 	public Modelisation() {
 		super();
-		
+
 		map = new Map("src/map_gomme.txt");
 		graphe = new Graphe(map);
-		
+
+
+		// PACMAN
 		int pacManX = map.getSpawnPacManX();
 		int pacManY = map.getSpawnPacManY();
 		Branche branchePacMan = graphe.getBranche(pacManX, pacManY);
-		
+		// Ini du personnage PacMan
+		pacMan = new PacMan(pacManX,pacManY,branchePacMan);
+
+		// FANTOMES
 		int fantomeX = map.getSpawnFantomeX();
 		int fantomeY = map.getSpawnFantomeY();
 		Branche brancheFantome = graphe.getBranche(fantomeX, fantomeY);
-	
-		personnages = new ArrayList<Personnage>();
-		personnages.add(new PacMan(pacManX,pacManY,branchePacMan));
-		personnages.add(new Blinky(fantomeX,fantomeY,brancheFantome,personnages.get(PACMAN)));
-		personnages.add(new Pinky(fantomeX,fantomeY,brancheFantome));
-		personnages.add(new Inky(fantomeX,fantomeY,brancheFantome));
-		personnages.add(new Clyde(fantomeX,fantomeY,brancheFantome));
-		
-		score = 0;
-	}
+		// Ini des personnages Fantomes
+		fantomes = new ArrayList<Fantome>();
+		fantomes.add(new Blinky(fantomeX,fantomeY,brancheFantome,pacMan));
+		fantomes.add(new Pinky(fantomeX,fantomeY,brancheFantome,pacMan));
+		fantomes.add(new Inky(fantomeX,fantomeY,brancheFantome,pacMan));
+		fantomes.add(new Clyde(fantomeX,fantomeY,brancheFantome,pacMan));
 
-	public void directionPersonnage(int direction, int perso) {		
-		if(direction==Personnage.HAUT) {
-			personnages.get(perso).directionHaut();
-		} else if(direction==Personnage.DROITE) {
-			personnages.get(perso).directionDroite();
-		} else if(direction==Personnage.BAS) {
-			personnages.get(perso).directionBas();
-		} else if(direction==Personnage.GAUCHE) {
-			personnages.get(perso).directionGauche();
-		}
-	}
-	
-	public Personnage getPersonnage(int index) {
-		return personnages.get(index);
+		score = 0;
+		mangerDeSuite=0;
 	}
 
 	// Orientation de pacMan à chaque noeud
 	public void destinationPersonnages() {
-		for (Personnage p: personnages) {
-			p.destinationBranche();
+		pacMan.destinationBranche();
+
+		for (Fantome f: fantomes) {
+			f.destinationBranche();
 		}
 	}
-	
+
 	// Deplacement d'une case de chaque personnage
 	public void deplacementPersonnages() {
-		//personnages.get(0).deplacement();
-		for (Personnage p: personnages) {
-			p.deplacement();
+		pacMan.deplacement();
+		for (Fantome f: fantomes) {
+			f.deplacement();
 		}
 	}
-	
+
 	public void trouverCheminBlinky() {
-		personnages.get(BLINKY).trouverChemin();
+		fantomes.get(BLINKY).trouverChemin();
 	}
 
 	// Manger les pacGomme
 	public void manger() {
-		Personnage pacMan =  personnages.get(0);
+		this.mangerGomme();
+		this.mangerPacMan();
+		this.mangerFantome();
+	}
+	
+	public void mangerGomme() {
 		int x = pacMan.getPositionX();
 		int y = pacMan.getPositionY();
 		int type = map.getCase(x, y);
 
 		if (type==Map.GOMME) {
-			map.setCase(x, y, Map.SOL);
-			map.mangerGomme();
-			setScoreGomme();
+			map.mangerGomme(x,y);
+			score+=SCORE_GOMME;
+			
+			setChanged();
+			notifyObservers("G");
 		} else if (type==Map.SUPERGOMME) {
-			map.setCase(x, y, Map.SOL);
-			map.mangerSuperGomme();
-			setScoreSuperGomme();
+			map.mangerSuperGomme(x,y);
+			score+=SCORE_SUPERGOMME;
+			pacMan.invulnerable();
+			
+			setChanged();
+			notifyObservers("SG");
+		}
+	}
+	
+	public void mangerPacMan() {
+		if(!pacMan.estInvulnerable()) {
+			int x = pacMan.getPositionX();
+			int y = pacMan.getPositionY();
+
+			for (Fantome fantome: fantomes) {
+				if (x==fantome.getPositionX() && y==fantome.getPositionY()) {
+					pacMan.perteVie();
+				}
+			}
+		}
+	}
+	
+	public void mangerFantome() {
+		if(pacMan.estInvulnerable()) {
+			int x = pacMan.getPositionX();
+			int y = pacMan.getPositionY();
+
+			for (Fantome fantome: fantomes) {
+				if (x==fantome.getPositionX() && y==fantome.getPositionY()) {
+					fantome.perteVie();
+					this.mangerDeSuite++;
+					this.score += SCORE_FANTOME*(Math.pow(2,mangerDeSuite-1));
+					
+					setChanged();
+					notifyObservers("F");
+				}
+			}
 		}
 	}
 
@@ -105,25 +143,40 @@ public class Modelisation extends Observable {
 		return score;
 	}
 	public PacMan getPM() {
-		return (PacMan) personnages.get(0);
+		return pacMan;
 	}
 
 	// ----------------------------------------
 	// Setteur
-	public void setScoreGomme() {
-		score = score+10;
-		
-		setChanged();
-		notifyObservers("G");
-	}
-	public void setScoreSuperGomme() {
-		score = score+50;
-		
-		setChanged();
-		notifyObservers("SP");
+	public void directionPersonnage(int direction, int personnage) {
+		if (personnage==PACMAN) {
+			if(direction==Personnage.HAUT) {
+				pacMan.directionHaut();
+			} else if(direction==Personnage.DROITE) {
+				pacMan.directionDroite();
+			} else if(direction==Personnage.BAS) {
+				pacMan.directionBas();
+			} else if(direction==Personnage.GAUCHE) {
+				pacMan.directionGauche();
+			}
+		} else {
+			if(direction==Personnage.HAUT) {
+				fantomes.get(personnage).directionHaut();
+			} else if(direction==Personnage.DROITE) {
+				fantomes.get(personnage).directionDroite();
+			} else if(direction==Personnage.BAS) {
+				fantomes.get(personnage).directionBas();
+			} else if(direction==Personnage.GAUCHE) {
+				fantomes.get(personnage).directionGauche();
+			}
+		}
 	}
 
-	
+	public Fantome getFantome(int personnage) {
+		return fantomes.get(personnage);
+	}
+
+
 	/*public static void main(String[] args) {
 		Modelisation modelisation = new Modelisation();
 

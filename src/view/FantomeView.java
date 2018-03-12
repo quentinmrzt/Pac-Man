@@ -61,10 +61,12 @@ public class FantomeView extends ElementDuJeu implements Observer{
 
 	public void update(Observable obs, Object arg) {
 		Personnage tmp = (Personnage) obs;
-		
+
 		this.setPositionTabX(tmp.getPositionX());
 		this.setPositionTabY(tmp.getPositionY());
-		direction = tmp.getDirection();
+		if(tmp.getDirection()!=Personnage.STATIQUE) {
+			direction = tmp.getDirection();
+		}
 		monter = !monter;
 	}
 }

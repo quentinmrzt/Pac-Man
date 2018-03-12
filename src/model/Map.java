@@ -149,7 +149,9 @@ public class Map extends Observable {
 			System.err.println("ERREUR: Initialisation d'une case interdite dans la Map.");
 		}
 	}
-	public void mangerGomme() {
+	public void mangerGomme(int x, int y) {
+		this.setCase(x, y, SOL);
+		
 		if (nbGomme>0) {
 			nbGomme--;
 		} else {
@@ -161,7 +163,9 @@ public class Map extends Observable {
 			notifyObservers("Fin du jeu.");
 		}
 	}
-	public void mangerSuperGomme() {
+	public void mangerSuperGomme(int x, int y) {
+		this.setCase(x, y, SOL);
+		
 		if (nbSuperGomme>0) {
 			nbSuperGomme--;
 		} else {
