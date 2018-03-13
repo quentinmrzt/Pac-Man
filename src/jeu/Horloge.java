@@ -1,40 +1,42 @@
 package jeu;
 
-import model.Modelisation;
-
+/**
+ * Implémentation simple d'un singleton.
+ * L'instance est créée à l'initialisation. 
+ */
 public class Horloge implements Runnable {
-	final int ATTENTE = 80;
-	
-	private Modelisation modelisation;
 	private Thread horloge;
-	private int temps;
-	
-	public Horloge(Modelisation model) {
+	private static int temps;
+	/** Instance unique pré-initialisée */
+	private static Horloge INSTANCE = new Horloge();
+
+	/** Constructeur privé */
+	private Horloge() {
 		// Gestion de l'horloge
 		horloge = new Thread(this);
 		horloge.start();
 		temps = 0;
-		
-		modelisation = model;
+	}
+
+	/** Point d'accès pour l'instance unique du singleton */
+	public static Horloge getInstance(){   
+		return INSTANCE;
 	}
 	
 	// Implementation de Runnable
 	public void run() {
 		// Notre horloge 
-		while(true) {			
-			// On fait un tour de jeu
-			modelisation.tourDeJeu();
-			
+		while(true) {		
 			try {
-				temps += ATTENTE;
-				Thread.sleep(ATTENTE); // attente de 80 ms
+				temps += 1;
+				Thread.sleep(1);
 			} catch(InterruptedException e) { 
 				System.err.println("ERREUR: Problème sur l'horloge.");
 			}
 		} 
 	}
 	
-	public int getTemps() {
+	public static int getTemps() {
 		return temps;
 	}
 }

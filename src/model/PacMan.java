@@ -23,7 +23,7 @@ public class PacMan extends Personnage {
 		this.reinitialisation();
 		this.vulnerable();
 
-		if (vie==0) {
+		if (vie<0) {
 			this.mort();
 		}
 		
@@ -33,7 +33,6 @@ public class PacMan extends Personnage {
 
 	// ABSTRACT
 	void mort() {
-		System.out.println("FIN DE LA PARTIE");
 		this.horsJeu();
 	}
 }

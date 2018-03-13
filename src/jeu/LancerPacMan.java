@@ -25,5 +25,18 @@ public class LancerPacMan {
 		model.getFantome(Modelisation.CLYDE).addObserver(fenetre);
 		
 		model.getMap().addObserver(fenetre);
+		
+		// On défini une instance
+		Horloge.getInstance();
+		
+		while (model.finDePartie()) {
+			model.tourDeJeu();
+			
+			try {
+				Thread.sleep(80);
+			} catch(InterruptedException e) { 
+				System.err.println("ERREUR: Problème sur l'horloge.");
+			}
+		}
 	}
 }

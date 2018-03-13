@@ -2,7 +2,6 @@ package model;
 
 import java.util.ArrayList;
 import java.util.Observable;
-//import java.util.Scanner;
 
 import jeu.Horloge;
 
@@ -24,9 +23,6 @@ public class Modelisation extends Observable {
 	private Graphe graphe;
 	private int score;
 	private int mangerDeSuite;
-	private Horloge horloge;
-
-
 
 	public Modelisation() {
 		super();
@@ -55,8 +51,8 @@ public class Modelisation extends Observable {
 
 		score = 0;
 		mangerDeSuite=0;
-		
-		horloge = new Horloge(this);
+
+
 	}
 
 	// Orientation de pacMan à chaque noeud
@@ -75,7 +71,7 @@ public class Modelisation extends Observable {
 			f.deplacement();
 		}
 	}
-	
+
 
 	public void trouverCheminBlinky() {
 		fantomes.get(BLINKY).trouverChemin();
@@ -188,6 +184,8 @@ public class Modelisation extends Observable {
 	}
 
 	public void tourDeJeu() {
+		//
+		this.liberationFantome();
 		// Permet l'orientation au noeud
 		this.destinationPersonnages();
 		// on dit à pacMan d'y aller
@@ -196,51 +194,20 @@ public class Modelisation extends Observable {
 		this.manger();
 	}
 
-
-	/*public static void main(String[] args) {
-		Modelisation modelisation = new Modelisation();
-
-		Scanner s = new Scanner(System.in);
-		String str = "";
-
-		boolean fin = false;
-		while (!fin) {
-			System.out.println(modelisation.graphe.getPosActuelle().toString());
-			System.out.println(modelisation.pacMan.toString());
-
-			System.out.print("Rien faire (r) / Haut (h) / Droite (d) / Bas (b) / Gauche (g) / Fin (f) = ");
-			str = s.next();
-
-			// 	CONTROLEUR
-			if(str.equals("h")) {
-				modelisation.deplacementPMHaut();
-			} else if (str.equals("d")) {
-				modelisation.deplacementPMDroite();
-			} else if (str.equals("b")) {
-				modelisation.deplacementPMBas();
-			} else if (str.equals("g")) {
-				modelisation.deplacementPMGauche();
-			} else if (str.equals("f")) {
-				System.out.println("Bye.");
-				fin = true;
-			} else if(str.equals("r")) {
-				// Ne rien faire
-			} else {
-				System.out.println("ERREUR DE FRAPPE !");
-			}
-
-			System.out.println("Direction: "+modelisation.pacMan.getDirection()+". Prochaine: "+modelisation.pacMan.getProchaineDirection());
-
-			// Permet l'orientation au noeud
-			modelisation.destinationPacMan();
-			// et on dit à pacMan d'y aller
-			modelisation.deplacementPacMan();
-
-			System.out.println(modelisation.pacMan.toString());
-			System.out.println("");
+	public boolean finDePartie() {
+		if(!pacMan.estEnJeu() || map.getNbGomme()+map.getNbSuperGomme()==0) {
+			System.out.println("FIN DE LA PARTIE");
+			return false;
+		} else {
+			return true;
 		}
+	}
 
-		s.close();
-	}	*/
-
+	private void liberationFantome() {
+		Fantome fantome = fantomes.get(BLINKY);
+		
+		if (!fantome.estEnJeu() && Horloge.getTemps()>fantome.dateSortie+4000) {
+			fantome.enJeu();
+		}
+	}
 }

@@ -2,6 +2,8 @@ package model;
 
 import java.util.Observable;
 
+import jeu.Horloge;
+
 public abstract class Personnage extends Observable {
 	public final static int HAUT = 0;
 	public final static int DROITE = 1;
@@ -207,11 +209,22 @@ public abstract class Personnage extends Observable {
 		invulnerable = false;
 	}
 	
+	int dateEntree=-1;
+	int dateSortie=-1;
+	
 	public void enJeu() {
 		enJeu = true;
+		dateEntree = Horloge.getTemps();
+		
+		setChanged();
+		notifyObservers("ENJEU");
 	}
 	public void horsJeu() {
 		enJeu = false;
+		dateSortie = Horloge.getTemps();
+		
+		setChanged();
+		notifyObservers("HORSJEU");
 	}
 
 	// FONCTION

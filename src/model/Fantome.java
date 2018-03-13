@@ -16,6 +16,7 @@ public abstract class Fantome extends Personnage {
 		this.horsJeu();
 	}
 
+	
 
 	public int compare2Noeuds(NoeudAStar n1, NoeudAStar n2) {
 		if (n1.getCoutH()<n2.getCoutH()) {
@@ -50,14 +51,14 @@ public abstract class Fantome extends Personnage {
 	// GETTEUR
 	public int getPositionX() {
 		if (this.estEnJeu()) {
-			return 1;
+			return super.getPositionX();
 		} else {
 			return getPositionPrisonX();
 		}
 	}
 	public int getPositionY() {
 		if (this.estEnJeu()) {
-			return 1;
+			return super.getPositionY();
 		} else {
 			return getPositionPrisonY();
 		}
