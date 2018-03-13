@@ -12,22 +12,20 @@ import model.Fantome;
 import model.Modelisation;
 import model.Personnage;
 
-public class FantomeView extends ElementDuJeu implements Observer{
+public class FantomeView extends ElementDuJeu implements Observer {
 	private final int MONTER = 0 ;
 	private final int DESCENDRE = 1;
 
+	// Permet de garde en mémoir la direction précédente si STATIQUE
 	private int direction;
 	private boolean monter;
 	private BufferedImage mouvement[][];
-	
+
 	private Fantome fantome;
-	private int positionPrisonX;
-	private int positionPrisonY;
 
 	public FantomeView(int x, int y, int typeFantome, Fantome f) {
-		super(x,y);
-		positionPrisonX = x;
-		positionPrisonY = y;
+		super(f.getPositionX(),f.getPositionY());
+
 		fantome = f;
 
 		// On ouvre les sprites
@@ -60,20 +58,12 @@ public class FantomeView extends ElementDuJeu implements Observer{
 
 	// GETTEUR
 	public int getPositionPixelX() {
-		if (enPrison()) {
-			return positionPrisonX*COTE;
-		} else {
-			return getPositionPixelX();
-		}
+		return fantome.getPositionX()*COTE;
 	}
 	public int getPositionPixelY() {
-		if (enPrison()) {
-			return positionPrisonY*COTE;
-		} else {
-			return getPositionPixelY();
-		}
+		return fantome.getPositionY()*COTE;
 	}
-	
+
 	public boolean enPrison() {
 		if(fantome.estEnJeu()) {
 			return false;
@@ -90,13 +80,14 @@ public class FantomeView extends ElementDuJeu implements Observer{
 	}
 
 	public void update(Observable obs, Object arg) {
-		Personnage tmp = (Personnage) obs;
+		//Personnage tmp = (Personnage) obs;
 
-		this.setPositionTabX(tmp.getPositionX());
-		this.setPositionTabY(tmp.getPositionY());
-		if(tmp.getDirection()!=Personnage.STATIQUE) {
-			direction = tmp.getDirection();
+		this.setPositionTabX(fantome.getPositionX());
+		this.setPositionTabY(fantome.getPositionY());
+		if(fantome.getDirection()!=Personnage.STATIQUE) {
+			direction = fantome.getDirection();
 		}
+
 		monter = !monter;
 	}
 }

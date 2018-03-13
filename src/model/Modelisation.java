@@ -75,6 +75,7 @@ public class Modelisation extends Observable {
 			f.deplacement();
 		}
 	}
+	
 
 	public void trouverCheminBlinky() {
 		fantomes.get(BLINKY).trouverChemin();
@@ -135,12 +136,9 @@ public class Modelisation extends Observable {
 				// On regarde si le fantome est vulnérable
 				if (!fantome.estInvulnerable() && fantome.estEnJeu()) {
 					if (x==fantome.getPositionX() && y==fantome.getPositionY()) {
-						fantome.perteVie();
-						this.mangerDeSuite++;
+						fantome.mort();
+						//this.mangerDeSuite++;
 						this.score += SCORE_FANTOME*(Math.pow(2,mangerDeSuite-1));
-
-						setChanged();
-						notifyObservers("F");
 					}
 				}
 			}

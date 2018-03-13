@@ -5,13 +5,13 @@ import java.util.ArrayList;
 public abstract class Fantome extends Personnage {
 	private Personnage pacMan;
 	private ArrayList<NoeudAStar> chemin;
-	
+
 	public Fantome(int x, int y, Branche b, Personnage pm) {
-		super(1, x, y, b);
-		
+		super(x, y, b);
+
 		pacMan =  pm;
 		chemin = new ArrayList<NoeudAStar>();
-		
+
 		this.invulnerable();
 		this.horsJeu();
 	}
@@ -46,20 +46,43 @@ public abstract class Fantome extends Personnage {
 			chemin.remove(destination);
 		}
 	}
-	
+
+	// GETTEUR
+	public int getPositionX() {
+		if (this.estEnJeu()) {
+			return 1;
+		} else {
+			return getPositionPrisonX();
+		}
+	}
+	public int getPositionY() {
+		if (this.estEnJeu()) {
+			return 1;
+		} else {
+			return getPositionPrisonY();
+		}
+	}
 	public Personnage getPacMan() {
 		return pacMan;
 	}
 
+	// SETTEUR
 	public void setChemin(ArrayList<NoeudAStar> chemin) {
 		this.chemin = chemin;
 	}
-	
+
+	// ABSTRACT
 	public void mort() {
+		this.reinitialisation();
 		this.estInvulnerable();
 		this.horsJeu();
+
+		setChanged();
+		notifyObservers("PERTEVIE");
 	}
 
 
 	public abstract void trouverChemin();
+	public abstract int getPositionPrisonX();
+	public abstract int getPositionPrisonY();
 }

@@ -2,7 +2,7 @@ package model;
 
 public class Inky extends Fantome {
 	final int POSITIONPRISONX = 14;
-	final int POSITIONPRISONY = 13;
+	final int POSITIONPRISONY = 14;
 	
 	// Inky est capricieux. De temps en temps, il part dans la direction opposée à Pac-Man.
 	public Inky(int x, int y, Branche b, Personnage pm) {
@@ -12,5 +12,13 @@ public class Inky extends Fantome {
 	// ABSTRACT
 	public void trouverChemin() {
 		
+	}
+	
+	public int getPositionPrisonX() {
+		return POSITIONPRISONX;
+	}
+
+	public int getPositionPrisonY() {
+		return POSITIONPRISONY;
 	}
 }

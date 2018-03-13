@@ -20,13 +20,12 @@ public abstract class Personnage extends Observable {
 	private Branche branche;
 	private Noeud noeud;
 
-	private int vie;
 	private int direction;
 	private int prochaineDirection;
 	private boolean invulnerable;
 	private boolean enJeu;
 
-	public Personnage(int v, int x, int y, Branche b) {
+	public Personnage(int x, int y, Branche b) {
 		// Position initiale
 		this.positionDepartX = x;
 		this.positionDepartY = y;
@@ -40,20 +39,19 @@ public abstract class Personnage extends Observable {
 		this.noeud = noeudDepart;
 
 		// Caractéristiques
-		this.vie = v;
 		this.direction = STATIQUE;
 		this.prochaineDirection = STATIQUE;
 	}
 
 	// GETTEUR
+	public boolean estInvulnerable() {
+		return invulnerable;
+	}
 	public boolean estEnJeu() {
 		return enJeu;
 	}
 	public Noeud getNoeud() {
 		return noeud;
-	}
-	public int getVie() {
-		return vie;
 	}
 	public int getPositionX() {
 		return positionX;
@@ -97,8 +95,13 @@ public abstract class Personnage extends Observable {
 			return null;
 		}
 	} 
-
-	// Implémentation de la branche
+	
+	/**
+	 * Permet de determiner le noeud de notre destination selon notre direction
+	 * Si nous somme sur un noeud, renvoi celui ci
+	 * Si nous somme entre deux noeuds sans direction, renvoi le plus proche
+	 * @return Le noeud vers lequel on se dirige
+	 */
 	public Noeud getNoeudDestination() {
 		if (direction==HAUT || direction==GAUCHE) {
 			return branche.getN1();
@@ -132,6 +135,12 @@ public abstract class Personnage extends Observable {
 		}
 	}
 
+	/**
+	 * Permet de determiner le noeud de départ selon notre direction
+	 * Si nous somme sur un noeud, renvoi l'autre
+	 * Si nous somme entre deux noeuds sans direction, renvoi le plus éloigné
+	 * @return Le noeud d'ou l'on vient
+	 */
 	public Noeud getNoeudDepart() {
 		if (direction==HAUT || direction==GAUCHE) {
 			return branche.getN2();
@@ -166,28 +175,6 @@ public abstract class Personnage extends Observable {
 	}
 
 	// SETTEUR
-	public void setNoeud(Noeud noeud) {
-		this.noeud = noeud;
-	}
-	public void perteVie() {
-		vie--;
-
-		if (vie==0) {
-			this.mort();
-		}
-
-		// On réini
-		this.positionX = positionDepartX;
-		this.positionY = positionDepartY;
-		this.branche = brancheDepart;
-		this.noeud = noeudDepart;
-
-		this.direction = STATIQUE;
-		this.prochaineDirection = STATIQUE;
-
-		setChanged();
-		notifyObservers("VIE");
-	}
 	public void enHaut() {
 		positionY--;
 
@@ -212,12 +199,14 @@ public abstract class Personnage extends Observable {
 		setChanged();
 		notifyObservers("X");
 	}
+	
 	public void invulnerable() {
 		invulnerable = true;
 	}
 	public void vulnerable() {
 		invulnerable = false;
 	}
+	
 	public void enJeu() {
 		enJeu = true;
 	}
@@ -226,9 +215,7 @@ public abstract class Personnage extends Observable {
 	}
 
 	// FONCTION
-	public boolean estInvulnerable() {
-		return invulnerable;
-	}
+
 
 	// Change la direction ou la prochaine direction
 	public void directionHaut() {
@@ -275,76 +262,62 @@ public abstract class Personnage extends Observable {
 	public void destinationBranche() {
 		Noeud desti = this.getNoeudDestination();
 
-		if (desti==null) {
-			// On est entre deux noeuds
-		} else {
-			// Position de la destination avec le noeud
-			int destiX = desti.getX();
-			int destiY = desti.getY();
+		// Position de la destination avec le noeud
+		int destiX = desti.getX();
+		int destiY = desti.getY();
 
-			boolean reorientation = false;
+		boolean reorientation = false;
 
-			// si le perso se trouve à sa destination 
-			if (positionX == destiX && positionY == destiY) {
-				//this.decisionDirection(); ***********************************************************
+		// si le perso se trouve à sa destination 
+		if (positionX == destiX && positionY == destiY) {
+			// On test s'il doit prendre une nouvelle direction..
+			if (prochaineDirection==HAUT && desti.existeHaut()) {
+					direction = HAUT;
+					prochaineDirection = STATIQUE;
+					branche = desti.getHaut();
+					reorientation = true;
+			} else if(prochaineDirection==DROITE && desti.existeDroite()) {
+					direction = DROITE;
+					prochaineDirection = STATIQUE;
+					branche = desti.getDroite();
+					reorientation = true;
+			} else if(prochaineDirection==BAS && desti.existeBas()) {
+					direction = BAS;
+					prochaineDirection = STATIQUE;
+					branche = desti.getBas();
+					reorientation = true;
+			} else if(prochaineDirection==GAUCHE && desti.existeGauche()) {
+					direction = GAUCHE;
+					prochaineDirection = STATIQUE;
+					branche = desti.getGauche();
+					reorientation = true;
+			}
 
-				// On test s'il doit prendre une nouvelle direction..
-				if (prochaineDirection==HAUT) {
-					if (desti.getHaut()!=null) { // si la branche n'est pas vide
-						direction = HAUT;
-						prochaineDirection = STATIQUE;
+			// ..et s'il n'y a pas eu de réorientation, on continue notre chemin dans la même direction
+			if (!reorientation) {
+				if (direction==HAUT) {
+					if (desti.existeHaut()) {
 						branche = desti.getHaut();
-						reorientation = true;
+					} else {
+						direction = STATIQUE;
 					}
-				} else if(prochaineDirection==DROITE) {
-					if (desti.getDroite()!=null) { // si la branche n'est pas vide
-						direction = DROITE;
-						prochaineDirection = STATIQUE;
+				} else if(direction==DROITE) {
+					if (desti.existeDroite()) {
 						branche = desti.getDroite();
-						reorientation = true;
+					} else {
+						direction = STATIQUE;
 					}
-				} else if(prochaineDirection==BAS) {
-					if (desti.getBas()!=null) { // si la branche n'est pas vide
-						direction = BAS;
-						prochaineDirection = STATIQUE;
+				} else if(direction==BAS) {
+					if (desti.existeBas()) {
 						branche = desti.getBas();
-						reorientation = true;
+					} else {
+						direction = STATIQUE;
 					}
-				} else if(prochaineDirection==GAUCHE) {
-					if (desti.getGauche()!=null) { // si la branche n'est pas vide
-						direction = GAUCHE;
-						prochaineDirection = STATIQUE;
+				} else if(this.getDirection()==GAUCHE) {
+					if (desti.existeGauche()) {
 						branche = desti.getGauche();
-						reorientation = true;
-					}
-				}
-
-				// ..et s'il n'y a pas eu de réorientation, on continue notre chemin dans la même direction
-				if (!reorientation) {
-					if (direction==HAUT) {
-						if (desti.getHaut()!=null) { // si la branche n'est pas vide
-							branche = desti.getHaut();
-						} else {
-							direction = STATIQUE;
-						}
-					} else if(direction==DROITE) {
-						if (desti.getDroite()!=null) { // si la branche n'est pas vide
-							branche = desti.getDroite();
-						} else {
-							direction = STATIQUE;
-						}
-					} else if(direction==BAS) {
-						if (desti.getBas()!=null) { // si la branche n'est pas vide
-							branche = desti.getBas();
-						} else {
-							direction = STATIQUE;
-						}
-					} else if(this.getDirection()==GAUCHE) {
-						if (desti.getGauche()!=null) { // si la branche n'est pas vide
-							branche = desti.getGauche();
-						} else {
-							direction = STATIQUE;
-						}
+					} else {
+						direction = STATIQUE;
 					}
 				}
 			}
@@ -367,7 +340,22 @@ public abstract class Personnage extends Observable {
 	}
 
 	public String toString() {		
-		return "X: " + positionX + ", Y: " + positionY + ", direction: "+ getDirectionStr() + ", prochaineDirection: " + getProchaineDirectionStr()+".";
+		return "X: " + this.getPositionX() + ", Y: " + this.getPositionY() + ", direction: "+ getDirectionStr() + ", prochaineDirection: " + getProchaineDirectionStr()+".";
+	}
+	
+
+	public void reinitialisation() {
+		// On réini les données généraliste
+		this.positionX = positionDepartX;
+		this.positionY = positionDepartY;
+		this.branche = brancheDepart;
+		this.noeud = noeudDepart;
+
+		this.direction = STATIQUE;
+		this.prochaineDirection = STATIQUE;
+		
+		setChanged();
+		notifyObservers("REINI");
 	}
 
 	abstract void mort();
