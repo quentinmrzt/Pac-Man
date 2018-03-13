@@ -3,45 +3,42 @@ package view;
 public abstract class ElementDuJeu {
 	final static int COTE = 16;
 	
-	private int positionTabX ;
-	private int positionTabY ;
 	private int positionX ;
 	private int positionY ;
 	
 	public ElementDuJeu(int x, int y) {
-		positionTabX = x;
-		positionTabY = y;
-		positionX = x*COTE;
-		positionY = y*COTE;
+		positionX = x;
+		positionY = y;
 	}
 
 	// GETTEUR
-	public int getPositionTabX() {
-		return positionTabX;
-	}
-	public int getPositionTabY() {
-		return positionTabY;
-	}
 	public int getPositionX() {
 		return positionX;
 	}
 	public int getPositionY() {
 		return positionY;
 	}
+	public int getPositionPixelX() {
+		return positionX*COTE;
+	}
+	public int getPositionPixelY() {
+		return positionY*COTE;
+	}
 	
 	// SETTEUR
 	public void setPositionTabX(int x) {
-		positionTabX = x;
-		setPositionX(x*COTE);
-	}
-	public void setPositionTabY(int y) {
-		positionTabY = y;
-		setPositionY(y*COTE);
-	}
-	private void setPositionX(int x) {
 		positionX = x;
 	}
-	private void setPositionY(int y) {
+	public void setPositionTabY(int y) {
 		positionY = y;
+	}
+	
+	// FONCTION
+	public boolean memeEmplacement(int x, int y) {
+		if (positionX==x && positionY==y) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }

@@ -117,6 +117,13 @@ public class Graphe {
 	public Noeud getNoeud(int x, int y) {
 		return tabNoeud[x][y];
 	}
+	
+	/**
+	 * Fonction permettant de trouver la branche à l'aide d'un point de la map
+	 * @param x La coordonnée x
+	 * @param y La coordonnée y
+	 * @return Retourne la branche sur laquelle on se trouve
+	 */
 	public Branche getBranche(int x, int y) {
 		int tailleX = tabNoeud.length;
 		int tailleY = tabNoeud[0].length;

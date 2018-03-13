@@ -38,7 +38,7 @@ public abstract class Personnage extends Observable {
 		this.positionY = positionDepartY;
 		this.branche = brancheDepart;
 		this.noeud = noeudDepart;
-		
+
 		// Caractéristiques
 		this.vie = v;
 		this.direction = STATIQUE;
@@ -131,6 +131,7 @@ public abstract class Personnage extends Observable {
 			}
 		}
 	}
+
 	public Noeud getNoeudDepart() {
 		if (direction==HAUT || direction==GAUCHE) {
 			return branche.getN2();
@@ -170,6 +171,19 @@ public abstract class Personnage extends Observable {
 	}
 	public void perteVie() {
 		vie--;
+
+		if (vie==0) {
+			this.mort();
+		}
+
+		// On réini
+		this.positionX = positionDepartX;
+		this.positionY = positionDepartY;
+		this.branche = brancheDepart;
+		this.noeud = noeudDepart;
+
+		this.direction = STATIQUE;
+		this.prochaineDirection = STATIQUE;
 
 		setChanged();
 		notifyObservers("VIE");
@@ -255,6 +269,9 @@ public abstract class Personnage extends Observable {
 	}
 
 	// Orientation dans les noeuds avec le noeud
+	/**
+	 * Regarde si on est à son objectif et oriente selon la prochaine direction
+	 */
 	public void destinationBranche() {
 		Noeud desti = this.getNoeudDestination();
 
@@ -336,14 +353,16 @@ public abstract class Personnage extends Observable {
 
 	// Se deplace selon la direction du personnage
 	public void deplacement() {
-		if (direction==HAUT) {
-			this.enHaut();
-		} else if(direction==DROITE) {
-			this.aDroite();
-		} else if(direction==BAS) {
-			this.enBas();
-		} else if(direction==GAUCHE) {
-			this.aGauche();
+		if(this.enJeu) {
+			if (direction==HAUT) {
+				this.enHaut();
+			} else if(direction==DROITE) {
+				this.aDroite();
+			} else if(direction==BAS) {
+				this.enBas();
+			} else if(direction==GAUCHE) {
+				this.aGauche();
+			}
 		}
 	}
 
@@ -351,4 +370,5 @@ public abstract class Personnage extends Observable {
 		return "X: " + positionX + ", Y: " + positionY + ", direction: "+ getDirectionStr() + ", prochaineDirection: " + getProchaineDirectionStr()+".";
 	}
 
+	abstract void mort();
 }

@@ -32,10 +32,10 @@ public class ZoneDeJeu extends JPanel implements Observer {
 		Map map = modelisation.getMap();
 		pacManView = new PacManView(modelisation.getPM());
 
-		blinky = new FantomeView(12,14,Modelisation.BLINKY);
-		pinky = new FantomeView(13,14,Modelisation.PINKY);
-		inky = new FantomeView(14,14,Modelisation.INKY);
-		clyde = new FantomeView(15,14,Modelisation.CLYDE);
+		blinky = new FantomeView(12,14,Modelisation.BLINKY, modelisation.getFantome(Modelisation.BLINKY));
+		pinky = new FantomeView(13,14,Modelisation.PINKY, modelisation.getFantome(Modelisation.PINKY));
+		inky = new FantomeView(14,14,Modelisation.INKY, modelisation.getFantome(Modelisation.INKY));
+		clyde = new FantomeView(15,14,Modelisation.CLYDE, modelisation.getFantome(Modelisation.CLYDE));
 
 		// On fait un tableau de case contenant les images a afficher
 		tabCases = new Case[map.getTailleX()][map.getTailleY()];
@@ -62,18 +62,18 @@ public class ZoneDeJeu extends JPanel implements Observer {
 	protected void paintComponent(Graphics g) {
 		for (int y=0 ; y<getTailleY() ; y++) {
 			for (int x=0 ; x<getTailleX() ; x++) {
-				if(pacManView.getPositionTabX()==x && pacManView.getPositionTabY()==y) {
-					g.drawImage(pacManView.getImage(), pacManView.getPositionX(), pacManView.getPositionY(), null);
-				} else if(blinky.getPositionTabX()==x && blinky.getPositionTabY()==y) {
-					g.drawImage(blinky.getImage(), blinky.getPositionX(), blinky.getPositionY(), null);
-				} else if(pinky.getPositionTabX()==x && pinky.getPositionTabY()==y) {
-					g.drawImage(pinky.getImage(), pinky.getPositionX(), pinky.getPositionY(), null);
-				} else if(inky.getPositionTabX()==x && inky.getPositionTabY()==y) {
-					g.drawImage(inky.getImage(), inky.getPositionX(), inky.getPositionY(), null);
-				} else if(clyde.getPositionTabX()==x && clyde.getPositionTabY()==y) {
-					g.drawImage(clyde.getImage(), clyde.getPositionX(), clyde.getPositionY(), null);
+				if(pacManView.memeEmplacement(x, y)) {
+					g.drawImage(pacManView.getImage(), pacManView.getPositionPixelX(), pacManView.getPositionPixelY(), null);
+				} else if(blinky.memeEmplacement(x, y)) {
+					g.drawImage(blinky.getImage(), blinky.getPositionPixelX(), blinky.getPositionPixelY(), null);
+				} else if(pinky.memeEmplacement(x, y)) {
+					g.drawImage(pinky.getImage(), pinky.getPositionPixelX(), pinky.getPositionPixelY(), null);
+				} else if(inky.memeEmplacement(x, y)) {
+					g.drawImage(inky.getImage(), inky.getPositionPixelX(), inky.getPositionPixelY(), null);
+				} else if(clyde.memeEmplacement(x, y)) {
+					g.drawImage(clyde.getImage(), clyde.getPositionPixelX(), clyde.getPositionPixelY(), null);
 				} else {
-					g.drawImage(tabCases[x][y].getImage(), tabCases[x][y].getPositionX(), tabCases[x][y].getPositionY(), null);
+					g.drawImage(tabCases[x][y].getImage(), tabCases[x][y].getPositionPixelX(), tabCases[x][y].getPositionPixelY(), null);
 				}
 			}
 		}
@@ -82,6 +82,7 @@ public class ZoneDeJeu extends JPanel implements Observer {
 	public void update(Observable obs, Object arg) {
 		if(obs instanceof Blinky) {
 			blinky.update(obs,arg);
+			
 		}
 
 		if(obs instanceof Pinky) {
@@ -110,5 +111,7 @@ public class ZoneDeJeu extends JPanel implements Observer {
 				}
 			}
 		}
+		
+		this.repaint();
 	}
 }

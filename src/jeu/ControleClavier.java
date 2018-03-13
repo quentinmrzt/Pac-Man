@@ -1,11 +1,11 @@
-package view;
+package jeu;
 
 import java.awt.KeyEventDispatcher;
 import java.awt.event.KeyEvent;
 
 import controller.Controller;
 
-class ControleClavier implements KeyEventDispatcher {
+public class ControleClavier implements KeyEventDispatcher {
 	private Controller control;
 
 	public ControleClavier(Controller c) {

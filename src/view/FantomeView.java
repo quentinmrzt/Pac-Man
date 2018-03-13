@@ -8,36 +8,44 @@ import java.util.Observer;
 
 import javax.imageio.ImageIO;
 
+import model.Fantome;
 import model.Modelisation;
 import model.Personnage;
 
 public class FantomeView extends ElementDuJeu implements Observer{
-	final int MONTER = 0 ;
-	final int DESCENDRE = 1;
+	private final int MONTER = 0 ;
+	private final int DESCENDRE = 1;
 
 	private int direction;
 	private boolean monter;
 	private BufferedImage mouvement[][];
+	
+	private Fantome fantome;
+	private int positionPrisonX;
+	private int positionPrisonY;
 
-	public FantomeView(int x, int y, int fantome) {
-		super(x, y);
-		monter = true;
-		direction = Personnage.HAUT;
+	public FantomeView(int x, int y, int typeFantome, Fantome f) {
+		super(x,y);
+		positionPrisonX = x;
+		positionPrisonY = y;
+		fantome = f;
 
 		// On ouvre les sprites
 		try {
 			// Pour les directions des fantomes
 			BufferedImage tmpMouvement = null;
 
-			if (fantome==Modelisation.BLINKY) {
+			if (typeFantome==Modelisation.BLINKY) {
 				tmpMouvement = ImageIO.read(new File("image/Blinky.png"));
-			} else if (fantome==Modelisation.PINKY) {
+			} else if (typeFantome==Modelisation.PINKY) {
 				tmpMouvement = ImageIO.read(new File("image/Pinky.png"));
-			} else if (fantome==Modelisation.INKY) {
+			} else if (typeFantome==Modelisation.INKY) {
 				tmpMouvement = ImageIO.read(new File("image/Inky.png"));
-			} else if (fantome==Modelisation.CLYDE) {
+			} else if (typeFantome==Modelisation.CLYDE) {
 				tmpMouvement = ImageIO.read(new File("image/Clyde.png"));
 			}
+			monter = true;
+			direction = Personnage.HAUT;
 
 			mouvement = new BufferedImage[4][2];
 
@@ -51,6 +59,28 @@ public class FantomeView extends ElementDuJeu implements Observer{
 	}
 
 	// GETTEUR
+	public int getPositionPixelX() {
+		if (enPrison()) {
+			return positionPrisonX*COTE;
+		} else {
+			return getPositionPixelX();
+		}
+	}
+	public int getPositionPixelY() {
+		if (enPrison()) {
+			return positionPrisonY*COTE;
+		} else {
+			return getPositionPixelY();
+		}
+	}
+	
+	public boolean enPrison() {
+		if(fantome.estEnJeu()) {
+			return false;
+		} else {
+			return true;
+		}
+	}
 	public BufferedImage getImage() {
 		if (monter) {
 			return mouvement[direction][MONTER];

@@ -54,6 +54,11 @@ public abstract class Fantome extends Personnage {
 	public void setChemin(ArrayList<NoeudAStar> chemin) {
 		this.chemin = chemin;
 	}
+	
+	public void mort() {
+		this.estInvulnerable();
+		this.horsJeu();
+	}
 
 
 	public abstract void trouverChemin();

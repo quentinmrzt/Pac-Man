@@ -7,13 +7,14 @@ import java.util.Observer;
 import javax.swing.JFrame;
 
 import controller.Controller;
+import jeu.ControleClavier;
 import model.Modelisation;
 
-public class Fenetre extends JFrame implements Observer, Runnable {
+public class Fenetre extends JFrame implements Observer {
 	private Modelisation modelisation;
 	private Menu menu;
 	private Panneau panneau;
-	private Thread horloge; 
+	
 
 	public Fenetre(Controller controller, Modelisation model) {
 		this.setSize(900, 600);
@@ -35,10 +36,6 @@ public class Fenetre extends JFrame implements Observer, Runnable {
 		menu = new Menu();
 		this.setJMenuBar(menu);
 
-		// Gestion de l'horloge
-		horloge = new Thread(this);
-		horloge.start();
-
 		//pack();
 		this.setVisible(true);
 		this.requestFocus();
@@ -52,27 +49,5 @@ public class Fenetre extends JFrame implements Observer, Runnable {
 	// Implementation de Observer
 	public void update(Observable o, Object arg) {
 		panneau.update(o,arg);
-	}
-
-	// Implementation de Runnable
-	public void run() {
-		// Notre horloge 
-		while(true) {
-			// Permet l'orientation au noeud
-			modelisation.destinationPersonnages();
-			// on dit à pacMan d'y aller
-			modelisation.deplacementPersonnages();
-			// et on mange sur notre chemin
-			modelisation.manger();
-
-			// Appel tout les paint(): Fenetre, Panneau et ZoneDeJeu
-			repaint();
-
-			try {
-				Thread.sleep(80); // attente de 100 ms
-			} catch(InterruptedException e) { 
-				System.err.println("ERREUR: Problème sur l'horloge.");
-			}
-		} 
 	}
 }

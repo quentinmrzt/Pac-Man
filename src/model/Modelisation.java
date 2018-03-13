@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Observable;
 //import java.util.Scanner;
 
+import jeu.Horloge;
+
 public class Modelisation extends Observable {
 	// Donnée du model
 	public final static int BLINKY=0;
@@ -11,7 +13,7 @@ public class Modelisation extends Observable {
 	public final static int INKY=2;
 	public final static int CLYDE=3; 
 	public final static int PACMAN=4;
-	
+
 	public final static int SCORE_GOMME=10;
 	public final static int SCORE_SUPERGOMME=50;
 	public final static int SCORE_FANTOME=200;
@@ -22,6 +24,7 @@ public class Modelisation extends Observable {
 	private Graphe graphe;
 	private int score;
 	private int mangerDeSuite;
+	private Horloge horloge;
 
 
 
@@ -52,6 +55,8 @@ public class Modelisation extends Observable {
 
 		score = 0;
 		mangerDeSuite=0;
+		
+		horloge = new Horloge(this);
 	}
 
 	// Orientation de pacMan à chaque noeud
@@ -81,7 +86,7 @@ public class Modelisation extends Observable {
 		this.mangerPacMan();
 		this.mangerFantome();
 	}
-	
+
 	public void mangerGomme() {
 		int x = pacMan.getPositionX();
 		int y = pacMan.getPositionY();
@@ -90,45 +95,53 @@ public class Modelisation extends Observable {
 		if (type==Map.GOMME) {
 			map.mangerGomme(x,y);
 			score+=SCORE_GOMME;
-			
+
 			setChanged();
 			notifyObservers("G");
 		} else if (type==Map.SUPERGOMME) {
 			map.mangerSuperGomme(x,y);
 			score+=SCORE_SUPERGOMME;
+
 			pacMan.invulnerable();
-			
+			for (Fantome fantome: fantomes) {
+				fantome.vulnerable();
+			}
+
 			setChanged();
 			notifyObservers("SG");
 		}
 	}
-	
-	public void mangerPacMan() {
-		if(!pacMan.estInvulnerable()) {
-			int x = pacMan.getPositionX();
-			int y = pacMan.getPositionY();
 
-			for (Fantome fantome: fantomes) {
+	public void mangerPacMan() {
+		int x = pacMan.getPositionX();
+		int y = pacMan.getPositionY();
+
+		for (Fantome fantome: fantomes) {
+			// On regarde si le fantome est invulnérable pour manger PacMan
+			if (fantome.estInvulnerable() && fantome.estEnJeu()) {
 				if (x==fantome.getPositionX() && y==fantome.getPositionY()) {
 					pacMan.perteVie();
 				}
 			}
 		}
 	}
-	
+
 	public void mangerFantome() {
 		if(pacMan.estInvulnerable()) {
 			int x = pacMan.getPositionX();
 			int y = pacMan.getPositionY();
 
 			for (Fantome fantome: fantomes) {
-				if (x==fantome.getPositionX() && y==fantome.getPositionY()) {
-					fantome.perteVie();
-					this.mangerDeSuite++;
-					this.score += SCORE_FANTOME*(Math.pow(2,mangerDeSuite-1));
-					
-					setChanged();
-					notifyObservers("F");
+				// On regarde si le fantome est vulnérable
+				if (!fantome.estInvulnerable() && fantome.estEnJeu()) {
+					if (x==fantome.getPositionX() && y==fantome.getPositionY()) {
+						fantome.perteVie();
+						this.mangerDeSuite++;
+						this.score += SCORE_FANTOME*(Math.pow(2,mangerDeSuite-1));
+
+						setChanged();
+						notifyObservers("F");
+					}
 				}
 			}
 		}
@@ -174,6 +187,15 @@ public class Modelisation extends Observable {
 
 	public Fantome getFantome(int personnage) {
 		return fantomes.get(personnage);
+	}
+
+	public void tourDeJeu() {
+		// Permet l'orientation au noeud
+		this.destinationPersonnages();
+		// on dit à pacMan d'y aller
+		this.deplacementPersonnages();
+		// et on mange sur notre chemin
+		this.manger();
 	}
 
 
