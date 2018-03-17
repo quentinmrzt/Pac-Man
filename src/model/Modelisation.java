@@ -100,8 +100,11 @@ public class Modelisation extends Observable {
 			score+=SCORE_SUPERGOMME;
 
 			pacMan.invulnerable();
+			pacMan.tempsInvulnerabilite = Horloge.getTemps();
 			for (Fantome fantome: fantomes) {
-				fantome.vulnerable();
+				if(fantome.estEnJeu()) {
+					fantome.vulnerable();
+				}
 			}
 
 			setChanged();
@@ -110,14 +113,16 @@ public class Modelisation extends Observable {
 	}
 
 	public void mangerPacMan() {
-		int x = pacMan.getPositionX();
-		int y = pacMan.getPositionY();
+		if(!pacMan.estInvulnerable()) {
+			int x = pacMan.getPositionX();
+			int y = pacMan.getPositionY();
 
-		for (Fantome fantome: fantomes) {
-			// On regarde si le fantome est invulnérable pour manger PacMan
-			if (fantome.estInvulnerable() && fantome.estEnJeu()) {
-				if (x==fantome.getPositionX() && y==fantome.getPositionY()) {
-					pacMan.perteVie();
+			for (Fantome fantome: fantomes) {
+				// On regarde si le fantome est invulnérable pour manger PacMan
+				if (fantome.estInvulnerable() && fantome.estEnJeu()) {
+					if (x==fantome.getPositionX() && y==fantome.getPositionY()) {
+						pacMan.perteVie();
+					}
 				}
 			}
 		}
@@ -188,6 +193,8 @@ public class Modelisation extends Observable {
 
 	public void tourDeJeu() {
 		//
+		this.finEffetSuperGomme();
+		// On libère un fantome avec 4sec en prison
 		this.liberationFantome();
 		// Permet l'orientation au noeud
 		this.destinationPersonnages();
@@ -210,9 +217,20 @@ public class Modelisation extends Observable {
 
 	private void liberationFantome() {
 		Fantome fantome = fantomes.get(BLINKY);
-		
+
 		if (!fantome.estEnJeu() && Horloge.getTemps()>fantome.dateSortie+4000) {
 			fantome.enJeu();
+		}
+	}
+
+	public void finEffetSuperGomme() {
+		if (pacMan.estInvulnerable() && Horloge.getTemps()>pacMan.tempsInvulnerabilite+5000) {
+			pacMan.vulnerable();
+			for (Fantome fantome: fantomes) {
+				if(fantome.estEnJeu()) {
+					fantome.invulnerable();
+				}
+			}
 		}
 	}
 }

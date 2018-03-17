@@ -20,6 +20,7 @@ public class FantomeView extends ElementDuJeu implements Observer {
 	private int direction;
 	private boolean monter;
 	private BufferedImage mouvement[][];
+	private BufferedImage panique[][];
 
 	private Fantome fantome;
 
@@ -46,11 +47,18 @@ public class FantomeView extends ElementDuJeu implements Observer {
 			direction = Personnage.HAUT;
 
 			mouvement = new BufferedImage[4][2];
-
 			for (int i=0 ; i<4 ; i++) {
 				mouvement[i][MONTER] = tmpMouvement.getSubimage(COTE*(i*2), 0, COTE, COTE);
 				mouvement[i][DESCENDRE] = tmpMouvement.getSubimage(COTE*((i*2)+1), 0, COTE, COTE);
 			}
+			
+			BufferedImage tmpPanique = ImageIO.read(new File("image/FantomePanique.png"));
+			panique = new BufferedImage[2][2];
+			for (int i=0 ; i<2 ; i++) {
+				panique[i][MONTER] = tmpPanique.getSubimage(COTE*(i*2), 0, COTE, COTE);
+				panique[i][DESCENDRE] = tmpPanique.getSubimage(COTE*((i*2)+1), 0, COTE, COTE);
+			}
+			
 		} catch (IOException e) {
 			System.err.println("Il y a eu un problème dans l'initialisation des sprites de PacMan.");
 		}
@@ -72,10 +80,18 @@ public class FantomeView extends ElementDuJeu implements Observer {
 		}
 	}
 	public BufferedImage getImage() {
+		if (fantome.estInvulnerable()) {
 		if (monter) {
 			return mouvement[direction][MONTER];
 		} else {
 			return mouvement[direction][DESCENDRE];
+		}
+		} else {
+			if (monter) {
+				return panique[0][MONTER];
+			} else {
+				return panique[0][DESCENDRE];
+			}
 		}
 	}
 

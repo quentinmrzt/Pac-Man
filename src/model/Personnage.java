@@ -204,9 +204,15 @@ public abstract class Personnage extends Observable {
 	
 	public void invulnerable() {
 		invulnerable = true;
+		
+		setChanged();
+		notifyObservers("INVULNERABLE");
 	}
 	public void vulnerable() {
 		invulnerable = false;
+		
+		setChanged();
+		notifyObservers("VULNERABLE");
 	}
 	
 	int dateEntree=-1;

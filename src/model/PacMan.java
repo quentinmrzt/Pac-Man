@@ -2,11 +2,13 @@ package model;
 
 public class PacMan extends Personnage {
 	private int vie;
+	int tempsInvulnerabilite;
 
 	public PacMan(int x, int y, Branche b) {
 		super(x,y,b);
 
 		vie = 3;
+		tempsInvulnerabilite = -1;
 
 		this.vulnerable();
 		this.enJeu();

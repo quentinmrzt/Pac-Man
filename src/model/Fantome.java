@@ -75,7 +75,7 @@ public abstract class Fantome extends Personnage {
 	// ABSTRACT
 	public void mort() {
 		this.reinitialisation();
-		this.estInvulnerable();
+		this.invulnerable();
 		this.horsJeu();
 
 		setChanged();
