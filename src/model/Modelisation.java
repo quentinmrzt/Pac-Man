@@ -23,6 +23,7 @@ public class Modelisation extends Observable {
 	private Graphe graphe;
 	private int score;
 	private int mangerDeSuite;
+	private int nombreDeTour;
 
 	public Modelisation() {
 		super();
@@ -50,9 +51,8 @@ public class Modelisation extends Observable {
 		fantomes.add(new Clyde(fantomeX,fantomeY,brancheFantome,pacMan));
 
 		score = 0;
-		mangerDeSuite=0;
-
-
+		mangerDeSuite = 0;
+		nombreDeTour = 0;
 	}
 
 	// Orientation de pacMan à chaque noeud
@@ -152,6 +152,9 @@ public class Modelisation extends Observable {
 	public PacMan getPM() {
 		return pacMan;
 	}
+	public int getNombreDeTour() {
+		return nombreDeTour;
+	}
 
 	// ----------------------------------------
 	// Setteur
@@ -192,6 +195,8 @@ public class Modelisation extends Observable {
 		this.deplacementPersonnages();
 		// et on mange sur notre chemin
 		this.manger();
+		
+		nombreDeTour++;
 	}
 
 	public boolean finDePartie() {
