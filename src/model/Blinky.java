@@ -1,5 +1,9 @@
 package model;
 
+import graphe.AStar;
+import graphe.Branche;
+import graphe.Noeud;
+
 public class Blinky extends Fantome {
 	final int POSITIONPRISONX = 12;
 	final int POSITIONPRISONY = 14;

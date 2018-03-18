@@ -2,6 +2,8 @@ package model;
 
 import java.util.Observable;
 
+import graphe.Branche;
+import graphe.Noeud;
 import jeu.Horloge;
 
 public abstract class Personnage extends Observable {
@@ -67,35 +69,32 @@ public abstract class Personnage extends Observable {
 	public int getProchaineDirection() {
 		return prochaineDirection;
 	}
-	public String getDirectionStr() {
-		if (direction==HAUT) {
+	/**
+	 * Transforme une direction entière en chaine de caractère selon les constantes
+	 * @param d La direction
+	 * @return La traduction en string d'une direction
+	 */
+	public static String afficheDirection(int d) {
+		if (d==HAUT) {
 			return "Haut";
-		} else if(direction==DROITE) {
+		} else if(d==DROITE) {
 			return "Droite";
-		} else if(direction==BAS) {
+		} else if(d==BAS) {
 			return "Bas";
-		} else if(direction==GAUCHE) {
+		} else if(d==GAUCHE) {
 			return "Gauche";
-		} else if(direction==STATIQUE) {
+		} else if(d==STATIQUE) {
 			return "Statique";
 		} else {
 			return null;
 		}
 	}
+	
+	public String getDirectionStr() {
+		return afficheDirection(direction);
+	}
 	public String getProchaineDirectionStr() {
-		if (prochaineDirection==HAUT) {
-			return "Haut";
-		} else if(prochaineDirection==DROITE) {
-			return "Droite";
-		} else if(prochaineDirection==BAS) {
-			return "Bas";
-		} else if(prochaineDirection==GAUCHE) {
-			return "Gauche";
-		} else if(prochaineDirection==STATIQUE) {
-			return "Statique";
-		} else {
-			return null;
-		}
+		return afficheDirection(prochaineDirection);
 	} 
 	
 	/**

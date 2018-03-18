@@ -33,7 +33,7 @@ public class LancerPacMan {
 			model.tourDeJeu();
 			
 			try {
-				Thread.sleep(1);
+				Thread.sleep(80);
 			} catch(InterruptedException e) { 
 				System.err.println("ERREUR: Problème sur l'horloge.");
 			}

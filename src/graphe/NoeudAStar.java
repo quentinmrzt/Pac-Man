@@ -1,4 +1,6 @@
-package model;
+package graphe;
+
+import model.Personnage;
 
 public class NoeudAStar {
 	private Noeud noeud;
@@ -47,19 +49,8 @@ public class NoeudAStar {
 		return direction;
 	}
 	public String getDirectionStr() {
-		if (direction==Personnage.HAUT) {
-			return "Haut";
-		} else if (direction==Personnage.DROITE) {
-			return "Droite";
-		} else if (direction==Personnage.BAS) {
-			return "Bas";
-		} else if (direction==Personnage.GAUCHE) {
-			return "Gauche";
-		} else {
-			return "Statique";
-		}
+		return Personnage.afficheDirection(direction);
 	}
-
 	public Noeud enHaut() {
 		return noeud.enHaut();
 	}
@@ -107,16 +98,12 @@ public class NoeudAStar {
 			System.err.println("ERREUR: Objet vide.");
 			return false;
 		} else {
-			
 			NoeudAStar nas = (NoeudAStar) obj;
 
-			//System.out.print("["+this.getX()+","+this.getY()+"] - ["+nas.getX()+","+nas.getY()+"] = ");
 			if(this.getX()==nas.getX() && this.getY()==nas.getY()) {
-				//System.out.println("Vrai.");
 				return true;
 			}
 
-			//System.out.println("Faux.");
 			return false;
 		}
 	}

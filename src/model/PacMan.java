@@ -1,5 +1,7 @@
 package model;
 
+import graphe.Branche;
+
 public class PacMan extends Personnage {
 	private int vie;
 	int tempsInvulnerabilite;

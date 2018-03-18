@@ -1,5 +1,7 @@
 package model;
 
+import graphe.Branche;
+
 public class Clyde extends Fantome {
 	final int POSITIONPRISONX = 15;
 	final int POSITIONPRISONY = 14;

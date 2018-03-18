@@ -1,5 +1,7 @@
 package model;
 
+import graphe.Branche;
+
 public class Inky extends Fantome {
 	final int POSITIONPRISONX = 14;
 	final int POSITIONPRISONY = 14;

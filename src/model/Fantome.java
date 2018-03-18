@@ -2,6 +2,9 @@ package model;
 
 import java.util.ArrayList;
 
+import graphe.Branche;
+import graphe.NoeudAStar;
+
 public abstract class Fantome extends Personnage {
 	private Personnage pacMan;
 	private ArrayList<NoeudAStar> chemin;

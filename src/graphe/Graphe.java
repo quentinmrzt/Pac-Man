@@ -1,4 +1,6 @@
-package model;
+package graphe;
+
+import model.Map;
 
 public class Graphe {
 	private Noeud tabNoeud[][];

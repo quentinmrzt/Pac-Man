@@ -1,5 +1,9 @@
 package model;
 
+import graphe.AStar;
+import graphe.Branche;
+import graphe.Noeud;
+
 public class Pinky extends Fantome {
 	final int POSITIONPRISONX = 13;
 	final int POSITIONPRISONY = 14;

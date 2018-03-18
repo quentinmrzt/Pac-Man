@@ -3,6 +3,8 @@ package model;
 import java.util.ArrayList;
 import java.util.Observable;
 
+import graphe.Branche;
+import graphe.Graphe;
 import jeu.Horloge;
 
 public class Modelisation extends Observable {
