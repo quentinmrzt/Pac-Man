@@ -42,6 +42,15 @@ public class Branche {
 	}
 
 	// TEST
+	public int estSurNoeud(int x, int y) {
+		if (x==n1.getX() && y==n1.getY()) {
+			return 1;
+		} else if(x==n2.getX() && y==n2.getY()) {
+			return 2;
+		} else {
+			return -1;
+		}
+	}
 	public Noeud getNoeud(int x, int y) {
 		if(n1.getX()==x && n1.getY()==y) {
 			return n1;

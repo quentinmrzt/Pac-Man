@@ -3,7 +3,7 @@ package graphe;
 import model.Map;
 
 public class Graphe {
-	private Noeud tabNoeud[][];
+	static private Noeud tabNoeud[][];
 	private int taille = 0;
 
 	// CONSTRUCTEUR	
@@ -135,7 +135,7 @@ public class Graphe {
 			return null;
 		}
 
-		if (this.noeudExiste(x,y)) {
+		if (Graphe.noeudExiste(x,y)) {
 			// si on se trouve sur un noeud
 			if(tabNoeud[x][y].existeHaut()) {
 				return tabNoeud[x][y].getHaut();
@@ -162,7 +162,7 @@ public class Graphe {
 
 				// HAUT
 				if (haut) {
-					if (this.noeudExiste(x, y-i)) {
+					if (Graphe.noeudExiste(x, y-i)) {
 						if(tabNoeud[x][y-i].existeBas()) {
 							return tabNoeud[x][y-i].getBas();
 						} else {
@@ -174,7 +174,7 @@ public class Graphe {
 
 				// DROITE
 				if (droite) {
-					if (this.noeudExiste(x+i, y)) {
+					if (Graphe.noeudExiste(x+i, y)) {
 						if(tabNoeud[x+i][y].existeGauche()) {
 							return tabNoeud[x+i][y].getGauche();
 						} else {
@@ -186,7 +186,7 @@ public class Graphe {
 
 				// BAS
 				if(bas) {
-					if (this.noeudExiste(x, y+i)) {
+					if (Graphe.noeudExiste(x, y+i)) {
 						if(tabNoeud[x][y+i].existeHaut()) {
 							return tabNoeud[x][y+i].getHaut();
 						} else {
@@ -198,7 +198,7 @@ public class Graphe {
 
 				// GAUCHE
 				if (gauche) {
-					if (this.noeudExiste(x-i, y)) {
+					if (Graphe.noeudExiste(x-i, y)) {
 						if(tabNoeud[x-i][y].existeDroite()) {
 							return tabNoeud[x-i][y].getDroite();
 						} else {
@@ -231,7 +231,7 @@ public class Graphe {
 	}
 
 	// TEST
-	public boolean noeudExiste(int x, int y) {
+	public static boolean noeudExiste(int x, int y) {
 		return tabNoeud[x][y]!=null;
 	}
 

@@ -68,11 +68,19 @@ public class NoeudAStar {
 	public void setParent(NoeudAStar nas) {
 		parent = nas;
 	}
-	public void setCoutG() {
-		coutG = Math.abs(parent.getX()-getX()) + Math.abs(parent.getY()-getY());
+	/**
+	 * Calcule la distance entre le point étudié et le dernier point qu'on a jugé comme bon
+	 * @param dernierNoeudBon Dernier point de la liste fermée
+	 */
+	public void setCoutG(NoeudAStar dernierNoeudBon) {
+		coutG = Math.abs(dernierNoeudBon.getX()-this.getX()) + Math.abs(dernierNoeudBon.getY()-this.getY());
 	}
-	public void setCoutH(int arriveeX, int arriveeY) {
-		coutH = Math.abs(getX()-arriveeX) + Math.abs(getY()-arriveeY);
+	/**
+	 * Calcule la distance entre le point étudié et le point de destination
+	 * @param noeudArrivee Le noeud destination
+	 */
+	public void setCoutH(NoeudAStar noeudArrivee) {
+		coutH = Math.abs(this.getX()-noeudArrivee.getX()) + Math.abs(this.getY()-noeudArrivee.getY());
 	}
 	public void setCoutF() {
 		coutF = coutG + coutH;

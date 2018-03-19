@@ -6,14 +6,10 @@ public class Noeud {
 	protected Branche bas;
 	protected Branche droite;
 	protected Branche gauche;
-	
-
 
 	public Noeud(int x, int y) {
 		this.x = x;
 		this.y = y;
-
-
 		
 		haut = null;
 		bas = null;
@@ -71,6 +67,7 @@ public class Noeud {
 		return gauche;
 	}
 
+	// BRANCHE
 	public boolean existeHaut() {
 		return (haut!=null);
 	}

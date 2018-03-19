@@ -7,13 +7,13 @@ import graphe.NoeudAStar;
 
 public abstract class Fantome extends Personnage {
 	private Personnage pacMan;
-	private ArrayList<NoeudAStar> chemin;
+	private ArrayList<Integer> chemin;
 
 	public Fantome(int x, int y, Branche b, Personnage pm) {
 		super(x, y, b);
 
 		pacMan =  pm;
-		chemin = new ArrayList<NoeudAStar>();
+		chemin = new ArrayList<Integer>();
 
 		this.invulnerable();
 		this.horsJeu();
@@ -33,15 +33,15 @@ public abstract class Fantome extends Personnage {
 
 	public void decisionDirection() {
 		if (chemin.size()!=0) {
-			NoeudAStar destination = chemin.get(chemin.size()-1);
+			int destination = chemin.get(chemin.size()-1);
 
-			if (destination.getDirection()==HAUT) {
+			if (destination==HAUT) {
 				this.directionHaut();
-			} else if (destination.getDirection()==DROITE) {
+			} else if (destination==DROITE) {
 				this.directionDroite();
-			} else if (destination.getDirection()==BAS) {
+			} else if (destination==BAS) {
 				this.directionBas();
-			} else if (destination.getDirection()==GAUCHE) {
+			} else if (destination==GAUCHE) {
 				this.directionGauche();
 			} else {
 				System.err.println("ERREUR: decision direction.");
@@ -71,7 +71,7 @@ public abstract class Fantome extends Personnage {
 	}
 
 	// SETTEUR
-	public void setChemin(ArrayList<NoeudAStar> chemin) {
+	public void setChemin(ArrayList<Integer> chemin) {
 		this.chemin = chemin;
 	}
 

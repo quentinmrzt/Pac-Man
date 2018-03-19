@@ -39,4 +39,6 @@ public class PacMan extends Personnage {
 	void mort() {
 		this.horsJeu();
 	}
+
+
 }

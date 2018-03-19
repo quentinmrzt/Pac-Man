@@ -59,7 +59,8 @@ public class Modelisation extends Observable {
 
 	// Orientation de pacMan à chaque noeud
 	public void destinationPersonnages() {
-		pacMan.destinationBranche();
+		pacMan.destination();
+		//pacMan.destinationBranche();
 
 		for (Fantome f: fantomes) {
 			f.destinationBranche();
@@ -163,19 +164,13 @@ public class Modelisation extends Observable {
 		return nombreDeTour;
 	}
 
+	
+	
 	// ----------------------------------------
 	// Setteur
 	public void directionPersonnage(int direction, int personnage) {
 		if (personnage==PACMAN) {
-			if(direction==Personnage.HAUT) {
-				pacMan.directionHaut();
-			} else if(direction==Personnage.DROITE) {
-				pacMan.directionDroite();
-			} else if(direction==Personnage.BAS) {
-				pacMan.directionBas();
-			} else if(direction==Personnage.GAUCHE) {
-				pacMan.directionGauche();
-			}
+			pacMan.direction(direction);
 		} else {
 			if(direction==Personnage.HAUT) {
 				fantomes.get(personnage).directionHaut();
@@ -198,6 +193,7 @@ public class Modelisation extends Observable {
 		this.finEffetSuperGomme();
 		// On libère un fantome avec 4sec en prison
 		this.liberationFantome();
+		
 		// Permet l'orientation au noeud
 		this.destinationPersonnages();
 		// on dit à pacMan d'y aller
