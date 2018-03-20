@@ -3,7 +3,6 @@ package model;
 import java.util.Observable;
 
 import graphe.Branche;
-import graphe.Graphe;
 import graphe.Noeud;
 import jeu.Horloge;
 
@@ -282,7 +281,7 @@ public abstract class Personnage extends Observable {
 		noeud = branche.getNoeud(positionX,positionY);
 		
 		if (noeud!=null) {
-			System.out.println("Sur le noeud x:"+positionX+" et y:"+positionY);
+			//System.out.println("Sur le noeud x:"+positionX+" et y:"+positionY);
 			
 			boolean reorientation = false;
 			
@@ -338,7 +337,7 @@ public abstract class Personnage extends Observable {
 				}
 			}
 		} else {
-			System.out.println("Pas sur un noeud x:"+positionX+" et y:"+positionY);
+			//System.out.println("Pas sur un noeud x:"+positionX+" et y:"+positionY);
 		}
 		
 		
@@ -348,7 +347,7 @@ public abstract class Personnage extends Observable {
 	/**
 	 * Regarde si on est à son objectif et oriente selon la prochaine direction
 	 */
-	public void destinationBranche() {
+	/*public void destinationBranche() {
 		Noeud desti = this.getNoeudDestination();
 
 		if (desti==null) {
@@ -433,7 +432,7 @@ public abstract class Personnage extends Observable {
 				}
 			}
 		}
-	}
+	}*/
 
 	// Se deplace selon la direction du personnage
 	public void deplacement() {

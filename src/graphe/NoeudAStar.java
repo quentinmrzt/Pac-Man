@@ -12,6 +12,12 @@ public class NoeudAStar {
 	private NoeudAStar parent;
 	private int direction;
 
+	/**
+	 * 
+	 * @param n Le noeud auquel il réfère
+	 * @param nas Le NAS parent
+	 * @param d Le sens pour aller à ce noeud, selon le parent
+	 */
 	public NoeudAStar(Noeud n, NoeudAStar nas, int d) {
 		noeud = n;
 		parent = nas;

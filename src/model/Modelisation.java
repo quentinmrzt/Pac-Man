@@ -63,7 +63,7 @@ public class Modelisation extends Observable {
 		//pacMan.destinationBranche();
 
 		for (Fantome f: fantomes) {
-			f.destinationBranche();
+			f.destination();
 		}
 	}
 

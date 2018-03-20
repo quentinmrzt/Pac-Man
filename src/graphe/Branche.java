@@ -18,7 +18,13 @@ public class Branche {
 			distance = Math.abs(n1.getX()-n2.getX());
 			horizontal = true;
 		}
-
+	}
+	
+	public Branche(Branche branche) {
+		this.n1 = branche.getN1();
+		this.n2 = branche.getN2();
+		this.distance = branche.getDistance();
+		this.horizontal = branche.estHorizontal();
 	}
 
 
