@@ -21,7 +21,7 @@ public class AStar {
 
 	public static ArrayList<Integer> trouverChemin(Personnage p1, Personnage p2) {
 		// DEPART
-		Branche brancheDepart = p1.getBranche();
+		Branche brancheDepart = new Branche(p1.getBranche());
 		NoeudAStar depart;
 		
 		if(p1.getNoeud()==null) {
@@ -45,7 +45,7 @@ public class AStar {
 		System.out.println("X:"+depart.getX()+" et Y:"+depart.getY());
 		
 		// ARRIVEE
-		Branche brancheArrivee = p2.getBranche();
+		Branche brancheArrivee = new Branche(p2.getBranche());
 		NoeudAStar arrivee;
 		
 		if(p2.getNoeud()==null) {
@@ -55,9 +55,13 @@ public class AStar {
 			if(brancheArrivee.estHorizontal()) {
 				tmp.setDroite(brancheArrivee.getN2());
 				tmp.setGauche(brancheArrivee.getN1());
+				brancheArrivee.getN1().setDroite(tmp);
+				brancheArrivee.getN2().setGauche(tmp);
 			} else {
 				tmp.setHaut(brancheArrivee.getN1());
 				tmp.setBas(brancheArrivee.getN2());
+				brancheArrivee.getN2().setHaut(tmp);
+				brancheArrivee.getN1().setBas(tmp);
 			}
 			
 			arrivee = new NoeudAStar(tmp,null,Personnage.STATIQUE);

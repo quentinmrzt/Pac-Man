@@ -16,6 +16,16 @@ public class Noeud {
 		droite = null;
 		gauche = null;
 	}
+	
+	public Noeud(Noeud n) {
+		this.x = n.getX();
+		this.y = n.getY();
+		
+		this.haut = new Branche(n.getHaut());
+		this.droite = new Branche(n.getDroite());
+		this.bas = new Branche(n.getBas());
+		this.gauche = new Branche(n.getGauche());
+	}
 
 	// GETTEUR
 	public int getX() {
