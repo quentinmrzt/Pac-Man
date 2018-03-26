@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import graphe.AStar;
 import graphe.Branche;
-import graphe.Noeud;
 
 public class Blinky extends Fantome {
 	final int POSITIONPRISONX = 12;

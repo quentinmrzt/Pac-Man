@@ -21,8 +21,8 @@ public class Branche {
 	}
 	
 	public Branche(Branche branche) {
-		this.n1 = new Noeud(branche.getN1());
-		this.n2 = new Noeud(branche.getN2());
+		this.n1 = branche.getN1();
+		this.n2 =  branche.getN2();
 		this.distance = branche.getDistance();
 		this.horizontal = branche.estHorizontal();
 	}

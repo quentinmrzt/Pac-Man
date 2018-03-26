@@ -1,8 +1,6 @@
 package model;
 
-import graphe.AStar;
 import graphe.Branche;
-import graphe.Noeud;
 
 public class Pinky extends Fantome {
 	final int POSITIONPRISONX = 13;
@@ -16,10 +14,7 @@ public class Pinky extends Fantome {
 	// ABSTRACT
 	public void trouverChemin() {
 		// Pinky regarde la ou pacMan sera 
-		Noeud noeudFantome = this.getNoeudDestination();
-		Noeud noeudPacMan = this.getPacMan().getNoeudDestination();
-		
-		this.setChemin(AStar.trouverChemin(noeudFantome,noeudPacMan));
+
 	}
 	
 	public int getPositionPrisonX() {

@@ -5,28 +5,37 @@ import model.Personnage;
 public class NoeudAStar {
 	private Noeud noeud;
 
-	private int coutG;
-	private int coutH;
-	private int coutF;
+	private int distDepartCourant=0;
+	private int distCourantArrivee=0;
+	private int heuristique=0;
 
 	private NoeudAStar parent;
 	private int direction;
 
-	/**
-	 * 
-	 * @param n Le noeud auquel il réfère
-	 * @param nas Le NAS parent
-	 * @param d Le sens pour aller à ce noeud, selon le parent
-	 */
-	public NoeudAStar(Noeud n, NoeudAStar nas, int d) {
-		noeud = n;
-		parent = nas;
+	// Pour les noeuds départs
+	public NoeudAStar(Noeud noeud) {
+		this.noeud = noeud;
+		this.parent = null;
+		this.direction = Personnage.STATIQUE;
+		this.distDepartCourant = 0;
+		this.distCourantArrivee = 0;
+		this.heuristique = 0;
+	}
 
-		coutG = 0;
-		coutH = 0;
-		coutF = 0;
-		
-		direction = d;
+	public NoeudAStar(Noeud noeud, NoeudAStar parent, NoeudAStar destination, int direction) {
+		this.noeud = noeud;
+		this.parent = parent;
+		this.direction = direction;
+
+		if (parent!=null) {
+			distDepartCourant = Math.abs(this.getX()-parent.getX()) + Math.abs(this.getY()-parent.getY());
+		}
+
+		if (destination!=null) {
+			distCourantArrivee = Math.abs(this.getX()-destination.getX()) + Math.abs(this.getY()-destination.getY());
+		}
+
+		heuristique = distDepartCourant+distCourantArrivee;
 	}
 
 	// GETTEUR
@@ -42,14 +51,8 @@ public class NoeudAStar {
 	public int getY() {
 		return noeud.getY();
 	}
-	public int getCoutG() {
-		return coutG;
-	}
-	public int getCoutH() {
-		return coutH;
-	}
-	public int getCoutF() {
-		return coutF;
+	public int getHeuristique() {
+		return heuristique;
 	}
 	public int getDirection() {
 		return direction;
@@ -71,25 +74,9 @@ public class NoeudAStar {
 	}
 
 	// SETTEUR
-	public void setParent(NoeudAStar nas) {
+	public void setParent(NoeudAStar nas, int d) {
 		parent = nas;
-	}
-	/**
-	 * Calcule la distance entre le point étudié et le dernier point qu'on a jugé comme bon
-	 * @param dernierNoeudBon Dernier point de la liste fermée
-	 */
-	public void setCoutG(NoeudAStar dernierNoeudBon) {
-		coutG = Math.abs(dernierNoeudBon.getX()-this.getX()) + Math.abs(dernierNoeudBon.getY()-this.getY());
-	}
-	/**
-	 * Calcule la distance entre le point étudié et le point de destination
-	 * @param noeudArrivee Le noeud destination
-	 */
-	public void setCoutH(NoeudAStar noeudArrivee) {
-		coutH = Math.abs(this.getX()-noeudArrivee.getX()) + Math.abs(this.getY()-noeudArrivee.getY());
-	}
-	public void setCoutF() {
-		coutF = coutG + coutH;
+		direction = d;
 	}
 
 	// TEST

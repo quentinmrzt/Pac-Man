@@ -48,30 +48,17 @@ public abstract class Personnage extends Observable {
 	}
 
 	// GETTEUR
-	public Branche getBranche() {
-		return branche;
-	}
-	public boolean estInvulnerable() {
-		return invulnerable;
-	}
-	public boolean estEnJeu() {
-		return enJeu;
-	}
-	public Noeud getNoeud() {
-		return noeud;
-	}
-	public int getPositionX() {
-		return positionX;
-	}
-	public int getPositionY() {
-		return positionY;
-	}
-	public int getDirection() {
-		return direction;
-	}
-	public int getProchaineDirection() {
-		return prochaineDirection;
-	}
+	public Branche getBranche() {return branche;}
+	public boolean estInvulnerable() {return invulnerable;}
+	public boolean estEnJeu() {return enJeu;}
+	public boolean estSurNoeud() {return noeud!=null;}
+	public Noeud getNoeud() {return noeud;}
+	public int getPositionX() {return positionX;}
+	public int getPositionY() {return positionY;}
+	public int getDirection() {return direction;}
+	public int getProchaineDirection() {return prochaineDirection;}
+	
+	
 	/**
 	 * Transforme une direction entière en chaine de caractère selon les constantes
 	 * @param d La direction

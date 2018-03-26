@@ -3,7 +3,6 @@ package model;
 import java.util.ArrayList;
 
 import graphe.Branche;
-import graphe.NoeudAStar;
 
 public abstract class Fantome extends Personnage {
 	private Personnage pacMan;
@@ -17,18 +16,6 @@ public abstract class Fantome extends Personnage {
 
 		this.invulnerable();
 		this.horsJeu();
-	}
-
-	
-
-	public int compare2Noeuds(NoeudAStar n1, NoeudAStar n2) {
-		if (n1.getCoutH()<n2.getCoutH()) {
-			return 1;
-		} else if (n1.getCoutH()==n2.getCoutH()) {
-			return 0;
-		} else {
-			return -1;
-		}
 	}
 
 	public void decisionDirection() {
