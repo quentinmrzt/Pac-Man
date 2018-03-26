@@ -36,38 +36,8 @@ public class Blinky extends Fantome {
 			}
 		}
 		System.out.println("");
-		
-		
-		/*Noeud noeudFantome = this.getNoeudDestination();
-		Noeud noeudPacMan = this.getPacMan().getNoeudDepart();
-		ArrayList<Integer> chemin = new ArrayList<Integer>();
-		
-		if (noeudFantome==null) {
-			noeudFantome = this.getBranche().getN1();
-		}
-		
-		if (noeudPacMan==null) {
-			noeudPacMan = this.getPacMan().getBranche().getN1();
-		}
-		chemin.addAll(AStar.trouverChemin(noeudFantome,noeudPacMan));
-		
-		System.out.println("Chemin: ");
-		for (int d:chemin) {
-			if (d==HAUT) {
-				System.out.print("Haut ");
-			} else if(d==DROITE) {
-				System.out.print("Droite ");
-			} else if(d==BAS) {
-				System.out.print("Bas ");
-			} else if(d==GAUCHE) {
-				System.out.print("Gauche ");
-			} else if(d==STATIQUE) {
-				System.out.print("Statique ");
-			}
-		}
-		System.out.println("");
-		
-		this.setChemin(chemin);*/
+
+		this.setChemin(chemin);
 	}
 
 	public int getPositionPrisonX() {

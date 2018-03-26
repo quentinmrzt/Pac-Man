@@ -78,6 +78,7 @@ public class Modelisation extends Observable {
 
 	public void trouverCheminBlinky() {
 		fantomes.get(BLINKY).trouverChemin();
+		fantomes.get(BLINKY).prochaineDirection();
 	}
 
 	// Manger les pacGomme
@@ -193,6 +194,9 @@ public class Modelisation extends Observable {
 		this.finEffetSuperGomme();
 		// On libère un fantome avec 4sec en prison
 		this.liberationFantome();
+		
+		//
+		fantomes.get(BLINKY).decisionDirection();
 		
 		// Permet l'orientation au noeud
 		this.destinationPersonnages();

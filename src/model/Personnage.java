@@ -269,7 +269,7 @@ public abstract class Personnage extends Observable {
 		
 		if (noeud!=null) {
 			//System.out.println("Sur le noeud x:"+positionX+" et y:"+positionY);
-			
+						
 			boolean reorientation = false;
 			
 			// PROCHAINE DIRECTION
