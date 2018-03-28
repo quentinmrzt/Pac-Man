@@ -10,32 +10,50 @@ public class NoeudAStar {
 	private int heuristique=0;
 
 	private NoeudAStar parent;
-	private int direction;
+	private int direction; // direction entre Parent -> Courant
 
-	// Pour les noeuds départs
-	public NoeudAStar(Noeud noeud) {
-		this.noeud = noeud;
-		this.parent = null;
-		this.direction = Personnage.STATIQUE;
-		this.distDepartCourant = 0;
-		this.distCourantArrivee = 0;
-		this.heuristique = 0;
-	}
-
-	public NoeudAStar(Noeud noeud, NoeudAStar parent, NoeudAStar destination, int direction) {
+	public NoeudAStar(Noeud noeud, NoeudAStar parent, NoeudAStar destination) {
 		this.noeud = noeud;
 		this.parent = parent;
-		this.direction = direction;
 
 		if (parent!=null) {
-			distDepartCourant = Math.abs(this.getX()-parent.getX()) + Math.abs(this.getY()-parent.getY());
+			this.distDepartCourant = Math.abs(this.getX()-parent.getX()) + Math.abs(this.getY()-parent.getY());
+
+			// Calcul de la direction
+			if(this.getX()==parent.getX()) {
+				// Vertical
+				if(parent.getY()<this.getY()) {
+					this.direction = Personnage.BAS;
+				} else if(this.getY()<parent.getY()) {
+					this.direction = Personnage.HAUT;
+				} else {
+					System.out.println("ERREUR: Le parent et le noeud sont identique: "+this.getX()+"/"+this.getY()+".");
+				}
+			} else if(this.getY()==parent.getY()) {
+				// Horizontal
+				if(parent.getX()<this.getX()) {
+					this.direction = Personnage.DROITE;
+				} else if(this.getX()<parent.getX()) {
+					this.direction = Personnage.GAUCHE;
+				} else {
+					System.out.println("ERREUR: Le parent et le noeud sont identique: "+this.getX()+"/"+this.getY()+".");
+				}
+			} else {
+				System.out.println("ERREUR: Il n'y a aucun axe possible entre parent et courant: "+this.getX()+"/"+this.getY()+".");
+			}
+		} else {
+			// pas de parent, alors pas de direction
+			this.distDepartCourant = 0;
+			this.direction = Personnage.STATIQUE;
 		}
 
 		if (destination!=null) {
-			distCourantArrivee = Math.abs(this.getX()-destination.getX()) + Math.abs(this.getY()-destination.getY());
+			this.distCourantArrivee = Math.abs(this.getX()-destination.getX()) + Math.abs(this.getY()-destination.getY());
+		} else {
+			this.distCourantArrivee = 0;
 		}
 
-		heuristique = distDepartCourant+distCourantArrivee;
+		this.heuristique = distDepartCourant+distCourantArrivee;
 	}
 
 	// GETTEUR
@@ -74,9 +92,29 @@ public class NoeudAStar {
 	}
 
 	// SETTEUR
-	public void setParent(NoeudAStar nas, int d) {
+	public void setParent(NoeudAStar nas) {
 		parent = nas;
-		direction = d;
+
+		// Calcul de la direction
+		if(this.getX()==parent.getX()) {
+			// Vertical
+			if(parent.getY()<this.getY()) {
+				this.direction = Personnage.BAS;
+			} else if(this.getY()<parent.getY()) {
+				this.direction = Personnage.HAUT;
+			} else {
+				System.err.println("ERREUR: Le parent et le noeud sont identique.");
+			}
+		} else {
+			// Horizontal
+			if(parent.getX()<this.getX()) {
+				this.direction = Personnage.DROITE;
+			} else if(this.getX()<parent.getX()) {
+				this.direction = Personnage.GAUCHE;
+			} else {
+				System.err.println("ERREUR: Le parent et le noeud sont identique: "+this.getX()+"/"+this.getY()+".");
+			}
+		}
 	}
 
 	// TEST

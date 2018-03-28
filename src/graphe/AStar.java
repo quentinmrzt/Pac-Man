@@ -11,33 +11,36 @@ public class AStar {
 		ArrayList<Integer> cheminDirection = new ArrayList<Integer>();
 		NoeudAStar tmp, depart, arrivee, courant;
 
+		System.out.println("ASTAR:");
+		
 		// ARRIVEE
 		if(p2.estSurNoeud()) {
-			arrivee = new NoeudAStar(p2.getNoeud());
+			arrivee = new NoeudAStar(p2.getNoeud(), null, null);
 		} else {
-			arrivee = new NoeudAStar(new Noeud(p2.getPositionX(),p2.getPositionY()));
+			arrivee = new NoeudAStar(new Noeud(p2.getPositionX(),p2.getPositionY()), null, null);
 		}
+		System.out.println("test 1");
+		NoeudAStar n1Arrivee = new NoeudAStar(p2.getBranche().getN1(), null, arrivee);
+		NoeudAStar n2Arrivee = new NoeudAStar(p2.getBranche().getN2(), null, arrivee);
+		System.out.println("test 2");
 
 		// DEPART
 		if(p1.estSurNoeud()) {
-			depart = new NoeudAStar(p1.getNoeud());
+			depart = new NoeudAStar(p1.getNoeud(),null,arrivee);
 			courant = depart;
 			listeFermee.add(depart);
 		} else {
 			// Si on est pas sur un noeud, on crée un faux noeud
-			depart = new NoeudAStar(new Noeud(p1.getPositionX(),p1.getPositionY()));
-
+			System.out.println("test 2.1");
+			depart = new NoeudAStar(new Noeud(p1.getPositionX(),p1.getPositionY()), null, arrivee);
+			System.out.println("test 2.2");
 			// On récupère les deux noeuds de sa branche
-			NoeudAStar n1Depart, n2Depart;
-			if(p1.getBranche().estHorizontal()) {
-				n1Depart = new NoeudAStar(p1.getBranche().getN1(), depart, arrivee, Personnage.GAUCHE);
-				n2Depart = new NoeudAStar(p1.getBranche().getN2(), depart, arrivee, Personnage.DROITE);
-			} else {
-				n1Depart = new NoeudAStar(p1.getBranche().getN1(), depart, arrivee, Personnage.HAUT);
-				n2Depart = new NoeudAStar(p1.getBranche().getN2(), depart, arrivee, Personnage.BAS);
-			}
+			NoeudAStar n1Depart = new NoeudAStar(p1.getBranche().getN1(), depart, arrivee);
+			System.out.println("test 2.3");
+			NoeudAStar n2Depart = new NoeudAStar(p1.getBranche().getN2(), depart, arrivee);
+			System.out.println("test 2.4: "+p1.getBranche().getN2().getX()+"/"+p1.getBranche().getN2().getY()+" "+depart.getX()+"/"+depart.getY()+" "+p1.getPositionX()+"/"+p1.getPositionY());
 
-			// et on determine lequel sera notre noeud courant
+			// notre noeud courant est le meilleur
 			if(n1Depart.getHeuristique()<=n2Depart.getHeuristique()) {
 				courant = n1Depart;
 				listeFermee.add(n1Depart);
@@ -48,60 +51,38 @@ public class AStar {
 				listeOuverte.add(n1Depart);
 			}
 		}
-
-		NoeudAStar n1 = new NoeudAStar(p2.getBranche().getN1(), null, arrivee, Personnage.STATIQUE);
-		NoeudAStar n2 = new NoeudAStar(p2.getBranche().getN2(), null, arrivee, Personnage.STATIQUE);
+		System.out.println("test 3");
 
 		// On arrête pas tant qu'on est pas arrivé
+		int tour = 1;
 		while(!courant.equals(arrivee)) {
-			System.out.println("1");
-			// CAS DE LA FIN ---
-			if(p2.getBranche().estHorizontal()) {
-				if(courant.equals(n1)) {
-					// DROITE
-					arrivee.setParent(courant, Personnage.DROITE);
-					listeOuverte.add(arrivee);
-				} else if (courant.equals(n2)) {
-					// GAUCHE
-					arrivee.setParent(courant, Personnage.GAUCHE);
-					listeOuverte.add(arrivee);
-				}
-			} else {
-				if(courant.equals(n1)) {
-					// BAS
-					arrivee.setParent(courant, Personnage.BAS);
-					listeOuverte.add(arrivee);
-				} else if (courant.equals(n2)) {
-					// HAUT
-					arrivee.setParent(courant, Personnage.HAUT);
-					listeOuverte.add(arrivee);
-
-				}
+			System.out.println("Tour: "+tour);
+			// Si on arrive sur la branche finale
+			if(courant.equals(n1Arrivee) || courant.equals(n2Arrivee)) {
+				arrivee.setParent(courant);
+				listeOuverte.add(arrivee);
 			}
-			// ---
 
 			// HAUT
 			if (courant.existeHaut() && courant.getDirection()!=Personnage.BAS) {
-				tmp = new NoeudAStar(courant.enHaut(), courant, arrivee, Personnage.HAUT);
+				tmp = new NoeudAStar(courant.enHaut(), courant, arrivee);
 				listeOuverte.add(tmp);
 			}
 			// DROITE
 			if (courant.existeDroite() && courant.getDirection()!=Personnage.GAUCHE) {
-				tmp = new NoeudAStar(courant.aDroite(), courant, arrivee, Personnage.DROITE);
+				tmp = new NoeudAStar(courant.aDroite(), courant, arrivee);
 				listeOuverte.add(tmp);
 			}
 			// BAS
 			if (courant.existeBas() && courant.getDirection()!=Personnage.HAUT) {
-				tmp = new NoeudAStar(courant.enBas(), courant, arrivee, Personnage.BAS);
+				tmp = new NoeudAStar(courant.enBas(), courant, arrivee);
 				listeOuverte.add(tmp);
 			}
 			// GAUCHE
 			if (courant.existeGauche() && courant.getDirection()!=Personnage.DROITE) {
-				tmp = new NoeudAStar(courant.aGauche(), courant, arrivee, Personnage.GAUCHE);
+				tmp = new NoeudAStar(courant.aGauche(), courant, arrivee);
 				listeOuverte.add(tmp);
 			}
-
-
 
 			// ON CHERCHE LE MEILLEUR NOEUD DE LA LISTE OUVERTE
 			int qualite = 99999; 
@@ -125,21 +106,13 @@ public class AStar {
 			listeFermee.add(listeOuverte.get(index));
 			courant = listeOuverte.get(index);
 			listeOuverte.remove(index);
+			
+			tour++;
 		}
 
 		// Il nous manque la dernière étape, pour attraper pacMan
-		if (courant.equals(n1) && !courant.equals(arrivee)) {
-			if(p2.getBranche().estHorizontal()) {
-				arrivee.setParent(courant,Personnage.DROITE);
-			} else {
-				arrivee.setParent(courant,Personnage.BAS);
-			}
-		} else if (courant.equals(n2) && !courant.equals(arrivee)) {
-			if(p2.getBranche().estHorizontal()) {
-				arrivee.setParent(courant,Personnage.GAUCHE);
-			} else {
-				arrivee.setParent(courant,Personnage.HAUT);
-			}
+		if (courant.equals(n1Arrivee) && !courant.equals(arrivee)) {
+			arrivee.setParent(courant);
 		}
 		listeFermee.add(arrivee);
 
@@ -148,7 +121,7 @@ public class AStar {
 
 			// et on ajoute la liste fermée qui est notre chemin
 			while (test.getParent()!=null) {
-				System.out.println(test.getX()+"/"+test.getY());
+				//System.out.println(test.getX()+"/"+test.getY());
 				cheminDirection.add(test.getDirection());
 				test = test.getParent();
 			}
