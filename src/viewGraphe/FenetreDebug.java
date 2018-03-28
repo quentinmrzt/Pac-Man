@@ -27,7 +27,6 @@ public class FenetreDebug extends JFrame implements Observer {
 
 	// Implementation de Observer
 	public void update(Observable o, Object arg) {
-		System.out.println(arg);
 		this.repaint();
 	}
 }

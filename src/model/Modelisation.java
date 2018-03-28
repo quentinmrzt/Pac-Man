@@ -220,6 +220,10 @@ public class Modelisation extends Observable implements Observer {
 		this.manger();
 
 		nombreDeTour++;
+		
+		
+		setChanged();
+		notifyObservers("DIRECTION");
 	}
 
 	public boolean finDePartie() {

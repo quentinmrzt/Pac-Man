@@ -30,7 +30,7 @@ public class Menu extends JMenuBar {
 		debug.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				//app.maj();
-				new FenetreDebug(modelisation);
+				modelisation.addObserver(new FenetreDebug(modelisation));
 			}
 		});
 		
