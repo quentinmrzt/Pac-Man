@@ -8,15 +8,17 @@ import javax.swing.JFrame;
 import model.Modelisation;
 
 public class FenetreDebug extends JFrame implements Observer {
-	private Modelisation modelisation;	
-
-	public FenetreDebug(Modelisation model) {
+	private VueGraphe vueGraphe;
+	
+	public FenetreDebug(Modelisation modelisation) {
 		this.setSize(600, 600);
 		this.setTitle("Debug");
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
-
-		modelisation = model;
+		
+		// La vue du graphe
+		vueGraphe = new VueGraphe(modelisation);
+		this.add(vueGraphe);
 
 		this.setVisible(true);
 		this.requestFocus();
@@ -25,6 +27,7 @@ public class FenetreDebug extends JFrame implements Observer {
 
 	// Implementation de Observer
 	public void update(Observable o, Object arg) {
-		
+		System.out.println(arg);
+		this.repaint();
 	}
 }

@@ -2,12 +2,13 @@ package model;
 
 import java.util.ArrayList;
 import java.util.Observable;
+import java.util.Observer;
 
 import graphe.Branche;
 import graphe.Graphe;
 import jeu.Horloge;
 
-public class Modelisation extends Observable {
+public class Modelisation extends Observable implements Observer {
 	// Donnée du model
 	public final static int BLINKY=0;
 	public final static int PINKY=1;
@@ -26,6 +27,10 @@ public class Modelisation extends Observable {
 	private int score;
 	private int mangerDeSuite;
 	private int nombreDeTour;
+
+	public Graphe getGraphe() {
+		return graphe;
+	}
 
 	public Modelisation() {
 		super();
@@ -55,6 +60,15 @@ public class Modelisation extends Observable {
 		score = 0;
 		mangerDeSuite = 0;
 		nombreDeTour = 0;
+
+		// Le model surveille différent élément
+		pacMan.addObserver(this);
+		map.addObserver(this);
+
+		this.getFantome(Modelisation.BLINKY).addObserver(this);
+		this.getFantome(Modelisation.PINKY).addObserver(this);
+		this.getFantome(Modelisation.INKY).addObserver(this);
+		this.getFantome(Modelisation.CLYDE).addObserver(this);
 	}
 
 	// Orientation de pacMan à chaque noeud
@@ -165,8 +179,8 @@ public class Modelisation extends Observable {
 		return nombreDeTour;
 	}
 
-	
-	
+
+
 	// ----------------------------------------
 	// Setteur
 	public void directionPersonnage(int direction, int personnage) {
@@ -194,17 +208,17 @@ public class Modelisation extends Observable {
 		this.finEffetSuperGomme();
 		// On libère un fantome avec 4sec en prison
 		this.liberationFantome();
-		
+
 		//
 		fantomes.get(BLINKY).decisionDirection();
-		
+
 		// Permet l'orientation au noeud
 		this.destinationPersonnages();
 		// on dit à pacMan d'y aller
 		this.deplacementPersonnages();
 		// et on mange sur notre chemin
 		this.manger();
-		
+
 		nombreDeTour++;
 	}
 
@@ -233,6 +247,26 @@ public class Modelisation extends Observable {
 					fantome.invulnerable();
 				}
 			}
+		}
+	}
+
+	public void update(Observable o, Object arg) {
+		setChanged();
+		
+		if(o instanceof Blinky) {
+			notifyObservers("Blinky");
+		} else if(o instanceof Pinky) {
+			notifyObservers("Pinky");
+		} else if(o instanceof Inky) {
+			notifyObservers("Inky");
+		} else if(o instanceof Clyde) {
+			notifyObservers("Clyde");
+		} else if(o instanceof PacMan) {
+			notifyObservers("PacMan");
+		} else if(o instanceof Map) {
+			notifyObservers("Map");
+		} else {
+			notifyObservers("TEST");
 		}
 	}
 }

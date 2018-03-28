@@ -33,7 +33,7 @@ public class Fenetre extends JFrame implements Observer {
 		this.add(panneau);
 
 		// Menu
-		menu = new Menu();
+		menu = new Menu(modelisation);
 		this.setJMenuBar(menu);
 
 		//pack();

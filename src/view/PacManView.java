@@ -19,11 +19,13 @@ public class PacManView extends ElementDuJeu implements Observer {
 	private boolean boucheOuverte;
 	private BufferedImage mouvement[][];
 	private BufferedImage mort[];
+	private PacMan pacMan;
 
-	public PacManView(Personnage pacMan) {
+	public PacManView(PacMan pacMan) {
 		super(pacMan.getPositionX(), pacMan.getPositionY());
 		direction = pacMan.getDirection();
 		boucheOuverte = true;
+		this.pacMan = pacMan;
 
 		// On ouvre les sprites
 		try {
@@ -69,14 +71,10 @@ public class PacManView extends ElementDuJeu implements Observer {
 	}
 
 	// OBSERVER
-	public void update(Observable obs, Object arg) {
-		if(obs instanceof PacMan) {
-			PacMan tmp = (PacMan) obs;
-						
-			this.setPositionTabX(tmp.getPositionX());
-			this.setPositionTabY(tmp.getPositionY());
-			direction = tmp.getDirection();
+	public void update(Observable obs, Object arg) {					
+			this.setPositionTabX(pacMan.getPositionX());
+			this.setPositionTabY(pacMan.getPositionY());
+			direction = pacMan.getDirection();
 			boucheOuverte = !boucheOuverte;
-		}
 	}	
 }

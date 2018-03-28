@@ -18,13 +18,13 @@ public class LancerPacMan {
 		// La fenêtre devient observeur du model
 		model.addObserver(fenetre);
 		
-		model.getPM().addObserver(fenetre);		
+		/*model.getPM().addObserver(fenetre);		
 		model.getFantome(Modelisation.BLINKY).addObserver(fenetre);
 		model.getFantome(Modelisation.PINKY).addObserver(fenetre);
 		model.getFantome(Modelisation.INKY).addObserver(fenetre);
 		model.getFantome(Modelisation.CLYDE).addObserver(fenetre);
 		
-		model.getMap().addObserver(fenetre);
+		model.getMap().addObserver(fenetre);*/
 		
 		// On défini une instance
 		Horloge.getInstance();

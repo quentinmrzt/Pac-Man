@@ -79,30 +79,25 @@ public class ZoneDeJeu extends JPanel implements Observer {
 		}
 	}
 
-	public void update(Observable obs, Object arg) {
-		if(obs instanceof Blinky) {
+	public void update(Observable obs, Object arg) {		
+		if(arg.equals("Blinky")) {
 			blinky.update(obs,arg);
-			
 		}
-
-		if(obs instanceof Pinky) {
+		if(arg.equals("Pinky")) {
 			pinky.update(obs,arg);
 		}
-
-		if(obs instanceof Inky) {
+		if(arg.equals("Inky")) {
 			inky.update(obs,arg);
 		}
-
-		if(obs instanceof Clyde) {
+		if(arg.equals("Clyde")) {
 			clyde.update(obs,arg);
 		}
-
-		if(obs instanceof PacMan) {
+		if(arg.equals("PacMan")) {
 			pacManView.update(obs, arg);
 		}
 
-		if(obs instanceof Map) {
-			Map tmp = (Map) obs;
+		if(arg.equals("Map")) {
+			Map tmp = modelisation.getMap();
 
 			// On maj l'affichage du tableau
 			for (int y=0 ; y<tmp.getTailleY() ; y++) {
