@@ -8,13 +8,8 @@ import java.util.Observer;
 
 import javax.swing.JPanel;
 
-import model.Blinky;
-import model.Clyde;
-import model.Inky;
 import model.Map;
 import model.Modelisation;
-import model.PacMan;
-import model.Pinky;
 
 public class ZoneDeJeu extends JPanel implements Observer {
 	private Modelisation modelisation;

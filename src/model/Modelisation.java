@@ -71,7 +71,64 @@ public class Modelisation extends Observable implements Observer {
 		this.getFantome(Modelisation.CLYDE).addObserver(this);
 	}
 
-	// Orientation de pacMan à chaque noeud
+	// ----------------------------------------
+	// Getteur
+	public Map getMap() {return map;}
+	public int getScore() {return score;}
+	public PacMan getPM() {return pacMan;}
+	public int getNombreDeTour() {return nombreDeTour;}
+	public Fantome getFantome(int personnage) {return fantomes.get(personnage);}
+
+	// ----------------------------------------
+	// TOUR DE JEU
+	public void jeu() {
+		while (this.finDePartie()) {
+			this.tourDeJeu();
+			
+			try {
+				Thread.sleep(80);
+			} catch(InterruptedException e) { 
+				System.err.println("ERREUR: Problème sur l'horloge.");
+			}
+			
+			this.nombreDeTour++;
+		}
+	}
+	
+	public boolean finDePartie() {
+		if(!pacMan.estEnJeu() || map.getNbGomme()+map.getNbSuperGomme()==0) {
+			System.out.println("FIN DE LA PARTIE");
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
+	public void tourDeJeu() {
+		//
+		this.finEffetSuperGomme();
+		// On libère un fantome avec 4sec en prison
+		this.liberationFantome();
+
+		// Recherche du chemin
+		fantomes.get(BLINKY).trouverChemin();
+
+		// Blinky prend une nouvelle direction s'il est sur un noeud
+		fantomes.get(BLINKY).decisionDirection();
+
+		// 1- Permet l'orientation au noeud
+		this.destinationPersonnages();
+		// 2- on dit aux personnages d'y aller
+		this.deplacementPersonnages();
+		// et on mange sur notre chemin
+		this.manger();
+
+		// PROVISOIR
+		setChanged();
+		notifyObservers("TEST_TOURDEJEU");
+	}
+	
+	// 1- Orientation de pacMan à chaque noeud
 	public void destinationPersonnages() {
 		pacMan.destination();
 		//pacMan.destinationBranche();
@@ -81,21 +138,35 @@ public class Modelisation extends Observable implements Observer {
 		}
 	}
 
-	// Deplacement d'une case de chaque personnage
+	// 2- Deplacement d'une case de chaque personnage
 	public void deplacementPersonnages() {
 		pacMan.deplacement();
 		for (Fantome f: fantomes) {
 			f.deplacement();
 		}
 	}
+	
+	private void liberationFantome() {
+		Fantome fantome = fantomes.get(BLINKY);
 
-
-	public void trouverCheminBlinky() {
-		fantomes.get(BLINKY).trouverChemin();
-		fantomes.get(BLINKY).prochaineDirection();
+		if (!fantome.estEnJeu() && Horloge.getTemps()>fantome.dateSortie+4000) {
+			fantome.enJeu();
+		}
 	}
 
-	// Manger les pacGomme
+	public void finEffetSuperGomme() {
+		if (pacMan.estInvulnerable() && Horloge.getTemps()>pacMan.tempsInvulnerabilite+5000) {
+			pacMan.vulnerable();
+			for (Fantome fantome: fantomes) {
+				if(fantome.estEnJeu()) {
+					fantome.invulnerable();
+				}
+			}
+		}
+	}
+
+	// --------------------------------------
+	// MANGER
 	public void manger() {
 		this.mangerGomme();
 		this.mangerPacMan();
@@ -165,24 +236,7 @@ public class Modelisation extends Observable implements Observer {
 	}
 
 	// ----------------------------------------
-	// Getteur
-	public Map getMap() {
-		return map;
-	}
-	public int getScore() {
-		return score;
-	}
-	public PacMan getPM() {
-		return pacMan;
-	}
-	public int getNombreDeTour() {
-		return nombreDeTour;
-	}
-
-
-
-	// ----------------------------------------
-	// Setteur
+	// GESTION DU CLAVIER
 	public void directionPersonnage(int direction, int personnage) {
 		if (personnage==PACMAN) {
 			pacMan.direction(direction);
@@ -198,65 +252,15 @@ public class Modelisation extends Observable implements Observer {
 			}
 		}
 	}
-
-	public Fantome getFantome(int personnage) {
-		return fantomes.get(personnage);
+	
+	public void trouverCheminBlinky() {
+		fantomes.get(BLINKY).trouverChemin();
 	}
-
-	public void tourDeJeu() {
-		//
-		this.finEffetSuperGomme();
-		// On libère un fantome avec 4sec en prison
-		this.liberationFantome();
-
-		//
-		fantomes.get(BLINKY).decisionDirection();
-
-		// Permet l'orientation au noeud
-		this.destinationPersonnages();
-		// on dit à pacMan d'y aller
-		this.deplacementPersonnages();
-		// et on mange sur notre chemin
-		this.manger();
-
-		nombreDeTour++;
-		
-		
-		setChanged();
-		notifyObservers("DIRECTION");
-	}
-
-	public boolean finDePartie() {
-		if(!pacMan.estEnJeu() || map.getNbGomme()+map.getNbSuperGomme()==0) {
-			System.out.println("FIN DE LA PARTIE");
-			return false;
-		} else {
-			return true;
-		}
-	}
-
-	private void liberationFantome() {
-		Fantome fantome = fantomes.get(BLINKY);
-
-		if (!fantome.estEnJeu() && Horloge.getTemps()>fantome.dateSortie+4000) {
-			fantome.enJeu();
-		}
-	}
-
-	public void finEffetSuperGomme() {
-		if (pacMan.estInvulnerable() && Horloge.getTemps()>pacMan.tempsInvulnerabilite+5000) {
-			pacMan.vulnerable();
-			for (Fantome fantome: fantomes) {
-				if(fantome.estEnJeu()) {
-					fantome.invulnerable();
-				}
-			}
-		}
-	}
-
+	
+	// Si des sous élements du model son maj
 	public void update(Observable o, Object arg) {
 		setChanged();
-		
+
 		if(o instanceof Blinky) {
 			notifyObservers("Blinky");
 		} else if(o instanceof Pinky) {

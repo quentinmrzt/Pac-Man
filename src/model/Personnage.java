@@ -122,24 +122,32 @@ public abstract class Personnage extends Observable {
 	public void enHaut() {
 		positionY--;
 
+		noeud = branche.getNoeud(positionX,positionY);
+		
 		setChanged();
 		notifyObservers("Y");
 	}
 	public void aDroite() {
 		positionX++;
 
+		noeud = branche.getNoeud(positionX,positionY);
+		
 		setChanged();
 		notifyObservers("X");
 	}
 	public void enBas() {
 		positionY++;
 
+		noeud = branche.getNoeud(positionX,positionY);
+		
 		setChanged();
 		notifyObservers("Y");
 	}
 	public void aGauche() {
 		positionX--;
 
+		noeud = branche.getNoeud(positionX,positionY);
+		
 		setChanged();
 		notifyObservers("X");
 	}
@@ -260,12 +268,11 @@ public abstract class Personnage extends Observable {
 		}
 	}
 
-	// Orientation dans les noeuds avec le noeud
 	/**
 	 * Regarde si on est sur un noeud
 	 */
 	public void destination() {
-		noeud = branche.getNoeud(positionX,positionY);
+		//noeud = branche.getNoeud(positionX,positionY);
 		
 		if (noeud!=null) {
 			//System.out.println("Sur le noeud x:"+positionX+" et y:"+positionY);
@@ -326,101 +333,8 @@ public abstract class Personnage extends Observable {
 		} else {
 			//System.out.println("Pas sur un noeud x:"+positionX+" et y:"+positionY);
 		}
-		
-		
 	}
 	
-	
-	/**
-	 * Regarde si on est à son objectif et oriente selon la prochaine direction
-	 */
-	/*public void destinationBranche() {
-		Noeud desti = this.getNoeudDestination();
-
-		if (desti==null) {
-			// On est statique..
-			Noeud noeudtest = branche.getNoeud(positionX, positionY);
-
-			if(noeudtest!=null) {
-				// ..sur un noeud
-				//System.out.println("Je suis sur un noeud");
-
-			} else {
-				// ..sur une branche
-				// on ne fait rien
-			}
-		} else {
-			// Position de la destination avec le noeud
-			int destiX = desti.getX();
-			int destiY = desti.getY();
-
-			boolean reorientation = false;
-
-			// si le perso se trouve à sa destination 
-			if (positionX == destiX && positionY == destiY) {
-				// On test s'il doit prendre une nouvelle direction..
-				if (prochaineDirection==HAUT && desti.existeHaut()) {
-					direction = HAUT;
-					prochaineDirection = STATIQUE;
-					branche = desti.getHaut();
-					reorientation = true;
-				} else if(prochaineDirection==DROITE && desti.existeDroite()) {
-					direction = DROITE;
-					prochaineDirection = STATIQUE;
-					branche = desti.getDroite();
-					reorientation = true;
-				} else if(prochaineDirection==BAS && desti.existeBas()) {
-					direction = BAS;
-					prochaineDirection = STATIQUE;
-					branche = desti.getBas();
-					reorientation = true;
-				} else if(prochaineDirection==GAUCHE && desti.existeGauche()) {
-					direction = GAUCHE;
-					prochaineDirection = STATIQUE;
-					branche = desti.getGauche();
-					reorientation = true;
-				}
-
-				// ..et s'il n'y a pas eu de réorientation, on continue notre chemin dans la même direction
-				if (!reorientation) {
-					if (direction==HAUT) {
-						if (desti.existeHaut()) {
-							branche = desti.getHaut();
-						} else {
-							direction = STATIQUE;
-							noeud = branche.getNoeud(positionX, positionY);
-							//branche = null;
-						}
-					} else if(direction==DROITE) {
-						if (desti.existeDroite()) {
-							branche = desti.getDroite();
-						} else {
-							direction = STATIQUE;
-							noeud = branche.getNoeud(positionX, positionY);
-							//branche = null;
-						}
-					} else if(direction==BAS) {
-						if (desti.existeBas()) {
-							branche = desti.getBas();
-						} else {
-							direction = STATIQUE;
-							noeud = branche.getNoeud(positionX, positionY);
-							//branche = null;
-						}
-					} else if(this.getDirection()==GAUCHE) {
-						if (desti.existeGauche()) {
-							branche = desti.getGauche();
-						} else {
-							direction = STATIQUE;
-							noeud = branche.getNoeud(positionX, positionY);
-							//branche = null;
-						}
-					}
-				}
-			}
-		}
-	}*/
-
 	// Se deplace selon la direction du personnage
 	public void deplacement() {
 		if(this.enJeu) {

@@ -10,8 +10,6 @@ public class AStar {
 		ArrayList<NoeudAStar> listeFermee = new ArrayList<NoeudAStar>();
 		ArrayList<Integer> cheminDirection = new ArrayList<Integer>();
 		NoeudAStar tmp, depart, arrivee, courant;
-
-		System.out.println("ASTAR:");
 		
 		// ARRIVEE
 		if(p2.estSurNoeud()) {
@@ -19,10 +17,8 @@ public class AStar {
 		} else {
 			arrivee = new NoeudAStar(new Noeud(p2.getPositionX(),p2.getPositionY()), null, null);
 		}
-		System.out.println("test 1");
 		NoeudAStar n1Arrivee = new NoeudAStar(p2.getBranche().getN1(), null, arrivee);
 		NoeudAStar n2Arrivee = new NoeudAStar(p2.getBranche().getN2(), null, arrivee);
-		System.out.println("test 2");
 
 		// DEPART
 		if(p1.estSurNoeud()) {
@@ -31,14 +27,10 @@ public class AStar {
 			listeFermee.add(depart);
 		} else {
 			// Si on est pas sur un noeud, on crée un faux noeud
-			System.out.println("test 2.1");
 			depart = new NoeudAStar(new Noeud(p1.getPositionX(),p1.getPositionY()), null, arrivee);
-			System.out.println("test 2.2");
 			// On récupère les deux noeuds de sa branche
 			NoeudAStar n1Depart = new NoeudAStar(p1.getBranche().getN1(), depart, arrivee);
-			System.out.println("test 2.3");
 			NoeudAStar n2Depart = new NoeudAStar(p1.getBranche().getN2(), depart, arrivee);
-			System.out.println("test 2.4: "+p1.getBranche().getN2().getX()+"/"+p1.getBranche().getN2().getY()+" "+depart.getX()+"/"+depart.getY()+" "+p1.getPositionX()+"/"+p1.getPositionY());
 
 			// notre noeud courant est le meilleur
 			if(n1Depart.getHeuristique()<=n2Depart.getHeuristique()) {
@@ -51,12 +43,9 @@ public class AStar {
 				listeOuverte.add(n1Depart);
 			}
 		}
-		System.out.println("test 3");
 
 		// On arrête pas tant qu'on est pas arrivé
-		int tour = 1;
 		while(!courant.equals(arrivee)) {
-			System.out.println("Tour: "+tour);
 			// Si on arrive sur la branche finale
 			if(courant.equals(n1Arrivee) || courant.equals(n2Arrivee)) {
 				arrivee.setParent(courant);
@@ -106,8 +95,6 @@ public class AStar {
 			listeFermee.add(listeOuverte.get(index));
 			courant = listeOuverte.get(index);
 			listeOuverte.remove(index);
-			
-			tour++;
 		}
 
 		// Il nous manque la dernière étape, pour attraper pacMan

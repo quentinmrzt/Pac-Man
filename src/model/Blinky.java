@@ -21,7 +21,7 @@ public class Blinky extends Fantome {
 		
 		ArrayList<Integer> chemin = AStar.trouverChemin(this, this.getPacMan());
 		
-		System.out.println("Chemin: ");
+		/*System.out.println("Chemin: ");
 		for (int d:chemin) {
 			if (d==HAUT) {
 				System.out.print("Haut ");
@@ -35,7 +35,7 @@ public class Blinky extends Fantome {
 				System.out.print("Statique ");
 			}
 		}
-		System.out.println("");
+		System.out.println("");*/
 
 		this.setChemin(chemin);
 	}

@@ -3,7 +3,6 @@ package model;
 import java.util.ArrayList;
 
 import graphe.Branche;
-import graphe.Noeud;
 
 public abstract class Fantome extends Personnage {
 	private Personnage pacMan;
@@ -20,10 +19,11 @@ public abstract class Fantome extends Personnage {
 	}
 
 	public void decisionDirection() {
-		Noeud tmp = this.getBranche().getNoeud(this.getPositionX(),this.getPositionY());
-		
-		// On se trouve sur un noeud
-		if (tmp!=null) {
+		if (this.estSurNoeud()) {
+			// On se trouve sur un noeud
+			this.prochaineDirection();
+		} else if(this.getDirection()==Personnage.STATIQUE) {
+			// On est statique sur une branche
 			this.prochaineDirection();
 		}
 	}

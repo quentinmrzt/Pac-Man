@@ -29,14 +29,6 @@ public class LancerPacMan {
 		// On défini une instance
 		Horloge.getInstance();
 		
-		while (model.finDePartie()) {
-			model.tourDeJeu();
-			
-			try {
-				Thread.sleep(80);
-			} catch(InterruptedException e) { 
-				System.err.println("ERREUR: Problème sur l'horloge.");
-			}
-		}
+		model.jeu();
 	}
 }
