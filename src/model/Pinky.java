@@ -1,5 +1,8 @@
 package model;
 
+import java.util.ArrayList;
+
+import graphe.AStar;
 import graphe.Branche;
 
 public class Pinky extends Fantome {
@@ -16,7 +19,7 @@ public class Pinky extends Fantome {
 	// ABSTRACT
 	public void trouverChemin() {
 		// Pinky regarde la ou pacMan sera 
-
+		//this.setChemin(AStar.trouverChemin(this, this.getPacMan()));
 	}
 	
 	public int getPositionPrisonX() {return POSITIONPRISONX;}

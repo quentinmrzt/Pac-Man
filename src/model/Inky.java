@@ -1,5 +1,6 @@
 package model;
 
+import graphe.AStar;
 import graphe.Branche;
 
 public class Inky extends Fantome {
@@ -14,7 +15,7 @@ public class Inky extends Fantome {
 
 	// ABSTRACT
 	public void trouverChemin() {
-		
+		//this.setChemin(AStar.trouverChemin(this, this.getPacMan()));
 	}
 	
 	public int getPositionPrisonX() {return POSITIONPRISONX;}

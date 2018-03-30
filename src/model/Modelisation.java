@@ -120,12 +120,15 @@ public class Modelisation extends Observable implements Observer {
 			// + 25 = 2 secondes
 			if (!f.estEnJeu()&& nombreDeTour>f.getEntreeEnJeu() && nombreDeTour>f.getTourEnJeu()+25) {
 				f.enJeu(nombreDeTour);
-			}		
+			}
+			
+			//f.trouverChemin();
+			f.decisionDirection();
 		}
 
 		// 3 - Recherche du chemin et direction
-		fantomes.get(BLINKY).trouverChemin();
-		fantomes.get(BLINKY).decisionDirection();
+		//fantomes.get(BLINKY).trouverChemin();
+		//fantomes.get(BLINKY).decisionDirection();
 
 		// 4 - Permet l'orientation au noeud
 		pacMan.destination();
