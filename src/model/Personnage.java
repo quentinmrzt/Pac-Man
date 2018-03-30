@@ -13,6 +13,7 @@ public abstract class Personnage extends Observable {
 	public final static int GAUCHE = 3;
 	public final static int STATIQUE = 4;
 
+	// Sauvegarde au départ
 	private int positionDepartX;
 	private int positionDepartY;
 	private Branche brancheDepart;
@@ -28,6 +29,7 @@ public abstract class Personnage extends Observable {
 	private int prochaineDirection;
 	private boolean invulnerable;
 	private boolean enJeu;
+	private int tourEnJeu;
 
 	public Personnage(int x, int y, Branche b) {
 		// Position initiale
@@ -45,6 +47,7 @@ public abstract class Personnage extends Observable {
 		// Caractéristiques
 		this.direction = STATIQUE;
 		this.prochaineDirection = STATIQUE;
+		tourEnJeu = 0;
 	}
 
 	// GETTEUR
@@ -57,7 +60,15 @@ public abstract class Personnage extends Observable {
 	public int getPositionY() {return positionY;}
 	public int getDirection() {return direction;}
 	public int getProchaineDirection() {return prochaineDirection;}
+	public int getTourEnJeu() {return tourEnJeu;}
 	
+	// Affichage des directions en string
+	public String getDirectionStr() {
+		return afficheDirection(direction);
+	}
+	public String getProchaineDirectionStr() {
+		return afficheDirection(prochaineDirection);
+	} 
 	
 	/**
 	 * Transforme une direction entière en chaine de caractère selon les constantes
@@ -79,13 +90,6 @@ public abstract class Personnage extends Observable {
 			return null;
 		}
 	}
-
-	public String getDirectionStr() {
-		return afficheDirection(direction);
-	}
-	public String getProchaineDirectionStr() {
-		return afficheDirection(prochaineDirection);
-	} 
 
 	/**
 	 * Permet de determiner le noeud de notre destination selon notre direction
@@ -152,6 +156,7 @@ public abstract class Personnage extends Observable {
 		notifyObservers("X");
 	}
 
+	// Vulnerable
 	public void invulnerable() {
 		invulnerable = true;
 
@@ -165,26 +170,23 @@ public abstract class Personnage extends Observable {
 		notifyObservers("VULNERABLE");
 	}
 
-	int dateEntree=-1;
-	int dateSortie=-1;
-
-	public void enJeu() {
+	
+	public void enJeu(int nb) {
 		enJeu = true;
-		dateEntree = Horloge.getTemps();
+		tourEnJeu = nb;
 
 		setChanged();
 		notifyObservers("ENJEU");
 	}
-	public void horsJeu() {
+	public void horsJeu(int nb) {
 		enJeu = false;
-		dateSortie = Horloge.getTemps();
+		tourEnJeu = nb;
 
 		setChanged();
 		notifyObservers("HORSJEU");
 	}
 
 	// FONCTION
-
 	public void direction(int direction) {
 		if (branche!=null) {
 			if(direction==HAUT) {
@@ -369,5 +371,5 @@ public abstract class Personnage extends Observable {
 		notifyObservers("REINI");
 	}
 
-	abstract void mort();
+	abstract void mort(int nbTour);
 }

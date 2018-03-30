@@ -12,7 +12,7 @@ public class Blinky extends Fantome {
 	// Blinky attaque directement Pac Man. Il suit Pac-Man comme son ombre.
 	public Blinky(int x, int y, Branche b, Personnage pm) {
 		super(x,y,b,pm);
-		this.enJeu();
+		this.enJeu(0);
 	}
 
 	// ABSTRACT

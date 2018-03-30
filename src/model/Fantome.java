@@ -15,7 +15,7 @@ public abstract class Fantome extends Personnage {
 		chemin = new ArrayList<Integer>();
 
 		this.invulnerable();
-		this.horsJeu();
+		this.horsJeu(0);
 	}
 
 	public void decisionDirection() {
@@ -73,10 +73,10 @@ public abstract class Fantome extends Personnage {
 	}
 
 	// ABSTRACT
-	public void mort() {
+	public void mort(int nbTour) {
 		this.reinitialisation();
 		this.invulnerable();
-		this.horsJeu();
+		this.horsJeu(nbTour);
 
 		setChanged();
 		notifyObservers("PERTEVIE");

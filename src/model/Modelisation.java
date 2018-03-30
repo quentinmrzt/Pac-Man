@@ -149,8 +149,8 @@ public class Modelisation extends Observable implements Observer {
 	private void liberationFantome() {
 		Fantome fantome = fantomes.get(BLINKY);
 
-		if (!fantome.estEnJeu() && Horloge.getTemps()>fantome.dateSortie+4000) {
-			fantome.enJeu();
+		if (!fantome.estEnJeu() && nombreDeTour>fantome.getTourEnJeu()+100) {
+			fantome.enJeu(nombreDeTour);
 		}
 	}
 
@@ -210,7 +210,7 @@ public class Modelisation extends Observable implements Observer {
 				// On regarde si le fantome est invulnérable pour manger PacMan
 				if (fantome.estInvulnerable() && fantome.estEnJeu()) {
 					if (x==fantome.getPositionX() && y==fantome.getPositionY()) {
-						pacMan.perteVie();
+						pacMan.perteVie(nombreDeTour);
 					}
 				}
 			}
@@ -226,7 +226,7 @@ public class Modelisation extends Observable implements Observer {
 				// On regarde si le fantome est vulnérable
 				if (!fantome.estInvulnerable() && fantome.estEnJeu()) {
 					if (x==fantome.getPositionX() && y==fantome.getPositionY()) {
-						fantome.mort();
+						fantome.mort(nombreDeTour);
 						//this.mangerDeSuite++;
 						this.score += SCORE_FANTOME*(Math.pow(2,mangerDeSuite-1));
 					}
