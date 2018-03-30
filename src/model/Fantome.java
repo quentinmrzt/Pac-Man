@@ -14,7 +14,7 @@ public abstract class Fantome extends Personnage {
 		pacMan =  pm;
 		chemin = new ArrayList<Integer>();
 
-		this.invulnerable();
+		this.invulnerable(0);
 		this.horsJeu(0);
 	}
 
@@ -75,7 +75,7 @@ public abstract class Fantome extends Personnage {
 	// ABSTRACT
 	public void mort(int nbTour) {
 		this.reinitialisation();
-		this.invulnerable();
+		this.invulnerable(nbTour);
 		this.horsJeu(nbTour);
 
 		setChanged();
@@ -86,4 +86,5 @@ public abstract class Fantome extends Personnage {
 	public abstract void trouverChemin();
 	public abstract int getPositionPrisonX();
 	public abstract int getPositionPrisonY();
+	public abstract int getEntreeEnJeu();
 }

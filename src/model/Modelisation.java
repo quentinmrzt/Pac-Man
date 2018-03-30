@@ -6,7 +6,6 @@ import java.util.Observer;
 
 import graphe.Branche;
 import graphe.Graphe;
-import jeu.Horloge;
 
 public class Modelisation extends Observable implements Observer {
 	// Donnée du model
@@ -84,17 +83,17 @@ public class Modelisation extends Observable implements Observer {
 	public void jeu() {
 		while (this.finDePartie()) {
 			this.tourDeJeu();
-			
+
 			try {
 				Thread.sleep(80);
 			} catch(InterruptedException e) { 
 				System.err.println("ERREUR: Problème sur l'horloge.");
 			}
-			
+
 			this.nombreDeTour++;
 		}
 	}
-	
+
 	public boolean finDePartie() {
 		if(!pacMan.estEnJeu() || map.getNbGomme()+map.getNbSuperGomme()==0) {
 			System.out.println("FIN DE LA PARTIE");
@@ -103,76 +102,61 @@ public class Modelisation extends Observable implements Observer {
 			return true;
 		}
 	}
-	
+
 	public void tourDeJeu() {
-		//
-		this.finEffetSuperGomme();
-		// On libère un fantome avec 4sec en prison
-		this.liberationFantome();
+		// 1 - finEffetSuperGomme
+		// + 60 = 5 secondes 
+		if (pacMan.estInvulnerable() && nombreDeTour>pacMan.getTourInvulnerabilite()+60) {
+			pacMan.vulnerable();
+			for (Fantome fantome: fantomes) {
+				if(fantome.estEnJeu()) {
+					fantome.invulnerable(nombreDeTour);
+				}
+			}
+		}
 
-		// Recherche du chemin
+		// 2 - On libère un fantome avec 4sec en prison
+		for (Fantome f: fantomes) {
+			// + 25 = 2 secondes
+			if (!f.estEnJeu()&& nombreDeTour>f.getEntreeEnJeu() && nombreDeTour>f.getTourEnJeu()+25) {
+				f.enJeu(nombreDeTour);
+			}		
+		}
+
+		// 3 - Recherche du chemin et direction
 		fantomes.get(BLINKY).trouverChemin();
-
-		// Blinky prend une nouvelle direction s'il est sur un noeud
 		fantomes.get(BLINKY).decisionDirection();
 
-		// 1- Permet l'orientation au noeud
-		this.destinationPersonnages();
-		// 2- on dit aux personnages d'y aller
-		this.deplacementPersonnages();
-		// et on mange sur notre chemin
-		this.manger();
-
-		// PROVISOIR
-		setChanged();
-		notifyObservers("TEST_TOURDEJEU");
-	}
-	
-	// 1- Orientation de pacMan à chaque noeud
-	public void destinationPersonnages() {
+		// 4 - Permet l'orientation au noeud
 		pacMan.destination();
-		//pacMan.destinationBranche();
 
 		for (Fantome f: fantomes) {
 			f.destination();
 		}
-	}
 
-	// 2- Deplacement d'une case de chaque personnage
-	public void deplacementPersonnages() {
-		pacMan.deplacement();
+
+		// FANTOMES: Ils se déplace et mangent
 		for (Fantome f: fantomes) {
 			f.deplacement();
 		}
-	}
-	
-	private void liberationFantome() {
-		Fantome fantome = fantomes.get(BLINKY);
+		this.mangerFantome();
+		this.mangerPacMan();
 
-		if (!fantome.estEnJeu() && nombreDeTour>fantome.getTourEnJeu()+100) {
-			fantome.enJeu(nombreDeTour);
-		}
-	}
+		// PAC-MAN: Il se déplace et mange
+		pacMan.deplacement();
+		this.mangerFantome();
+		this.mangerPacMan();
+		this.mangerGomme();
 
-	public void finEffetSuperGomme() {
-		if (pacMan.estInvulnerable() && Horloge.getTemps()>pacMan.tempsInvulnerabilite+5000) {
-			pacMan.vulnerable();
-			for (Fantome fantome: fantomes) {
-				if(fantome.estEnJeu()) {
-					fantome.invulnerable();
-				}
-			}
-		}
+
+
+		// PROVISOIRE
+		setChanged();
+		notifyObservers("TEST_TOURDEJEU");
 	}
 
 	// --------------------------------------
 	// MANGER
-	public void manger() {
-		this.mangerGomme();
-		this.mangerPacMan();
-		this.mangerFantome();
-	}
-
 	public void mangerGomme() {
 		int x = pacMan.getPositionX();
 		int y = pacMan.getPositionY();
@@ -188,8 +172,7 @@ public class Modelisation extends Observable implements Observer {
 			map.mangerSuperGomme(x,y);
 			score+=SCORE_SUPERGOMME;
 
-			pacMan.invulnerable();
-			pacMan.tempsInvulnerabilite = Horloge.getTemps();
+			pacMan.invulnerable(nombreDeTour);
 			for (Fantome fantome: fantomes) {
 				if(fantome.estEnJeu()) {
 					fantome.vulnerable();
@@ -252,11 +235,11 @@ public class Modelisation extends Observable implements Observer {
 			}
 		}
 	}
-	
+
 	public void trouverCheminBlinky() {
 		fantomes.get(BLINKY).trouverChemin();
 	}
-	
+
 	// Si des sous élements du model son maj
 	public void update(Observable o, Object arg) {
 		setChanged();

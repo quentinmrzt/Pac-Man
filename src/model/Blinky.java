@@ -8,11 +8,11 @@ import graphe.Branche;
 public class Blinky extends Fantome {
 	final int POSITIONPRISONX = 12;
 	final int POSITIONPRISONY = 14;
+	final int ENTREEENJEU = 50;
 
 	// Blinky attaque directement Pac Man. Il suit Pac-Man comme son ombre.
 	public Blinky(int x, int y, Branche b, Personnage pm) {
 		super(x,y,b,pm);
-		this.enJeu(0);
 	}
 
 	// ABSTRACT
@@ -21,7 +21,7 @@ public class Blinky extends Fantome {
 		
 		ArrayList<Integer> chemin = AStar.trouverChemin(this, this.getPacMan());
 		
-		/*System.out.println("Chemin: ");
+		System.out.println("Chemin: ");
 		for (int d:chemin) {
 			if (d==HAUT) {
 				System.out.print("Haut ");
@@ -35,16 +35,12 @@ public class Blinky extends Fantome {
 				System.out.print("Statique ");
 			}
 		}
-		System.out.println("");*/
+		System.out.println("");
 
 		this.setChemin(chemin);
 	}
 
-	public int getPositionPrisonX() {
-		return POSITIONPRISONX;
-	}
-
-	public int getPositionPrisonY() {
-		return POSITIONPRISONY;
-	}
+	public int getPositionPrisonX() {return POSITIONPRISONX;}
+	public int getPositionPrisonY() {return POSITIONPRISONY;}
+	public int getEntreeEnJeu() {return ENTREEENJEU;}
 }

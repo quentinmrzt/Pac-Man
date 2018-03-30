@@ -4,7 +4,6 @@ import java.util.Observable;
 
 import graphe.Branche;
 import graphe.Noeud;
-import jeu.Horloge;
 
 public abstract class Personnage extends Observable {
 	public final static int HAUT = 0;
@@ -30,6 +29,8 @@ public abstract class Personnage extends Observable {
 	private boolean invulnerable;
 	private boolean enJeu;
 	private int tourEnJeu;
+	private int tourInvulnerabilite;
+
 
 	public Personnage(int x, int y, Branche b) {
 		// Position initiale
@@ -48,6 +49,7 @@ public abstract class Personnage extends Observable {
 		this.direction = STATIQUE;
 		this.prochaineDirection = STATIQUE;
 		tourEnJeu = 0;
+		tourInvulnerabilite=0;
 	}
 
 	// GETTEUR
@@ -61,6 +63,8 @@ public abstract class Personnage extends Observable {
 	public int getDirection() {return direction;}
 	public int getProchaineDirection() {return prochaineDirection;}
 	public int getTourEnJeu() {return tourEnJeu;}
+	public int getTourInvulnerabilite () {return tourInvulnerabilite;}
+
 	
 	// Affichage des directions en string
 	public String getDirectionStr() {
@@ -157,8 +161,10 @@ public abstract class Personnage extends Observable {
 	}
 
 	// Vulnerable
-	public void invulnerable() {
+	public void invulnerable(int nb) {
 		invulnerable = true;
+		
+		tourInvulnerabilite = nb;
 
 		setChanged();
 		notifyObservers("INVULNERABLE");
