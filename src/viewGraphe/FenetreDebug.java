@@ -11,7 +11,7 @@ public class FenetreDebug extends JFrame implements Observer {
 	private VueGraphe vueGraphe;
 	
 	public FenetreDebug(Modelisation modelisation) {
-		this.setSize(600, 600);
+		this.setSize(500, 550);
 		this.setTitle("Debug");
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);

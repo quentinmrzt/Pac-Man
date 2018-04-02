@@ -9,7 +9,7 @@ public class AStar {
 		ArrayList<NoeudAStar> listeOuverte = new ArrayList<NoeudAStar>();
 		ArrayList<NoeudAStar> listeFermee = new ArrayList<NoeudAStar>();
 		ArrayList<Integer> cheminDirection = new ArrayList<Integer>();
-		NoeudAStar tmp, depart, arrivee, courant, n1Arrivee, n2Arrivee;
+		NoeudAStar tmp, depart, arrivee, courant, n1Arrivee=null, n2Arrivee=null;
 
 		// ARRIVEE
 		if(p2.estSurNoeud()) {
@@ -51,7 +51,7 @@ public class AStar {
 		// On arrête pas tant qu'on est pas arrivé
 		int tour=1;
 		while(!courant.equals(arrivee)) {
-			System.out.println("Tour:"+tour);
+			System.out.println("Tour:"+tour+" ("+courant.getX()+"/"+courant.getY()+")");
 			// Si on arrive sur la branche finale
 
 			if(courant.equals(n1Arrivee) || courant.equals(n2Arrivee)) {
@@ -106,9 +106,11 @@ public class AStar {
 
 			tour++;
 		}
+		
+		System.out.println("Courant: "+courant.getX()+"/"+courant.getY());
 
 		// Il nous manque la dernière étape, pour attraper pacMan
-		if (courant.equals(n1Arrivee) && !courant.equals(arrivee)) {
+		if (courant.equals(n1Arrivee) && !courant.equals(arrivee)) { // ???
 			arrivee.setParent(courant);
 		}
 		listeFermee.add(arrivee);

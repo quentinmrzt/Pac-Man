@@ -1,6 +1,7 @@
 package viewGraphe;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 
 import javax.swing.JPanel;
@@ -32,8 +33,13 @@ public class VueGraphe extends JPanel  {
 			for(int x=0 ; x<modelisation.getMap().getTailleX() ; x++) {
 				// On dessine le graphe
 				if(modelisation.getGraphe().getNoeud(x, y)!=null) {
+					g.setColor(Color.RED);
+					
+					g.drawString(x+"/"+y, (x*16)+10, y*16);
 					g.setColor(Color.BLACK);
+
 					g.fillOval(x*16,y*16,16,16);
+					
 				} else if (modelisation.getGraphe().getBranche(x, y)!=null) {
 					if(modelisation.getGraphe().getBranche(x, y).estHorizontal()) {
 						g.setColor(Color.BLACK);
