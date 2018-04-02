@@ -5,61 +5,137 @@ import java.util.ArrayList;
 import model.Personnage;
 
 public class AStar {
-	public static ArrayList<Integer> trouverChemin(Personnage p1, Personnage p2) {
+	/**
+	 * Permet de trouver un chemin entre deux personnages
+	 * @param p1 Le personnage qui cherche
+	 * @param p2 Le personnage qui est cherché 
+	 * @return Une liste de direction
+	 */
+	public static ArrayList<Integer> trouverCheminPersonnage(Personnage p1, Personnage p2) {
+		ArrayList<Integer> chemin;
+		int premiereDirection = Personnage.STATIQUE, derniereDirection = Personnage.STATIQUE;
+
+		if (p1.estSurNoeud() && p2.estSurNoeud()) {
+			return trouverCheminNoeud(p1.getNoeud(),p2.getNoeud());
+		} else if(p1.estSurNoeud()) {
+			Noeud noeudP2;
+
+			if (p2.getBranche().estHorizontal()) {
+				if (p2.getPositionX()-p2.getBranche().getN1().getX() <= p2.getBranche().getN2().getX()-p2.getPositionX()) {
+					noeudP2 = p2.getBranche().getN1();
+					derniereDirection = Personnage.DROITE;
+				} else {
+					noeudP2 = p2.getBranche().getN2();
+					derniereDirection = Personnage.GAUCHE;
+				}
+			} else {
+				if (p2.getPositionY()-p2.getBranche().getN1().getY() <= p2.getBranche().getN2().getY()-p2.getPositionY()) {
+					noeudP2 = p2.getBranche().getN1();
+					derniereDirection = Personnage.BAS;
+				} else {
+					noeudP2 = p2.getBranche().getN2();
+					derniereDirection = Personnage.HAUT;
+				}
+			}
+
+			chemin = trouverCheminNoeud(p1.getNoeud(),noeudP2);
+		} else if (p2.estSurNoeud()) {
+			Noeud noeudP1;
+
+			if (p1.getBranche().estHorizontal()) {
+				if (p1.getPositionX()-p1.getBranche().getN1().getX() <= p1.getBranche().getN2().getX()-p1.getPositionX()) {
+					noeudP1 = p1.getBranche().getN1();
+					premiereDirection = Personnage.GAUCHE;
+				} else {
+					noeudP1 = p1.getBranche().getN2();
+					premiereDirection = Personnage.DROITE;
+				}
+			} else {
+				if (p1.getPositionY()-p1.getBranche().getN1().getY() <= p1.getBranche().getN2().getY()-p1.getPositionY()) {
+					noeudP1 = p1.getBranche().getN1();
+					premiereDirection = Personnage.HAUT;
+				} else {
+					noeudP1 = p1.getBranche().getN2();
+					premiereDirection = Personnage.BAS;
+				}
+			}
+
+			chemin = trouverCheminNoeud(noeudP1,p2.getNoeud());
+		} else {
+			// PERSONNAGE 1
+			Noeud noeudP1;
+			if (p1.getBranche().estHorizontal()) {
+				if (p1.getPositionX()-p1.getBranche().getN1().getX() <= p1.getBranche().getN2().getX()-p1.getPositionX()) {
+					noeudP1 = p1.getBranche().getN1();
+					premiereDirection = Personnage.GAUCHE;
+				} else {
+					noeudP1 = p1.getBranche().getN2();
+					premiereDirection = Personnage.DROITE;
+				}
+			} else {
+				if (p1.getPositionY()-p1.getBranche().getN1().getY() <= p1.getBranche().getN2().getY()-p1.getPositionY()) {
+					noeudP1 = p1.getBranche().getN1();
+					premiereDirection = Personnage.HAUT;
+				} else {
+					noeudP1 = p1.getBranche().getN2();
+					premiereDirection = Personnage.BAS;
+				}
+			}
+
+			// PERSONANGE 2
+			Noeud noeudP2;
+			if (p2.getBranche().estHorizontal()) {
+				if (p2.getPositionX()-p2.getBranche().getN1().getX() <= p2.getBranche().getN2().getX()-p2.getPositionX()) {
+					noeudP2 = p2.getBranche().getN1();
+					derniereDirection = Personnage.DROITE;
+				} else {
+					noeudP2 = p2.getBranche().getN2();
+					derniereDirection = Personnage.GAUCHE;
+				}
+			} else {
+				if (p2.getPositionY()-p2.getBranche().getN1().getY() <= p2.getBranche().getN2().getY()-p2.getPositionY()) {
+					noeudP2 = p2.getBranche().getN1();
+					derniereDirection = Personnage.BAS;
+				} else {
+					noeudP2 = p2.getBranche().getN2();
+					derniereDirection = Personnage.HAUT;
+				}
+			}
+
+			chemin = trouverCheminNoeud(noeudP1,noeudP2);
+		}
+
+		// Vue qu'on n'est pas partit du noeud, on rajoute la direction qui mene à celui ci
+		if (chemin.size()>0) {
+			if(premiereDirection!=Personnage.STATIQUE && chemin.get(chemin.size()-1) != Personnage.directionInverse(premiereDirection)) {
+				chemin.add(premiereDirection);
+			}
+
+			if(derniereDirection!=Personnage.STATIQUE && chemin.get(0) != Personnage.directionInverse(derniereDirection)) {
+				chemin.add(0, derniereDirection);
+			}
+		}
+
+		return chemin;
+	}
+
+	public static ArrayList<Integer> trouverCheminNoeud(Noeud n1, Noeud n2) {
 		ArrayList<NoeudAStar> listeOuverte = new ArrayList<NoeudAStar>();
 		ArrayList<NoeudAStar> listeFermee = new ArrayList<NoeudAStar>();
 		ArrayList<Integer> cheminDirection = new ArrayList<Integer>();
-		NoeudAStar tmp, depart, arrivee, courant, n1Arrivee=null, n2Arrivee=null;
+		NoeudAStar tmp, depart, arrivee, courant;
 
 		// ARRIVEE
-		if(p2.estSurNoeud()) {
-			arrivee = new NoeudAStar(p2.getNoeud(), null, null);
-
-			n1Arrivee = new NoeudAStar(p2.getBranche().getN1(), null, arrivee);
-			n2Arrivee = new NoeudAStar(p2.getBranche().getN2(), null, arrivee);
-		} else {
-			arrivee = new NoeudAStar(new Noeud(p2.getPositionX(),p2.getPositionY()), null, null);
-
-			n1Arrivee = new NoeudAStar(p2.getBranche().getN1(), null, arrivee);
-			n2Arrivee = new NoeudAStar(p2.getBranche().getN2(), null, arrivee);
-		}
+		arrivee = new NoeudAStar(n2, null, null);
 
 		// DEPART
-		if(p1.estSurNoeud()) {
-			depart = new NoeudAStar(p1.getNoeud(),null,arrivee);
-			courant = depart;
-			listeFermee.add(depart);
-		} else {
-			// Si on est pas sur un noeud, on crée un faux noeud
-			depart = new NoeudAStar(new Noeud(p1.getPositionX(),p1.getPositionY()), null, arrivee);
-			// On récupère les deux noeuds de sa branche
-			NoeudAStar n1Depart = new NoeudAStar(p1.getBranche().getN1(), depart, arrivee);
-			NoeudAStar n2Depart = new NoeudAStar(p1.getBranche().getN2(), depart, arrivee);
+		depart = new NoeudAStar(n1,null,arrivee);
+		courant = depart;
+		listeFermee.add(depart);
 
-			// notre noeud courant est le meilleur
-			if(n1Depart.getHeuristique()<=n2Depart.getHeuristique()) {
-				courant = n1Depart;
-				listeFermee.add(n1Depart);
-				listeOuverte.add(n2Depart);
-			} else {
-				courant = n2Depart;
-				listeFermee.add(n2Depart);
-				listeOuverte.add(n1Depart);
-			}
-		}
 
 		// On arrête pas tant qu'on est pas arrivé
-		int tour=1;
 		while(!courant.equals(arrivee)) {
-			System.out.println("Tour:"+tour+" ("+courant.getX()+"/"+courant.getY()+")");
-			// Si on arrive sur la branche finale
-
-			if(courant.equals(n1Arrivee) || courant.equals(n2Arrivee)) {
-				System.out.println("TEST = N1:"+n1Arrivee.getX()+"/"+n1Arrivee.getY()+" N2:"+n2Arrivee.getX()+"/"+n2Arrivee.getY()+" Arrivee:"+arrivee.getX()+"/"+arrivee.getY());
-				arrivee.setParent(courant);
-				listeOuverte.add(arrivee);
-			}
-
 			// HAUT
 			if (courant.existeHaut() && courant.getDirection()!=Personnage.BAS) {
 				tmp = new NoeudAStar(courant.enHaut(), courant, arrivee);
@@ -103,24 +179,13 @@ public class AStar {
 			listeFermee.add(listeOuverte.get(index));
 			courant = listeOuverte.get(index);
 			listeOuverte.remove(index);
-
-			tour++;
 		}
-		
-		System.out.println("Courant: "+courant.getX()+"/"+courant.getY());
-
-		// Il nous manque la dernière étape, pour attraper pacMan
-		if (courant.equals(n1Arrivee) && !courant.equals(arrivee)) { // ???
-			arrivee.setParent(courant);
-		}
-		listeFermee.add(arrivee);
 
 		if (listeFermee.size()!=0) {
 			NoeudAStar test = listeFermee.get(listeFermee.size()-1);
 
 			// et on ajoute la liste fermée qui est notre chemin
 			while (test.getParent()!=null) {
-				//System.out.println(test.getX()+"/"+test.getY());
 				cheminDirection.add(test.getDirection());
 				test = test.getParent();
 			}

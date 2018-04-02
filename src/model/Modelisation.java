@@ -27,10 +27,6 @@ public class Modelisation extends Observable implements Observer {
 	private int mangerDeSuite;
 	private int nombreDeTour;
 
-	public Graphe getGraphe() {
-		return graphe;
-	}
-
 	public Modelisation() {
 		super();
 
@@ -73,6 +69,7 @@ public class Modelisation extends Observable implements Observer {
 	// ----------------------------------------
 	// Getteur
 	public Map getMap() {return map;}
+	public Graphe getGraphe() {return graphe;}
 	public int getScore() {return score;}
 	public PacMan getPM() {return pacMan;}
 	public int getNombreDeTour() {return nombreDeTour;}
@@ -127,8 +124,8 @@ public class Modelisation extends Observable implements Observer {
 		}
 
 		// 3 - Recherche du chemin et direction
-		//fantomes.get(BLINKY).trouverChemin();
-		//fantomes.get(BLINKY).decisionDirection();
+		fantomes.get(BLINKY).trouverChemin();
+		fantomes.get(BLINKY).decisionDirection();
 
 		// 4 - Permet l'orientation au noeud
 		pacMan.destination();

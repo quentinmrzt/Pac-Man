@@ -94,6 +94,22 @@ public abstract class Personnage extends Observable {
 			return null;
 		}
 	}
+	
+	public static int directionInverse(int d) {
+		if (d==HAUT) {
+			return BAS;
+		} else if (d==DROITE) {
+			return GAUCHE;
+		} else if (d==BAS) {
+			return HAUT;
+		} else if (d==GAUCHE) {
+			return DROITE;
+		} else if (d==STATIQUE) {
+			return STATIQUE;
+		} else {
+			return -1;
+		}
+	}
 
 	/**
 	 * Permet de determiner le noeud de notre destination selon notre direction
