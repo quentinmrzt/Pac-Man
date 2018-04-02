@@ -28,7 +28,7 @@ public abstract class Fantome extends Personnage {
 		}
 	}
 
-	public void prochaineDirection() {
+	private void prochaineDirection() {
 		if (chemin.size()!=0) {
 			int destination = chemin.get(chemin.size()-1);
 

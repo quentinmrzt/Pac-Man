@@ -118,6 +118,46 @@ public class AStar {
 
 		return chemin;
 	}
+	
+	public static ArrayList<Integer> trouverCheminPersonnage(Personnage p1, Noeud n2) {
+		ArrayList<Integer> chemin;
+		int premiereDirection = Personnage.STATIQUE;
+
+		if(p1.estSurNoeud()) {
+			return trouverCheminNoeud(p1.getNoeud(),n2);
+		} else {
+			Noeud noeudP1;
+
+			if (p1.getBranche().estHorizontal()) {
+				if (p1.getPositionX()-p1.getBranche().getN1().getX() <= p1.getBranche().getN2().getX()-p1.getPositionX()) {
+					noeudP1 = p1.getBranche().getN1();
+					premiereDirection = Personnage.GAUCHE;
+				} else {
+					noeudP1 = p1.getBranche().getN2();
+					premiereDirection = Personnage.DROITE;
+				}
+			} else {
+				if (p1.getPositionY()-p1.getBranche().getN1().getY() <= p1.getBranche().getN2().getY()-p1.getPositionY()) {
+					noeudP1 = p1.getBranche().getN1();
+					premiereDirection = Personnage.HAUT;
+				} else {
+					noeudP1 = p1.getBranche().getN2();
+					premiereDirection = Personnage.BAS;
+				}
+			}
+
+			chemin = trouverCheminNoeud(noeudP1,n2);
+		}
+		
+		// Vue qu'on n'est pas partit du noeud, on rajoute la direction qui mene à celui ci
+		if (chemin.size()>0) {
+			if(premiereDirection!=Personnage.STATIQUE && chemin.get(chemin.size()-1) != Personnage.directionInverse(premiereDirection)) {
+				chemin.add(premiereDirection);
+			}
+		}
+
+		return chemin;
+	}
 
 	public static ArrayList<Integer> trouverCheminNoeud(Noeud n1, Noeud n2) {
 		ArrayList<NoeudAStar> listeOuverte = new ArrayList<NoeudAStar>();

@@ -1,7 +1,5 @@
 package model;
 
-import java.util.ArrayList;
-
 import graphe.AStar;
 import graphe.Branche;
 
@@ -17,10 +15,13 @@ public class Blinky extends Fantome {
 
 	// ABSTRACT
 	public void trouverChemin() {
-		// Blinky regarde la ou pacMan était 
-		ArrayList<Integer> chemin = AStar.trouverCheminPersonnage(this, this.getPacMan());
-
-		this.setChemin(chemin);
+		if(this.getPacMan().getNoeudDepart()!=null) {
+			// Blinky regarde la ou pacMan était 
+			this.setChemin(AStar.trouverCheminPersonnage(this, this.getPacMan().getNoeudDepart()));
+		} else {
+			// Si pacMan est statique sur une branche
+			this.setChemin(AStar.trouverCheminPersonnage(this, this.getPacMan()));
+		}
 	}
 
 	public int getPositionPrisonX() {return POSITIONPRISONX;}

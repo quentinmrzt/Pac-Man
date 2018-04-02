@@ -119,13 +119,10 @@ public class Modelisation extends Observable implements Observer {
 				f.enJeu(nombreDeTour);
 			}
 			
-			//f.trouverChemin();
+			// 3 - Recherche du chemin et direction
+			f.trouverChemin();
 			f.decisionDirection();
 		}
-
-		// 3 - Recherche du chemin et direction
-		fantomes.get(BLINKY).trouverChemin();
-		fantomes.get(BLINKY).decisionDirection();
 
 		// 4 - Permet l'orientation au noeud
 		pacMan.destination();
@@ -136,8 +133,10 @@ public class Modelisation extends Observable implements Observer {
 
 
 		// FANTOMES: Ils se déplace et mangent
-		for (Fantome f: fantomes) {
-			f.deplacement();
+		if(nombreDeTour%2==0) {
+			for (Fantome f: fantomes) {
+				f.deplacement();
+			}
 		}
 		this.mangerFantome();
 		this.mangerPacMan();
