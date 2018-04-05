@@ -101,41 +101,25 @@ public class Map extends Observable {
 	// GETTEUR
 	public int getCase(int x, int y) {
 		if (x>=tailleX || y>=tailleY) {
-			System.out.println("Aie, x:"+x+" ou y:"+y+" est hors limite.");
+			System.out.println("ERREUR: x:"+x+" ou y:"+y+" est hors limite.");
 			return 99999;
 		}
 		
 		if (x<0 || y<0) {
-			System.out.println("Aie, x:"+x+" ou y:"+y+" est hors limite.");
+			System.out.println("ERREUR: x:"+x+" ou y:"+y+" est hors limite.");
 			return -99999;
 		}
 		
 		return map[x][y];
 	}
-	public int getTailleX() {
-		return tailleX;
-	}
-	public int getTailleY() {
-		return tailleY;
-	}
-	public int getNbGomme() {
-		return nbGomme;
-	}
-	public int getNbSuperGomme() {
-		return nbSuperGomme;
-	}
-	public int getSpawnPacManX() {
-		return spawnPacManX;
-	}
-	public int getSpawnPacManY() {
-		return spawnPacManY;
-	}
-	public int getSpawnFantomeX() {
-		return spawnFantomeX;
-	}
-	public int getSpawnFantomeY() {
-		return spawnFantomeY;
-	}
+	public int getTailleX() {return tailleX;}
+	public int getTailleY() {return tailleY;}
+	public int getNbGomme() {return nbGomme;}
+	public int getNbSuperGomme() {return nbSuperGomme;}
+	public int getSpawnPacManX() {return spawnPacManX;}
+	public int getSpawnPacManY() {return spawnPacManY;}
+	public int getSpawnFantomeX() {return spawnFantomeX;}
+	public int getSpawnFantomeY() {return spawnFantomeY;}
 
 	// SETTEUR
 	public void setCase(int x, int y, int type) {
@@ -203,6 +187,7 @@ public class Map extends Observable {
 
 		return (haut || bas) && (droite || gauche);
 	}
+	
 	public void simplification() {
 		// map en simplifié
 		for (int y=0 ; y<tailleY ; y++) {			

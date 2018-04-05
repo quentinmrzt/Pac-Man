@@ -26,10 +26,9 @@ public abstract class Personnage extends Observable {
 
 	private int direction;
 	private int prochaineDirection;
-	private boolean invulnerable;
 	private boolean enJeu;
-	private int tourEnJeu;
-	private int tourInvulnerabilite;
+
+
 
 
 	public Personnage(int x, int y, Branche b) {
@@ -48,13 +47,10 @@ public abstract class Personnage extends Observable {
 		// Caractéristiques
 		this.direction = STATIQUE;
 		this.prochaineDirection = STATIQUE;
-		tourEnJeu = 0;
-		tourInvulnerabilite=0;
 	}
 
 	// GETTEUR
 	public Branche getBranche() {return branche;}
-	public boolean estInvulnerable() {return invulnerable;}
 	public boolean estEnJeu() {return enJeu;}
 	public boolean estSurNoeud() {return noeud!=null;}
 	public Noeud getNoeud() {return noeud;}
@@ -62,8 +58,7 @@ public abstract class Personnage extends Observable {
 	public int getPositionY() {return positionY;}
 	public int getDirection() {return direction;}
 	public int getProchaineDirection() {return prochaineDirection;}
-	public int getTourEnJeu() {return tourEnJeu;}
-	public int getTourInvulnerabilite () {return tourInvulnerabilite;}
+
 
 	
 	// Affichage des directions en string
@@ -95,6 +90,11 @@ public abstract class Personnage extends Observable {
 		}
 	}
 	
+	/**
+	 * Donne la direction inverse
+	 * @param La direction à inverser, exemple: Gauche
+	 * @return La direction inversée, exemple: Droite
+	 */
 	public static int directionInverse(int d) {
 		if (d==HAUT) {
 			return BAS;
@@ -113,7 +113,7 @@ public abstract class Personnage extends Observable {
 
 	/**
 	 * Permet de determiner le noeud de notre destination selon notre direction
-	 * Si sur un noeud ou entre deux noeuds sans direction, renvoi null
+	 * Si le personnage est statique, renvoi null
 	 * @return Le noeud vers lequel on se dirige
 	 */
 	public Noeud getNoeudDestination() {
@@ -128,8 +128,7 @@ public abstract class Personnage extends Observable {
 
 	/**
 	 * Permet de determiner le noeud de départ selon notre direction
-	 * Si nous somme sur un noeud, renvoi l'autre
-	 * Si nous somme entre deux noeuds sans direction, renvoi null
+	 * Si le personnage est statique, renvoi null
 	 * @return Le noeud d'ou l'on vient
 	 */
 	public Noeud getNoeudDepart() {
@@ -141,169 +140,52 @@ public abstract class Personnage extends Observable {
 			return null;
 		}
 	}
+	
 
-	// SETTEUR
-	public void enHaut() {
-		positionY--;
-
-		noeud = branche.getNoeud(positionX,positionY);
-		
-		setChanged();
-		notifyObservers("Y");
-	}
-	public void aDroite() {
-		positionX++;
-
-		noeud = branche.getNoeud(positionX,positionY);
-		
-		setChanged();
-		notifyObservers("X");
-	}
-	public void enBas() {
-		positionY++;
-
-		noeud = branche.getNoeud(positionX,positionY);
-		
-		setChanged();
-		notifyObservers("Y");
-	}
-	public void aGauche() {
-		positionX--;
-
-		noeud = branche.getNoeud(positionX,positionY);
-		
-		setChanged();
-		notifyObservers("X");
-	}
-
-	// Vulnerable
-	public void invulnerable(int nb) {
-		invulnerable = true;
-		
-		tourInvulnerabilite = nb;
-
-		setChanged();
-		notifyObservers("INVULNERABLE");
-	}
-	public void vulnerable() {
-		invulnerable = false;
-
-		setChanged();
-		notifyObservers("VULNERABLE");
-	}
 
 	
-	public void enJeu(int nb) {
+	public void enJeu() {
 		enJeu = true;
-		tourEnJeu = nb;
 
 		setChanged();
 		notifyObservers("ENJEU");
 	}
-	public void horsJeu(int nb) {
+	public void horsJeu() {
 		enJeu = false;
-		tourEnJeu = nb;
 
 		setChanged();
 		notifyObservers("HORSJEU");
 	}
 
-	// FONCTION
+	/**
+	 * Fonction permettant de changer la direction du personnage
+	 * @param La direction que l'on veut donner au personnage
+	 */
 	public void direction(int direction) {
 		if (branche!=null) {
-			if(direction==HAUT) {
-				this.directionHaut();
-			} else if(direction==DROITE) {
-				this.directionDroite();
-			} else if(direction==BAS) {
-				this.directionBas();
-			} else if(direction==GAUCHE) {
-				this.directionGauche();
+			// Changement direct si demi-tour ou statique
+			if(this.direction == Personnage.directionInverse(direction) || (this.direction==STATIQUE && branche.dansLeSens(direction))) {
+				this.direction = direction;
+				this.prochaineDirection = STATIQUE;
+			} else {
+				this.prochaineDirection = direction;
 			}
 		} else if (noeud!=null) {
-			if(direction==HAUT) {
-				this.directionHautNoeud();
-			} else if(direction==DROITE) {
-				this.directionDroiteNoeud();
-			} else if(direction==BAS) {
-				this.directionBasNoeud();
-			} else if(direction==GAUCHE) {
-				this.directionGaucheNoeud();
-			}
+			this.direction = direction;
+			this.prochaineDirection = STATIQUE;
 		} else {
 			System.err.println("ERREUR: branche et noeud.");
 		}
 	}
 
-	// NOEUD:	Change la direction ou la prochaine direction
-	private void directionHautNoeud() {
-		direction = HAUT;
-		prochaineDirection = STATIQUE;
-	}
-	private void directionDroiteNoeud() {
-		// Si on change de direction dans un couloir ou si on était à l'arrêt dans un couloir
-		direction = DROITE;
-		prochaineDirection = STATIQUE;
-	}
-	private void directionBasNoeud() {
-		direction = BAS;
-		prochaineDirection = STATIQUE;
-	}
-	private void directionGaucheNoeud() {
-		direction = GAUCHE;
-		prochaineDirection = STATIQUE;
-	}
-
-	// BRANCHE:	Change la direction ou la prochaine direction
-	public void directionHaut() {
-		// Si on change de direction dans un couloir ou si on était à l'arrêt dans un couloir
-		if (getDirection()==BAS || (getDirection()==STATIQUE && !branche.estHorizontal())) {
-			direction = HAUT;
-			prochaineDirection = STATIQUE;
-		} else {
-			prochaineDirection = HAUT;
-		}
-	}
-	public void directionDroite() {
-		// Si on change de direction dans un couloir ou si on était à l'arrêt dans un couloir
-		if (getDirection()==GAUCHE || (getDirection()==STATIQUE && branche.estHorizontal())) {
-			direction = DROITE;
-			prochaineDirection = STATIQUE;
-		} else {
-			prochaineDirection = DROITE;
-		}
-	}
-	public void directionBas() {
-		// Si on change de direction dans un couloir ou si on était à l'arrêt dans un couloir
-		if (getDirection()==HAUT || (getDirection()==STATIQUE && !branche.estHorizontal())) {
-			direction = BAS;
-			prochaineDirection = STATIQUE;
-		} else {
-			prochaineDirection = BAS;
-		}
-	}
-	public void directionGauche() {
-		// Si on change de direction dans un couloir ou si on était à l'arrêt dans un couloir
-		if (getDirection()==DROITE || (getDirection()==STATIQUE && branche.estHorizontal())) {
-			direction = GAUCHE;
-			prochaineDirection = STATIQUE;
-		} else {
-			prochaineDirection = GAUCHE;
-		}
-	}
-
 	/**
-	 * Regarde si on est sur un noeud
+	 * Oriente aux noeuds
 	 */
 	public void destination() {
-		//noeud = branche.getNoeud(positionX,positionY);
-		
 		if (noeud!=null) {
-			//System.out.println("Sur le noeud x:"+positionX+" et y:"+positionY);
-						
 			boolean reorientation = false;
 			
-			// PROCHAINE DIRECTION
+			// Si on peut changer de direction
 			if (prochaineDirection==HAUT && noeud.existeHaut()) {
 				direction = HAUT;
 				prochaineDirection = STATIQUE;
@@ -326,7 +208,7 @@ public abstract class Personnage extends Observable {
 				reorientation = true;
 			}
 
-			// DIRECTION
+			// Si on peut continuer dans la même direction
 			if (!reorientation) {
 				if (direction==HAUT) {
 					if (noeud.existeHaut()) {
@@ -354,23 +236,28 @@ public abstract class Personnage extends Observable {
 					}
 				}
 			}
-		} else {
-			//System.out.println("Pas sur un noeud x:"+positionX+" et y:"+positionY);
 		}
 	}
 	
-	// Se deplace selon la direction du personnage
+	/**
+	 * Déplace le personnage selon sa direction
+	 */
 	public void deplacement() {
 		if(this.enJeu) {
 			if (direction==HAUT) {
-				this.enHaut();
+				positionY--;
 			} else if(direction==DROITE) {
-				this.aDroite();
+				positionX++;
 			} else if(direction==BAS) {
-				this.enBas();
+				positionY++;
 			} else if(direction==GAUCHE) {
-				this.aGauche();
+				positionX--;
 			}
+			
+			noeud = branche.getNoeud(positionX,positionY);
+			
+			setChanged();
+			notifyObservers("DEPLACEMENT");
 		}
 	}
 
@@ -393,5 +280,5 @@ public abstract class Personnage extends Observable {
 		notifyObservers("REINI");
 	}
 
-	abstract void mort(int nbTour);
+	abstract void mort();
 }

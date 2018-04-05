@@ -18,29 +18,7 @@ public class NoeudAStar {
 
 		if (parent!=null) {
 			this.distDepartCourant = Math.abs(this.getX()-parent.getX()) + Math.abs(this.getY()-parent.getY());
-
-			// Calcul de la direction
-			if(this.getX()==parent.getX()) {
-				// Vertical
-				if(parent.getY()<this.getY()) {
-					this.direction = Personnage.BAS;
-				} else if(this.getY()<parent.getY()) {
-					this.direction = Personnage.HAUT;
-				} else {
-					System.out.println("ERREUR: Le parent et le noeud sont identique: "+this.getX()+"/"+this.getY()+".");
-				}
-			} else if(this.getY()==parent.getY()) {
-				// Horizontal
-				if(parent.getX()<this.getX()) {
-					this.direction = Personnage.DROITE;
-				} else if(this.getX()<parent.getX()) {
-					this.direction = Personnage.GAUCHE;
-				} else {
-					System.out.println("ERREUR: Le parent et le noeud sont identique: "+this.getX()+"/"+this.getY()+".");
-				}
-			} else {
-				System.out.println("ERREUR: Il n'y a aucun axe possible entre parent et courant: "+this.getX()+"/"+this.getY()+".");
-			}
+			this.setDirectionVersParent();
 		} else {
 			// pas de parent, alors pas de direction
 			this.distDepartCourant = 0;
@@ -57,79 +35,22 @@ public class NoeudAStar {
 	}
 
 	// GETTEUR
-	public NoeudAStar getParent() {
-		return parent;
-	}
-	public Noeud getNoeud() {
-		return noeud;
-	}
-	public int getX() {
-		return noeud.getX();
-	}
-	public int getY() {
-		return noeud.getY();
-	}
-	public int getHeuristique() {
-		return heuristique;
-	}
-	public int getDirection() {
-		return direction;
-	}
-	public String getDirectionStr() {
-		return Personnage.afficheDirection(direction);
-	}
-	public Noeud enHaut() {
-		return noeud.enHaut();
-	}
-	public Noeud aDroite() {
-		return noeud.aDroite();
-	}
-	public Noeud enBas() {
-		return noeud.enBas();
-	}
-	public Noeud aGauche() {
-		return noeud.aGauche();
-	}
+	public NoeudAStar getParent() {return parent;}
+	public int getX() {return noeud.getX();}
+	public int getY() {return noeud.getY();}
+	public int getHeuristique() {return heuristique;}
+	public int getDirection() {return direction;}
+	public String getDirectionStr() {return Personnage.afficheDirection(direction);}
 
-	// SETTEUR
-	public void setParent(NoeudAStar nas) {
-		parent = nas;
+	public Noeud enHaut() {return noeud.enHaut();}
+	public Noeud aDroite() {return noeud.aDroite();}
+	public Noeud enBas() {return noeud.enBas();}
+	public Noeud aGauche() {return noeud.aGauche();}
 
-		// Calcul de la direction
-		if(this.getX()==parent.getX()) {
-			// Vertical
-			if(parent.getY()<this.getY()) {
-				this.direction = Personnage.BAS;
-			} else if(this.getY()<parent.getY()) {
-				this.direction = Personnage.HAUT;
-			} else {
-				System.err.println("ERREUR: Le parent et le noeud sont identique.");
-			}
-		} else {
-			// Horizontal
-			if(parent.getX()<this.getX()) {
-				this.direction = Personnage.DROITE;
-			} else if(this.getX()<parent.getX()) {
-				this.direction = Personnage.GAUCHE;
-			} else {
-				System.err.println("ERREUR: Le parent et le noeud sont identique: "+this.getX()+"/"+this.getY()+".");
-			}
-		}
-	}
-
-	// TEST
-	public boolean existeHaut() {
-		return noeud.existeHaut();
-	}
-	public boolean existeDroite() {
-		return noeud.existeDroite();
-	}
-	public boolean existeBas() {
-		return noeud.existeBas();
-	}
-	public boolean existeGauche() {
-		return noeud.existeGauche();
-	}
+	public boolean existeHaut() {return noeud.existeHaut();}
+	public boolean existeDroite() {return noeud.existeDroite();}
+	public boolean existeBas() {return noeud.existeBas();}
+	public boolean existeGauche() {return noeud.existeGauche();}
 
 	// FONCTION
 	public boolean equals(Object obj) {
@@ -147,5 +68,28 @@ public class NoeudAStar {
 		}
 	}
 
-
+	private void setDirectionVersParent() {
+		// Calcul de la direction qui mène au parent
+		if(this.getX()==parent.getX()) {
+			// Vertical
+			if(parent.getY()<this.getY()) {
+				this.direction = Personnage.BAS;
+			} else if(this.getY()<parent.getY()) {
+				this.direction = Personnage.HAUT;
+			} else {
+				System.out.println("ERREUR: Le parent et le noeud sont identique: "+this.getX()+"/"+this.getY()+".");
+			}
+		} else if(this.getY()==parent.getY()) {
+			// Horizontal
+			if(parent.getX()<this.getX()) {
+				this.direction = Personnage.DROITE;
+			} else if(this.getX()<parent.getX()) {
+				this.direction = Personnage.GAUCHE;
+			} else {
+				System.out.println("ERREUR: Le parent et le noeud sont identique: "+this.getX()+"/"+this.getY()+".");
+			}
+		} else {
+			System.out.println("ERREUR: Il n'y a aucun axe possible entre parent et courant: "+this.getX()+"/"+this.getY()+".");
+		}
+	}
 }

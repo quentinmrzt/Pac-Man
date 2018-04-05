@@ -101,24 +101,21 @@ public class Modelisation extends Observable implements Observer {
 	}
 
 	public void tourDeJeu() {
+		
 		// 1 - finEffetSuperGomme
-		// + 60 = 5 secondes 
-		if (pacMan.estInvulnerable() && nombreDeTour>pacMan.getTourInvulnerabilite()+60) {
-			pacMan.vulnerable();
-			for (Fantome fantome: fantomes) {
-				if(fantome.estEnJeu()) {
-					fantome.invulnerable(nombreDeTour);
-				}
+		for (Fantome fantome: fantomes) {
+			if(!fantome.estInvulnerable() && nombreDeTour>fantome.getTourVulnerabilite()+60) { // ~4sec
+				fantome.invulnerable();
 			}
 		}
 
 		// 2 - On libère un fantome avec 4sec en prison
 		for (Fantome f: fantomes) {
 			// + 25 = 2 secondes
-			if (!f.estEnJeu()&& nombreDeTour>f.getEntreeEnJeu() && nombreDeTour>f.getTourEnJeu()+25) {
-				f.enJeu(nombreDeTour);
+			if (!f.estEnJeu() && nombreDeTour>f.getEntreeEnJeu()+f.getDatePrison()) {
+				f.enJeu();
 			}
-			
+
 			// 3 - Recherche du chemin et direction
 			f.trouverChemin();
 			f.decisionDirection();
@@ -133,10 +130,8 @@ public class Modelisation extends Observable implements Observer {
 
 
 		// FANTOMES: Ils se déplace et mangent
-		if(nombreDeTour%2==0) {
-			for (Fantome f: fantomes) {
-				f.deplacement();
-			}
+		for (Fantome f: fantomes) {
+			f.deplacement();
 		}
 		this.mangerFantome();
 		this.mangerPacMan();
@@ -171,10 +166,9 @@ public class Modelisation extends Observable implements Observer {
 			map.mangerSuperGomme(x,y);
 			score+=SCORE_SUPERGOMME;
 
-			pacMan.invulnerable(nombreDeTour);
 			for (Fantome fantome: fantomes) {
 				if(fantome.estEnJeu()) {
-					fantome.vulnerable();
+					fantome.vulnerable(nombreDeTour);
 				}
 			}
 
@@ -184,34 +178,39 @@ public class Modelisation extends Observable implements Observer {
 	}
 
 	public void mangerPacMan() {
-		if(!pacMan.estInvulnerable()) {
-			int x = pacMan.getPositionX();
-			int y = pacMan.getPositionY();
+		int x = pacMan.getPositionX();
+		int y = pacMan.getPositionY();
+		boolean perte = false;	
+
+		for (Fantome fantome: fantomes) {
+			// On regarde si le fantome est invulnérable pour manger PacMan
+			if (fantome.estInvulnerable() && fantome.estEnJeu()) {
+				if (x==fantome.getPositionX() && y==fantome.getPositionY()) {
+					perte = true;
+				}
+			}
+		}
+
+		if (perte) {
+			pacMan.perteVie();
 
 			for (Fantome fantome: fantomes) {
-				// On regarde si le fantome est invulnérable pour manger PacMan
-				if (fantome.estInvulnerable() && fantome.estEnJeu()) {
-					if (x==fantome.getPositionX() && y==fantome.getPositionY()) {
-						pacMan.perteVie(nombreDeTour);
-					}
-				}
+				fantome.victoire(nombreDeTour);
 			}
 		}
 	}
 
 	public void mangerFantome() {
-		if(pacMan.estInvulnerable()) {
-			int x = pacMan.getPositionX();
-			int y = pacMan.getPositionY();
+		int x = pacMan.getPositionX();
+		int y = pacMan.getPositionY();
 
-			for (Fantome fantome: fantomes) {
-				// On regarde si le fantome est vulnérable
-				if (!fantome.estInvulnerable() && fantome.estEnJeu()) {
-					if (x==fantome.getPositionX() && y==fantome.getPositionY()) {
-						fantome.mort(nombreDeTour);
-						//this.mangerDeSuite++;
-						this.score += SCORE_FANTOME*(Math.pow(2,mangerDeSuite-1));
-					}
+		for (Fantome fantome: fantomes) {
+			// On regarde si le fantome est vulnérable
+			if (!fantome.estInvulnerable() && fantome.estEnJeu()) {
+				if (x==fantome.getPositionX() && y==fantome.getPositionY()) {
+					fantome.mort();
+					//this.mangerDeSuite++;
+					this.score += SCORE_FANTOME*(Math.pow(2,mangerDeSuite-1));
 				}
 			}
 		}
@@ -223,15 +222,7 @@ public class Modelisation extends Observable implements Observer {
 		if (personnage==PACMAN) {
 			pacMan.direction(direction);
 		} else {
-			if(direction==Personnage.HAUT) {
-				fantomes.get(personnage).directionHaut();
-			} else if(direction==Personnage.DROITE) {
-				fantomes.get(personnage).directionDroite();
-			} else if(direction==Personnage.BAS) {
-				fantomes.get(personnage).directionBas();
-			} else if(direction==Personnage.GAUCHE) {
-				fantomes.get(personnage).directionGauche();
-			}
+			fantomes.get(personnage).direction(direction);
 		}
 	}
 

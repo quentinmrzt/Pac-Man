@@ -1,8 +1,5 @@
 package model;
 
-import java.util.ArrayList;
-
-import graphe.AStar;
 import graphe.Branche;
 
 public class Clyde extends Fantome {
@@ -17,7 +14,7 @@ public class Clyde extends Fantome {
 	
 	// ABSTRACT
 	public void trouverChemin() {
-		//this.setChemin(AStar.trouverChemin(this, this.getPacMan()));
+		//this.setChemin(null);
 	}
 	
 	public int getPositionPrisonX() {return POSITIONPRISONX;}

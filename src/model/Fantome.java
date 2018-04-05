@@ -7,6 +7,11 @@ import graphe.Branche;
 public abstract class Fantome extends Personnage {
 	private Personnage pacMan;
 	private ArrayList<Integer> chemin;
+	private int datePrison;
+	private boolean invulnerable;
+	private int tourVulnerabilite;
+	
+
 
 	public Fantome(int x, int y, Branche b, Personnage pm) {
 		super(x, y, b);
@@ -14,8 +19,9 @@ public abstract class Fantome extends Personnage {
 		pacMan =  pm;
 		chemin = new ArrayList<Integer>();
 
-		this.invulnerable(0);
-		this.horsJeu(0);
+		this.invulnerable();
+		this.horsJeu();
+		this.datePrison = 0;
 	}
 
 	public void decisionDirection() {
@@ -32,17 +38,7 @@ public abstract class Fantome extends Personnage {
 		if (chemin.size()!=0) {
 			int destination = chemin.get(chemin.size()-1);
 
-			if (destination==HAUT) {
-				this.directionHaut();
-			} else if (destination==DROITE) {
-				this.directionDroite();
-			} else if (destination==BAS) {
-				this.directionBas();
-			} else if (destination==GAUCHE) {
-				this.directionGauche();
-			} else {
-				System.err.println("ERREUR: decision direction.");
-			}
+			this.direction(destination);
 
 			chemin.remove(chemin.size()-1);
 		}
@@ -63,23 +59,44 @@ public abstract class Fantome extends Personnage {
 			return getPositionPrisonY();
 		}
 	}
-	public Personnage getPacMan() {
-		return pacMan;
-	}
-
+	public Personnage getPacMan() {return pacMan;}
+	
 	// SETTEUR
-	public void setChemin(ArrayList<Integer> chemin) {
-		this.chemin = chemin;
-	}
+	public void setChemin(ArrayList<Integer> chemin) {this.chemin = chemin;}
 
 	// ABSTRACT
-	public void mort(int nbTour) {
+	public void mort() {
 		this.reinitialisation();
-		this.invulnerable(nbTour);
-		this.horsJeu(nbTour);
+		this.invulnerable();
+		this.horsJeu();
 
 		setChanged();
-		notifyObservers("PERTEVIE");
+		notifyObservers("PERTE_VIE");
+	}
+	
+	public void victoire(int nbTour) {
+		this.mort();
+		this.datePrison = nbTour;
+	}
+	
+	public int getDatePrison() {return datePrison;}
+	// Vulnerable
+	public int getTourVulnerabilite () {return tourVulnerabilite;}
+	public boolean estInvulnerable() {return invulnerable;}
+	
+	public void invulnerable() {
+		invulnerable = true;
+		
+		setChanged();
+		notifyObservers("INVULNERABLE");
+	}
+	
+	public void vulnerable(int nb) {
+		invulnerable = false;
+		tourVulnerabilite = nb;
+
+		setChanged();
+		notifyObservers("VULNERABLE");
 	}
 
 

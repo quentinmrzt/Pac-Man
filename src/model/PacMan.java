@@ -10,8 +10,7 @@ public class PacMan extends Personnage {
 
 		vie = 3;
 
-		this.vulnerable();
-		this.enJeu(0);
+		this.enJeu();
 	}
 
 	// GETTEUR
@@ -20,13 +19,12 @@ public class PacMan extends Personnage {
 	}
 
 	// SETTEUR
-	public void perteVie(int nbTour) {
+	public void perteVie() {
 		vie--;
 		this.reinitialisation();
-		this.vulnerable();
 
 		if (vie<0) {
-			this.mort(nbTour);
+			this.mort();
 		}
 		
 		setChanged();
@@ -34,8 +32,8 @@ public class PacMan extends Personnage {
 	}
 
 	// ABSTRACT
-	void mort(int nbTour) {
-		this.horsJeu(nbTour);
+	void mort() {
+		this.horsJeu();
 	}
 
 

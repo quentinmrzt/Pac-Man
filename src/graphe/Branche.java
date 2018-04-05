@@ -1,5 +1,7 @@
 package graphe;
 
+import model.Personnage;
+
 public class Branche {
 	private Noeud n1 = null;
 	private Noeud n2 = null;
@@ -89,5 +91,17 @@ public class Branche {
 	// FONCTION
 	public String toString() {
 		return "Branche [N1=(" + n1 + "), N2=(" + n2 + "), distance=" + distance + "]";
+	}
+
+	public boolean dansLeSens(int direction) {
+		if(horizontal && (direction==Personnage.GAUCHE || direction==Personnage.DROITE)) {
+			return true;
+		}
+		
+		if(!horizontal && (direction==Personnage.HAUT || direction==Personnage.BAS)) {
+			return true;
+		}
+		
+		return false;
 	}
 }
