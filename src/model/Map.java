@@ -121,6 +121,14 @@ public class Map extends Observable {
 	public int getSpawnFantomeX() {return spawnFantomeX;}
 	public int getSpawnFantomeY() {return spawnFantomeY;}
 
+	public boolean estGomme(int x, int y) {
+		if(this.getCase(x, y)==GOMME) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	// SETTEUR
 	public void setCase(int x, int y, int type) {
 		// La seule modification autorisée est la consommation de pacGomme
@@ -168,20 +176,25 @@ public class Map extends Observable {
 		boolean bas=false;
 		boolean gauche=false;
 
+		if(x<0 || y<0 || x>=tailleX || y>=tailleY) {
+			System.err.println("Erreur: Test intersection hors borne");
+			return false;
+		}
+		
 		// en Haut
-		if(y>0 && getCase(x,y-1)==SOL) {
+		if(y>0 && this.getCase(x,y-1)!=MUR) {
 			haut=true;
 		}
 		// a Droite
-		if(x<tailleX-1 && getCase(x+1,y)==SOL) {
+		if(x<tailleX-1 && this.getCase(x+1,y)!=MUR) {
 			droite=true;
 		}
 		// en Bas
-		if(y<tailleY-1 && getCase(x,y+1)==SOL) {
+		if(y<tailleY-1 && this.getCase(x,y+1)!=MUR) {
 			bas=true;
 		}
 		// a Gauche
-		if(x>0 && getCase(x-1,y)==SOL) {
+		if(x>0 && this.getCase(x-1,y)!=MUR) {
 			gauche=true;
 		}
 

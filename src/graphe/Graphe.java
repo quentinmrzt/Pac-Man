@@ -27,10 +27,6 @@ public class Graphe {
 			}
 		}
 
-		// .. on rajoute les spawns ..
-		//tabNoeud[map.getSpawnPacManX()][map.getSpawnPacManY()] = new Noeud(map.getSpawnPacManX(),map.getSpawnPacManY());
-		//tabNoeud[map.getSpawnFantomeX()][map.getSpawnFantomeY()] = new Noeud(map.getSpawnFantomeX(),map.getSpawnFantomeY());
-
 		// .. et on les lies entres eux
 		for (int y=0 ; y<tmpMap.getTailleY() ; y++) {
 			for (int x=0 ; x<map.getTailleX() ; x++) {
@@ -113,12 +109,8 @@ public class Graphe {
 	}
 
 	// GETTEUR
-	public int getTaille() {
-		return taille;
-	}
-	public Noeud getNoeud(int x, int y) {
-		return tabNoeud[x][y];
-	}
+	public int getTaille() {return taille;}
+	public Noeud getNoeud(int x, int y) {return tabNoeud[x][y];}
 	
 	/**
 	 * Fonction permettant de trouver la branche à l'aide d'un point de la map
@@ -135,7 +127,7 @@ public class Graphe {
 			return null;
 		}
 
-		if (Graphe.noeudExiste(x,y)) {
+		if (this.noeudExiste(x,y)) {
 			// si on se trouve sur un noeud
 			if(tabNoeud[x][y].existeHaut()) {
 				return tabNoeud[x][y].getHaut();
@@ -162,7 +154,7 @@ public class Graphe {
 
 				// HAUT
 				if (haut) {
-					if (Graphe.noeudExiste(x, y-i)) {
+					if (this.noeudExiste(x, y-i)) {
 						if(tabNoeud[x][y-i].existeBas()) {
 							return tabNoeud[x][y-i].getBas();
 						} else {
@@ -174,7 +166,7 @@ public class Graphe {
 
 				// DROITE
 				if (droite) {
-					if (Graphe.noeudExiste(x+i, y)) {
+					if (this.noeudExiste(x+i, y)) {
 						if(tabNoeud[x+i][y].existeGauche()) {
 							return tabNoeud[x+i][y].getGauche();
 						} else {
@@ -186,7 +178,7 @@ public class Graphe {
 
 				// BAS
 				if(bas) {
-					if (Graphe.noeudExiste(x, y+i)) {
+					if (this.noeudExiste(x, y+i)) {
 						if(tabNoeud[x][y+i].existeHaut()) {
 							return tabNoeud[x][y+i].getHaut();
 						} else {
@@ -198,7 +190,7 @@ public class Graphe {
 
 				// GAUCHE
 				if (gauche) {
-					if (Graphe.noeudExiste(x-i, y)) {
+					if (this.noeudExiste(x-i, y)) {
 						if(tabNoeud[x-i][y].existeDroite()) {
 							return tabNoeud[x-i][y].getDroite();
 						} else {
@@ -231,75 +223,7 @@ public class Graphe {
 	}
 
 	// TEST
-	public static boolean noeudExiste(int x, int y) {
+	public boolean noeudExiste(int x, int y) {
 		return tabNoeud[x][y]!=null;
-	}
-
-
-	public static void main(String[] args) {
-		Map map = new Map("src/map_gomme.txt");
-		Graphe graphe = new Graphe(map);
-		Branche branche;
-
-		int x, y;
-
-		// On test la borne en Haut à Gauche, pas sur un noeud, pas de noeud sur le chemin et donc pas de lien
-		x=0; 
-		y=0;
-		branche = graphe.getBranche(x, y);
-		if (branche!=null) {
-			System.out.println("La branche en x:"+x+", y:"+y+" existe !");
-		} else {
-			System.out.println("La branche en x:"+x+", y:"+y+" n'existe pas !");
-		}
-		System.out.println("");
-
-		// Sur le noeud (1,1): Droite et Bas
-		x = 1;
-		y = 1;
-		branche = graphe.getBranche(x, y);
-		if (branche!=null) {
-			System.out.println("La branche en x:"+x+", y:"+y+" existe !");
-			System.out.println("N1: ("+branche.getN1().getX()+","+branche.getN1().getY()+") et N2: ("+branche.getN2().getX()+","+branche.getN2().getY()+").");
-		} else {
-			System.out.println("La branche en x:"+x+", y:"+y+" n'existe pas !");
-		}
-		System.out.println("");
-
-		// Sur le noeud (6,5): Haut, Droite, Bas et Gauche
-		x = 6;
-		y = 5;
-		branche = graphe.getBranche(x, y);
-		if (branche!=null) {
-			System.out.println("La branche en x:"+x+", y:"+y+" existe !");
-			System.out.println("N1: ("+branche.getN1().getX()+","+branche.getN1().getY()+") et N2: ("+branche.getN2().getX()+","+branche.getN2().getY()+").");
-		} else {
-			System.out.println("La branche en x:"+x+", y:"+y+" n'existe pas !");
-		}
-		System.out.println("");
-
-		// Sur une branche (3,8): Droite et Gauche
-		x = 3;
-		y = 8;
-		branche = graphe.getBranche(x, y);
-		if (branche!=null) {
-			System.out.println("La branche en x:"+x+", y:"+y+" existe !");
-			System.out.println("N1: ("+branche.getN1().getX()+","+branche.getN1().getY()+") et N2: ("+branche.getN2().getX()+","+branche.getN2().getY()+").");
-		} else {
-			System.out.println("La branche en x:"+x+", y:"+y+" n'existe pas !");
-		}
-		System.out.println("");
-
-		// Sur rien (1,14): avec un noeud qui ne le relie pas en Haut, à Droite et en Bas
-		x = 1;
-		y = 14;
-		branche = graphe.getBranche(x, y);
-		if (branche!=null) {
-			System.out.println("La branche en x:"+x+", y:"+y+" existe !");
-			System.out.println("N1: ("+branche.getN1().getX()+","+branche.getN1().getY()+") et N2: ("+branche.getN2().getX()+","+branche.getN2().getY()+").");
-		} else {
-			System.out.println("La branche en x:"+x+", y:"+y+" n'existe pas !");
-		}
-		System.out.println("");
 	}
 }

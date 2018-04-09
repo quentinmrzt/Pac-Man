@@ -13,11 +13,11 @@ public abstract class Fantome extends Personnage {
 	
 
 
-	public Fantome(int x, int y, Branche b, Personnage pm) {
-		super(x, y, b);
+	public Fantome(int x, int y, Branche branche, Personnage pm) {
+		super(x, y, branche);
 
-		pacMan =  pm;
-		chemin = new ArrayList<Integer>();
+		this.pacMan =  pm;
+		this.chemin = new ArrayList<Integer>();
 
 		this.invulnerable();
 		this.horsJeu();
@@ -35,7 +35,7 @@ public abstract class Fantome extends Personnage {
 	}
 
 	private void prochaineDirection() {
-		if (chemin.size()!=0) {
+		if (!chemin.isEmpty()) {
 			int destination = chemin.get(chemin.size()-1);
 
 			this.direction(destination);
@@ -80,7 +80,6 @@ public abstract class Fantome extends Personnage {
 	}
 	
 	public int getDatePrison() {return datePrison;}
-	// Vulnerable
 	public int getTourVulnerabilite () {return tourVulnerabilite;}
 	public boolean estInvulnerable() {return invulnerable;}
 	

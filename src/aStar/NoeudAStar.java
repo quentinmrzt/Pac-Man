@@ -1,5 +1,6 @@
-package graphe;
+package aStar;
 
+import graphe.Noeud;
 import model.Personnage;
 
 public class NoeudAStar {

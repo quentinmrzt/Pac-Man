@@ -63,7 +63,7 @@ public class Modelisation extends Observable implements Observer {
 		this.getFantome(Modelisation.BLINKY).addObserver(this);
 		this.getFantome(Modelisation.PINKY).addObserver(this);
 		this.getFantome(Modelisation.INKY).addObserver(this);
-		this.getFantome(Modelisation.CLYDE).addObserver(this);
+		this.getFantome(Modelisation.CLYDE).addObserver(this);		
 	}
 
 	// ----------------------------------------
@@ -74,6 +74,7 @@ public class Modelisation extends Observable implements Observer {
 	public PacMan getPM() {return pacMan;}
 	public int getNombreDeTour() {return nombreDeTour;}
 	public Fantome getFantome(int personnage) {return fantomes.get(personnage);}
+	public ArrayList<Fantome> getFantome() {return fantomes;}
 
 	// ----------------------------------------
 	// TOUR DE JEU
@@ -120,7 +121,7 @@ public class Modelisation extends Observable implements Observer {
 			f.trouverChemin();
 			f.decisionDirection();
 		}
-
+				
 		// 4 - Permet l'orientation au noeud
 		pacMan.destination();
 

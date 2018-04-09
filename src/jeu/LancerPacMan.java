@@ -18,9 +18,7 @@ public class LancerPacMan {
 		// La fenêtre devient observeur du model
 		model.addObserver(fenetre);
 		
-		// On défini une instance
-		Horloge.getInstance();
-		
+		// On lance le jeu
 		model.jeu();
 	}
 }

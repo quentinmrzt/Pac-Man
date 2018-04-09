@@ -1,7 +1,8 @@
-package graphe;
+package aStar;
 
 import java.util.ArrayList;
 
+import graphe.Noeud;
 import model.Personnage;
 
 public class AStar {

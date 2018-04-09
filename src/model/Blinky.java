@@ -1,6 +1,6 @@
 package model;
 
-import graphe.AStar;
+import aStar.AStar;
 import graphe.Branche;
 
 public class Blinky extends Fantome {
@@ -19,7 +19,7 @@ public class Blinky extends Fantome {
 			// Blinky regarde la ou pacMan était 
 			this.setChemin(AStar.trouverCheminPersonnage(this, this.getPacMan().getNoeudDepart()));
 		} else {
-			// Si pacMan est statique sur une branche
+			// Si pacMan est statique
 			this.setChemin(AStar.trouverCheminPersonnage(this, this.getPacMan()));
 		}
 	}

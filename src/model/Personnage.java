@@ -28,9 +28,6 @@ public abstract class Personnage extends Observable {
 	private int prochaineDirection;
 	private boolean enJeu;
 
-
-
-
 	public Personnage(int x, int y, Branche b) {
 		// Position initiale
 		this.positionDepartX = x;

@@ -1,6 +1,6 @@
 package model;
 
-import graphe.AStar;
+import aStar.AStar;
 import graphe.Branche;
 
 public class Pinky extends Fantome {
