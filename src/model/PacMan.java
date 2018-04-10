@@ -27,9 +27,6 @@ public class PacMan extends Personnage {
 		if (vie<0) {
 			this.mort();
 		}
-		
-		setChanged();
-		notifyObservers("PERTEVIE");
 	}
 
 	// ABSTRACT

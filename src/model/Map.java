@@ -1,17 +1,18 @@
 package model;
 
-import java.io.*;
-import java.util.Observable;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 
-
-public class Map extends Observable {
+public class Map {
 	public final static int MUR = 0;
 	public final static int SOL = 1;
 	public final static int GOMME = 2;
 	public final static int SUPERGOMME = 3;
 	public final static int PRISON = 9;
 
-	private int map[][];
+	private int carte[][];
 	private int tailleX;
 	private int tailleY;
 
@@ -23,8 +24,23 @@ public class Map extends Observable {
 		tailleY = 31;
 		nbGomme = 0;
 		nbSuperGomme = 0;
-		map = new int[tailleX][tailleY];
+		carte = new int[tailleX][tailleY];
 		this.ouvrirMap(chemin);
+	}
+	
+	public Map(Map map) {
+		this.tailleX = map.getTailleX();
+		this.tailleY = map.getTailleY();
+		this.nbGomme = map.getNbGomme();
+		this.nbSuperGomme = map.getNbSuperGomme();
+		
+		this.carte = new int[this.tailleX][this.tailleY];
+		
+		for (int y=0 ; y<this.tailleY ; y++) {
+			for(int x=0 ; x<this.tailleX ; x++) {
+				this.carte[x][y] = map.getCase(x, y);
+			}
+		}
 	}
 
 	public void ouvrirMap(String chemin) {
@@ -44,11 +60,11 @@ public class Map extends Observable {
 						// puis on récupère caractère par caractère
 						String c = lecture.charAt(x)+"";
 						// et on le convertit en entier
-						map[x][y] = Integer.parseInt(c);
+						carte[x][y] = Integer.parseInt(c);
 						// On garde en mémoire cb il y a de gomme
-						if (map[x][y]==GOMME) {
+						if (carte[x][y]==GOMME) {
 							nbGomme++;
-						} else if (map[x][y]==SUPERGOMME) {
+						} else if (carte[x][y]==SUPERGOMME) {
 							nbSuperGomme++;
 						} 
 						x++;
@@ -69,7 +85,7 @@ public class Map extends Observable {
 	public void afficherMap() {
 		for (int y=0 ; y<this.tailleY ; y++) {
 			for(int x=0 ; x<this.tailleX ; x++) {
-				System.out.print(map[x][y]+" ");
+				System.out.print(carte[x][y]+" ");
 			}
 			System.out.println("");
 		}
@@ -93,7 +109,7 @@ public class Map extends Observable {
 			return -99999;
 		}
 		
-		return map[x][y];
+		return carte[x][y];
 	}
 
 	public boolean estGomme(int x, int y) {
@@ -107,11 +123,8 @@ public class Map extends Observable {
 	// SETTEUR
 	public void setCase(int x, int y, int type) {
 		// La seule modification autorisée est la consommation de pacGomme
-		if (type==SOL && (map[x][y]==SUPERGOMME || map[x][y]==GOMME)) {
-			map[x][y] = type;
-
-			setChanged();
-			notifyObservers(map);
+		if (type==SOL && (carte[x][y]==SUPERGOMME || carte[x][y]==GOMME)) {
+			carte[x][y] = type;
 		} else {
 			System.err.println("ERREUR: Initialisation d'une case interdite dans la Map.");
 		}
@@ -124,11 +137,6 @@ public class Map extends Observable {
 		} else {
 			System.err.println("ERREUR: Trop de gomme on été mangée.");
 		}
-		
-		if (nbGomme==0) {
-			setChanged();
-			notifyObservers("Fin du jeu.");
-		}
 	}
 	public void mangerSuperGomme(int x, int y) {
 		this.setCase(x, y, SOL);
@@ -137,11 +145,6 @@ public class Map extends Observable {
 			nbSuperGomme--;
 		} else {
 			System.err.println("ERREUR: Trop de super gomme on été mangée.");
-		}
-		
-		if (nbSuperGomme==0) {
-			setChanged();
-			notifyObservers("Fin de l'invulnérabilité.");
 		}
 	}
 

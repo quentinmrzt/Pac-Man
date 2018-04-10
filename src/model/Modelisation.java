@@ -2,12 +2,11 @@ package model;
 
 import java.util.ArrayList;
 import java.util.Observable;
-import java.util.Observer;
 
 import graphe.Branche;
 import graphe.Graphe;
 
-public class Modelisation extends Observable implements Observer {
+public class Modelisation extends Observable {
 	// Donnée du model
 	public final static int BLINKY=0;
 	public final static int PINKY=1;
@@ -24,7 +23,6 @@ public class Modelisation extends Observable implements Observer {
 	private ArrayList<Fantome> fantomes;
 	private Graphe graphe;
 	private int score;
-	private int mangerDeSuite;
 	private int nombreDeTour;
 
 	public Modelisation() {
@@ -52,17 +50,7 @@ public class Modelisation extends Observable implements Observer {
 		fantomes.add(new Clyde(fantomeX,fantomeY,brancheFantome,pacMan));
 
 		score = 0;
-		mangerDeSuite = 0;
 		nombreDeTour = 0;
-
-		// Le model surveille différent élément
-		pacMan.addObserver(this);
-		map.addObserver(this);
-
-		this.getFantome(Modelisation.BLINKY).addObserver(this);
-		this.getFantome(Modelisation.PINKY).addObserver(this);
-		this.getFantome(Modelisation.INKY).addObserver(this);
-		this.getFantome(Modelisation.CLYDE).addObserver(this);
 	}
 
 	// ----------------------------------------
@@ -75,22 +63,6 @@ public class Modelisation extends Observable implements Observer {
 	public Fantome getFantome(int personnage) {return fantomes.get(personnage);}
 	public ArrayList<Fantome> getFantome() {return fantomes;}
 
-	// ----------------------------------------
-	// TOUR DE JEU
-	public void jeu() {
-		while (this.finDePartie()) {
-			this.tourDeJeu();
-
-			try {
-				Thread.sleep(80);
-			} catch(InterruptedException e) { 
-				System.err.println("ERREUR: Problème sur l'horloge.");
-			}
-
-			this.nombreDeTour++;
-		}
-	}
-
 	public boolean finDePartie() {
 		if(!pacMan.estEnJeu() || map.getNbGomme()+map.getNbSuperGomme()==0) {
 			System.out.println("FIN DE LA PARTIE");
@@ -101,37 +73,26 @@ public class Modelisation extends Observable implements Observer {
 	}
 
 	public void tourDeJeu() {
-		
-		// 1 - finEffetSuperGomme
+		pacMan.destination();
+
 		for (Fantome fantome: fantomes) {
-			if(!fantome.estInvulnerable() && nombreDeTour>fantome.getTourVulnerabilite()+60) { // ~4sec
+			// finEffetSuperGomme
+			if(fantome.estVulnerable() && nombreDeTour>fantome.getTourVulnerabilite()+60) {
 				fantome.invulnerable();
 			}
-		}
 
-		// 2 - On libère un fantome avec 4sec en prison
-		for (Fantome f: fantomes) {
-			// + 25 = 2 secondes
-			if (!f.estEnJeu() && nombreDeTour>f.getEntreeEnJeu()+f.getDatePrison()) {
-				f.enJeu();
+			// On libère un fantome
+			if (!fantome.estEnJeu() && nombreDeTour>fantome.getEntreeEnJeu()+fantome.getDatePrison()) {
+				fantome.enJeu();
 			}
 
 			// 3 - Recherche du chemin et direction
-			f.trouverChemin();
-			f.decisionDirection();
-		}
-				
-		// 4 - Permet l'orientation au noeud
-		pacMan.destination();
+			fantome.trouverChemin();
+			fantome.decisionDirection();
 
-		for (Fantome f: fantomes) {
-			f.destination();
-		}
+			fantome.destination();
 
-
-		// FANTOMES: Ils se déplace et mangent
-		for (Fantome f: fantomes) {
-			f.deplacement();
+			fantome.deplacement();
 		}
 		this.mangerFantome();
 		this.mangerPacMan();
@@ -142,7 +103,7 @@ public class Modelisation extends Observable implements Observer {
 		this.mangerPacMan();
 		this.mangerGomme();
 
-
+		this.nombreDeTour++;
 
 		// PROVISOIRE
 		setChanged();
@@ -159,9 +120,6 @@ public class Modelisation extends Observable implements Observer {
 		if (type==Map.GOMME) {
 			map.mangerGomme(x,y);
 			score+=SCORE_GOMME;
-
-			setChanged();
-			notifyObservers("G");
 		} else if (type==Map.SUPERGOMME) {
 			map.mangerSuperGomme(x,y);
 			score+=SCORE_SUPERGOMME;
@@ -171,9 +129,6 @@ public class Modelisation extends Observable implements Observer {
 					fantome.vulnerable(nombreDeTour);
 				}
 			}
-
-			setChanged();
-			notifyObservers("SG");
 		}
 	}
 
@@ -210,7 +165,7 @@ public class Modelisation extends Observable implements Observer {
 				if (x==fantome.getPositionX() && y==fantome.getPositionY()) {
 					fantome.mort();
 					//this.mangerDeSuite++;
-					this.score += SCORE_FANTOME*(Math.pow(2,mangerDeSuite-1));
+					this.score += SCORE_FANTOME;
 				}
 			}
 		}
@@ -233,21 +188,6 @@ public class Modelisation extends Observable implements Observer {
 	// Si des sous élements du model son maj
 	public void update(Observable o, Object arg) {
 		setChanged();
-
-		if(o instanceof Blinky) {
-			notifyObservers("Blinky");
-		} else if(o instanceof Pinky) {
-			notifyObservers("Pinky");
-		} else if(o instanceof Inky) {
-			notifyObservers("Inky");
-		} else if(o instanceof Clyde) {
-			notifyObservers("Clyde");
-		} else if(o instanceof PacMan) {
-			notifyObservers("PacMan");
-		} else if(o instanceof Map) {
-			notifyObservers("Map");
-		} else {
-			notifyObservers("TEST");
-		}
+		notifyObservers("Modelisation");
 	}
 }

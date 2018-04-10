@@ -1,11 +1,9 @@
 package model;
 
-import java.util.Observable;
-
 import graphe.Branche;
 import graphe.Noeud;
 
-public abstract class Personnage extends Observable {
+public abstract class Personnage {
 	public final static int HAUT = 0;
 	public final static int DROITE = 1;
 	public final static int BAS = 2;
@@ -138,21 +136,8 @@ public abstract class Personnage extends Observable {
 		}
 	}
 	
-
-
-	
-	public void enJeu() {
-		enJeu = true;
-
-		setChanged();
-		notifyObservers("ENJEU");
-	}
-	public void horsJeu() {
-		enJeu = false;
-
-		setChanged();
-		notifyObservers("HORSJEU");
-	}
+	public void enJeu() {enJeu = true;}
+	public void horsJeu() {enJeu = false;}
 
 	/**
 	 * Fonction permettant de changer la direction du personnage
@@ -252,9 +237,6 @@ public abstract class Personnage extends Observable {
 			}
 			
 			noeud = branche.getNoeud(positionX,positionY);
-			
-			setChanged();
-			notifyObservers("DEPLACEMENT");
 		}
 	}
 
@@ -272,9 +254,6 @@ public abstract class Personnage extends Observable {
 
 		this.direction = STATIQUE;
 		this.prochaineDirection = STATIQUE;
-
-		setChanged();
-		notifyObservers("REINI");
 	}
 
 	abstract void mort();

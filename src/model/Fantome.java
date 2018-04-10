@@ -69,9 +69,6 @@ public abstract class Fantome extends Personnage {
 		this.reinitialisation();
 		this.invulnerable();
 		this.horsJeu();
-
-		setChanged();
-		notifyObservers("PERTE_VIE");
 	}
 	
 	public void victoire(int nbTour) {
@@ -82,20 +79,15 @@ public abstract class Fantome extends Personnage {
 	public int getDatePrison() {return datePrison;}
 	public int getTourVulnerabilite () {return tourVulnerabilite;}
 	public boolean estInvulnerable() {return invulnerable;}
+	public boolean estVulnerable() {return !invulnerable;}
 	
 	public void invulnerable() {
 		invulnerable = true;
-		
-		setChanged();
-		notifyObservers("INVULNERABLE");
 	}
 	
 	public void vulnerable(int nb) {
 		invulnerable = false;
 		tourVulnerabilite = nb;
-
-		setChanged();
-		notifyObservers("VULNERABLE");
 	}
 
 

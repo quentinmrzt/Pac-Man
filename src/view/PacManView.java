@@ -72,9 +72,9 @@ public class PacManView extends ElementDuJeu implements Observer {
 
 	// OBSERVER
 	public void update(Observable obs, Object arg) {					
-			this.setPositionTabX(pacMan.getPositionX());
-			this.setPositionTabY(pacMan.getPositionY());
-			direction = pacMan.getDirection();
-			boucheOuverte = !boucheOuverte;
+		this.setPositionTabX(pacMan.getPositionX());
+		this.setPositionTabY(pacMan.getPositionY());
+		direction = pacMan.getDirection();
+		boucheOuverte = !boucheOuverte;
 	}	
 }

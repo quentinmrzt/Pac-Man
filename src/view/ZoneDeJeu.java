@@ -22,7 +22,7 @@ public class ZoneDeJeu extends JPanel implements Observer {
 
 	public ZoneDeJeu(Modelisation model) {	
 		modelisation = model;
-		
+
 		// On récupére la map du modèle
 		Map map = modelisation.getMap();
 		pacManView = new PacManView(modelisation.getPM());
@@ -43,7 +43,6 @@ public class ZoneDeJeu extends JPanel implements Observer {
 
 		// La taille du panel fait exactement la taille de la map
 		this.setPreferredSize(new Dimension(map.getTailleX()*16	, map.getTailleY()*16)) ;
-
 	}
 
 	public int getTailleY() {
@@ -75,33 +74,21 @@ public class ZoneDeJeu extends JPanel implements Observer {
 	}
 
 	public void update(Observable obs, Object arg) {		
-		if(arg.equals("Blinky")) {
-			blinky.update(obs,arg);
-		}
-		if(arg.equals("Pinky")) {
-			pinky.update(obs,arg);
-		}
-		if(arg.equals("Inky")) {
-			inky.update(obs,arg);
-		}
-		if(arg.equals("Clyde")) {
-			clyde.update(obs,arg);
-		}
-		if(arg.equals("PacMan")) {
-			pacManView.update(obs, arg);
-		}
+		blinky.update(obs,arg);
+		pinky.update(obs,arg);
+		inky.update(obs,arg);
+		clyde.update(obs,arg);
+		pacManView.update(obs, arg);
 
-		if(arg.equals("Map")) {
-			Map tmp = modelisation.getMap();
+		Map tmp = modelisation.getMap();
 
-			// On maj l'affichage du tableau
-			for (int y=0 ; y<tmp.getTailleY() ; y++) {
-				for (int x=0 ; x<tmp.getTailleX() ; x++) {
-					tabCases[x][y].setImage(tmp.getCase(x, y));
-				}
+		// On maj l'affichage du tableau
+		for (int y=0 ; y<tmp.getTailleY() ; y++) {
+			for (int x=0 ; x<tmp.getTailleX() ; x++) {
+				tabCases[x][y].setImage(tmp.getCase(x, y));
 			}
 		}
-		
+
 		this.repaint();
 	}
 }

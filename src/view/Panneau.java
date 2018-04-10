@@ -47,27 +47,27 @@ public class Panneau extends JPanel implements Observer {
 		constraints.gridwidth = GridBagConstraints.REMAINDER; // le dernier de la ligne
 		constraints.gridheight = 1;
 		constraints.gridx = 1;
-		
+
 		constraints.gridy = 0;
 		pacManTxt = new JLabel("Pac-Man: ");
 		pacManTxt.setPreferredSize(new Dimension(400, 30)) ;
 		this.add(pacManTxt, constraints);
-		
+
 		constraints.gridy = 1;
 		BlinkyTxt = new JLabel("Blinky: ");
 		BlinkyTxt.setPreferredSize(new Dimension(400, 30)) ;
 		this.add(BlinkyTxt, constraints);
-		
+
 		constraints.gridy = 2;
 		PinkyTxt = new JLabel("Pinky: ");
 		PinkyTxt.setPreferredSize(new Dimension(400, 30)) ;
 		this.add(PinkyTxt, constraints);
-		
+
 		constraints.gridy = 3;
 		InkyTxt = new JLabel("Inky: ");
 		InkyTxt.setPreferredSize(new Dimension(400, 30)) ;
 		this.add(InkyTxt, constraints);
-		
+
 		constraints.gridy = 4;
 		ClydeTxt = new JLabel("Clyde: ");
 		ClydeTxt.setPreferredSize(new Dimension(400, 30)) ;
@@ -95,11 +95,9 @@ public class Panneau extends JPanel implements Observer {
 		PinkyTxt.setText("Pinky: "+modelisation.getFantome(Modelisation.PINKY).toString());
 		InkyTxt.setText("Inky: "+modelisation.getFantome(Modelisation.INKY).toString());
 		ClydeTxt.setText("Clyde: "+modelisation.getFantome(Modelisation.CLYDE).toString());
-		
-		if(o instanceof Modelisation) {
-			gommeTxt.setText("Gomme: "+modelisation.getMap().getNbGomme()+". Super gomme: "+modelisation.getMap().getNbSuperGomme()+".");
-			score.setText("Score: "+modelisation.getScore()+".");
-		}
+
+		gommeTxt.setText("Gomme: "+modelisation.getMap().getNbGomme()+". Super gomme: "+modelisation.getMap().getNbSuperGomme()+".");
+		score.setText("Score: "+modelisation.getScore()+".");
 
 		zdj.update(o, arg);
 	}
