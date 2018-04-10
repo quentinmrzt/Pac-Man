@@ -27,18 +27,6 @@ public class Map extends Observable {
 		this.ouvrirMap(chemin);
 	}
 
-	public Map(Map m) {
-		tailleX = m.getTailleX();
-		tailleY = m.getTailleY();
-		map = new int[tailleX][tailleY];
-
-		for (int y=0 ; y<tailleY ; y++) {
-			for (int x=0 ; x<tailleX ; x++) {
-				map[x][y] = m.getCase(x, y);
-			}
-		}
-	}
-
 	public void ouvrirMap(String chemin) {
 		//Ouverture du Fichier 
 		try {
@@ -158,15 +146,19 @@ public class Map extends Observable {
 	}
 
 	public boolean isIntersection(int x, int y) {
-		boolean haut=false;
-		boolean droite=false;
-		boolean bas=false;
-		boolean gauche=false;
-
 		if(x<0 || y<0 || x>=tailleX || y>=tailleY) {
 			System.err.println("Erreur: Test intersection hors borne");
 			return false;
 		}
+		
+		if(this.getCase(x,y)==MUR) {
+			return false;
+		}
+		
+		boolean haut=false;
+		boolean droite=false;
+		boolean bas=false;
+		boolean gauche=false;
 		
 		// en Haut
 		if(y>0 && this.getCase(x,y-1)!=MUR) {
@@ -186,25 +178,6 @@ public class Map extends Observable {
 		}
 
 		return (haut || bas) && (droite || gauche);
-	}
-	
-	public void simplification() {
-		// map en simplifié
-		for (int y=0 ; y<tailleY ; y++) {			
-			for (int x=0 ; x<tailleX ; x++) {
-				int type = getCase(x,y);
-				if (type == MUR) {
-					map[x][y] = MUR;
-				} else if (type == SOL || type == GOMME || type == SUPERGOMME) {
-					map[x][y] = SOL;
-				} else if (getCase(x, y) == PRISON) {
-					map[x][y] = PRISON;
-				} else { 
-					System.err.println("Un chiffre n'est reconnu en x:"+x+" y:"+y+".");
-					System.exit(0);
-				}
-			}
-		}		
 	}
 }
 

@@ -62,7 +62,7 @@ public class Modelisation extends Observable implements Observer {
 		this.getFantome(Modelisation.BLINKY).addObserver(this);
 		this.getFantome(Modelisation.PINKY).addObserver(this);
 		this.getFantome(Modelisation.INKY).addObserver(this);
-		this.getFantome(Modelisation.CLYDE).addObserver(this);		
+		this.getFantome(Modelisation.CLYDE).addObserver(this);
 	}
 
 	// ----------------------------------------

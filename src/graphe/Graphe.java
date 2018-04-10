@@ -3,49 +3,45 @@ package graphe;
 import model.Map;
 
 public class Graphe {
-	static private Noeud tabNoeud[][];
-	private int taille = 0;
+	private Noeud tabNoeud[][];
+	private int tailleX, tailleY;
 
 	// CONSTRUCTEUR	
 	public Graphe(Map map) {
-		// On simplie la map déjà existante 
-		Map tmpMap = new Map(map);
-		tmpMap.simplification();
-
 		// Un tableau de noeud nous permettant de construire le graphe
-		tabNoeud = new Noeud[map.getTailleX()][map.getTailleY()];
+		this.tailleX = map.getTailleX();
+		this.tailleY = map.getTailleY();
+		
+		this.tabNoeud = new Noeud[tailleX][tailleY];
 
 		// On récupérer les différents Noeuds ..
-		for (int y=0 ; y<tmpMap.getTailleY() ; y++) {			
-			for (int x=0 ; x<tmpMap.getTailleX() ; x++) {
-				if(tmpMap.getCase(x, y) == Map.SOL) {
-					if (tmpMap.isIntersection(x, y)) {
-						tabNoeud[x][y] = new Noeud(x,y);
-						taille++;
-					}
+		for (int y=0 ; y<map.getTailleY() ; y++) {			
+			for (int x=0 ; x<map.getTailleX() ; x++) {
+				if (map.isIntersection(x, y)) {
+					tabNoeud[x][y] = new Noeud(x,y);
 				}
 			}
 		}
 
 		// .. et on les lies entres eux
-		for (int y=0 ; y<tmpMap.getTailleY() ; y++) {
+		for (int y=0 ; y<map.getTailleY() ; y++) {
 			for (int x=0 ; x<map.getTailleX() ; x++) {
-				if (tabNoeud[x][y] != null) {
+				if (this.noeudExiste(x,y)) {
 					// On vérifie que le lien n'a pas déjà été fais
-					boolean haut = tabNoeud[x][y].getHaut()==null;
-					boolean droite = tabNoeud[x][y].getDroite()==null;
-					boolean bas = tabNoeud[x][y].getBas()==null;
-					boolean gauche = tabNoeud[x][y].getGauche()==null;
+					boolean haut = !tabNoeud[x][y].existeHaut();
+					boolean droite = !tabNoeud[x][y].existeDroite();
+					boolean bas = !tabNoeud[x][y].existeBas();
+					boolean gauche = !tabNoeud[x][y].existeGauche();
 
 					int i = 1;
 					// Tant qu'on a pas testé toute les directions
 					while(haut || droite || bas || gauche) {
 						// HAUT
 						if (haut) {
-							if (tmpMap.getCase(x, y-i) != Map.SOL) {
+							if (map.getCase(x, y-i) == Map.MUR) {
 								haut = false;
 							} else {
-								if (tabNoeud[x][y-i] != null) {
+								if (this.noeudExiste(x,y-1)) {
 									// on créé une branche: en haut (n1), en bas (n2)
 									Branche tmp = new Branche(tabNoeud[x][y-i],tabNoeud[x][y]);
 									tabNoeud[x][y].setHaut(tmp);
@@ -57,10 +53,10 @@ public class Graphe {
 
 						// DROITE
 						if (droite) {
-							if (tmpMap.getCase(x+i, y) != Map.SOL) {
+							if (map.getCase(x+i, y) == Map.MUR) {
 								droite = false;
 							} else {
-								if (tabNoeud[x+i][y] != null) {
+								if (this.noeudExiste(x+i,y)) {
 									// on créé une branche: à gauche (n1), à droite (n2)
 									Branche tmp = new Branche(tabNoeud[x][y],tabNoeud[x+i][y]);
 									tabNoeud[x][y].setDroite(tmp);
@@ -72,10 +68,10 @@ public class Graphe {
 
 						// BAS
 						if(bas) {
-							if (tmpMap.getCase(x, y+i) != Map.SOL) {
+							if (map.getCase(x, y+i) == Map.MUR) {
 								bas = false;
 							} else {
-								if (tabNoeud[x][y+i] != null) {
+								if (this.noeudExiste(x,y+i)) {
 									// on créé une branche: en haut (n1), en bas (n2)
 									Branche tmp = new Branche(tabNoeud[x][y],tabNoeud[x][y+i]);
 									tabNoeud[x][y].setBas(tmp);
@@ -88,10 +84,10 @@ public class Graphe {
 
 						// GAUCHE
 						if (gauche) {
-							if (tmpMap.getCase(x-i, y) != Map.SOL) {
+							if (map.getCase(x-i, y) == Map.MUR) {
 								gauche = false;
 							} else {
-								if (tabNoeud[x-i][y] != null) {
+								if (this.noeudExiste(x-i,y)) {
 									// on créé une branche: à gauche (n1), à droite (n2)
 									Branche tmp = new Branche(tabNoeud[x-i][y],tabNoeud[x][y]);
 									tabNoeud[x][y].setDroite(tmp);
@@ -109,9 +105,10 @@ public class Graphe {
 	}
 
 	// GETTEUR
-	public int getTaille() {return taille;}
 	public Noeud getNoeud(int x, int y) {return tabNoeud[x][y];}
-	
+	public int getTailleX() {return tailleX;}
+	public int getTailleY() {return tailleY;}
+
 	/**
 	 * Fonction permettant de trouver la branche à l'aide d'un point de la map
 	 * @param x La coordonnée x
