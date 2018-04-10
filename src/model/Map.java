@@ -9,15 +9,12 @@ public class Map extends Observable {
 	public final static int SOL = 1;
 	public final static int GOMME = 2;
 	public final static int SUPERGOMME = 3;
-	public final static int SPAWNPACMAN = 7;
-	public final static int SPAWNFANTOME = 8;
 	public final static int PRISON = 9;
 
 	private int map[][];
 	private int tailleX;
 	private int tailleY;
-	private int spawnPacManX, spawnPacManY;
-	private int spawnFantomeX, spawnFantomeY;
+
 	private int nbGomme;
 	private int nbSuperGomme;
 
@@ -65,15 +62,7 @@ public class Map extends Observable {
 							nbGomme++;
 						} else if (map[x][y]==SUPERGOMME) {
 							nbSuperGomme++;
-						} else if (map[x][y]==SPAWNPACMAN) {
-							spawnPacManX = x;
-							spawnPacManY = y;
-							map[x][y] = SOL;
-						} else if (map[x][y]==SPAWNFANTOME) {
-							spawnFantomeX = x;
-							spawnFantomeY = y;
-							map[x][y] = SOL;
-						}
+						} 
 						x++;
 					}
 				} else {
@@ -99,6 +88,12 @@ public class Map extends Observable {
 	}
 
 	// GETTEUR
+	public int getTailleX() {return tailleX;}
+	public int getTailleY() {return tailleY;}
+	
+	public int getNbGomme() {return nbGomme;}
+	public int getNbSuperGomme() {return nbSuperGomme;}
+	
 	public int getCase(int x, int y) {
 		if (x>=tailleX || y>=tailleY) {
 			System.out.println("ERREUR: x:"+x+" ou y:"+y+" est hors limite.");
@@ -112,14 +107,6 @@ public class Map extends Observable {
 		
 		return map[x][y];
 	}
-	public int getTailleX() {return tailleX;}
-	public int getTailleY() {return tailleY;}
-	public int getNbGomme() {return nbGomme;}
-	public int getNbSuperGomme() {return nbSuperGomme;}
-	public int getSpawnPacManX() {return spawnPacManX;}
-	public int getSpawnPacManY() {return spawnPacManY;}
-	public int getSpawnFantomeX() {return spawnFantomeX;}
-	public int getSpawnFantomeY() {return spawnFantomeY;}
 
 	public boolean estGomme(int x, int y) {
 		if(this.getCase(x, y)==GOMME) {
@@ -208,7 +195,7 @@ public class Map extends Observable {
 				int type = getCase(x,y);
 				if (type == MUR) {
 					map[x][y] = MUR;
-				} else if (type == SOL || type == GOMME || type == SUPERGOMME || type == SPAWNPACMAN || type == SPAWNFANTOME) {
+				} else if (type == SOL || type == GOMME || type == SUPERGOMME) {
 					map[x][y] = SOL;
 				} else if (getCase(x, y) == PRISON) {
 					map[x][y] = PRISON;

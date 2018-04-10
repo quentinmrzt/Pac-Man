@@ -15,9 +15,9 @@ public class Modelisation extends Observable implements Observer {
 	public final static int CLYDE=3; 
 	public final static int PACMAN=4;
 
-	public final static int SCORE_GOMME=10;
-	public final static int SCORE_SUPERGOMME=50;
-	public final static int SCORE_FANTOME=200;
+	public final int SCORE_GOMME=10;
+	public final int SCORE_SUPERGOMME=50;
+	public final int SCORE_FANTOME=200;
 
 	private Map map;
 	private PacMan pacMan;
@@ -33,17 +33,16 @@ public class Modelisation extends Observable implements Observer {
 		map = new Map("src/map_gomme.txt");
 		graphe = new Graphe(map);
 
-
 		// PACMAN
-		int pacManX = map.getSpawnPacManX();
-		int pacManY = map.getSpawnPacManY();
-		Branche branchePacMan = graphe.getBranche(pacManX, pacManY);
+		int pacManX = 14;
+		int pacManY = 23;
+		Branche branchePacMan = graphe.getBranche(pacManX,pacManY);
 		// Ini du personnage PacMan
 		pacMan = new PacMan(pacManX,pacManY,branchePacMan);
 
 		// FANTOMES
-		int fantomeX = map.getSpawnFantomeX();
-		int fantomeY = map.getSpawnFantomeY();
+		int fantomeX = 14;
+		int fantomeY = 11;
 		Branche brancheFantome = graphe.getBranche(fantomeX, fantomeY);
 		// Ini des personnages Fantomes
 		fantomes = new ArrayList<Fantome>();
