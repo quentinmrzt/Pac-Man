@@ -20,7 +20,7 @@ public class LancerPacMan {
 
 		// On lance le jeu
 		while (model.finDePartie()) {
-			model.tourDeJeu();
+			//model.tourDeJeu();
 
 			try {
 				Thread.sleep(80);

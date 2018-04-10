@@ -45,4 +45,8 @@ public class Controller {
 	public void toucheTrouveBlinky() {
 		model.trouverCheminBlinky();
 	}
+
+	public void prochainTour() {
+		model.tourDeJeu();		
+	}
 }

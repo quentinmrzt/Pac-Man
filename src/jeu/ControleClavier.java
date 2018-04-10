@@ -7,7 +7,6 @@ import controller.Controller;
 
 public class ControleClavier implements KeyEventDispatcher {
 	private Controller control;
-	private boolean cherche = false;
 
 	public ControleClavier(Controller c) {
 		control = c;
@@ -42,18 +41,16 @@ public class ControleClavier implements KeyEventDispatcher {
 			control.toucheGaucheBlinky();
 			break;
 		case KeyEvent.VK_T:
-			if (!cherche) {
-				control.toucheTrouveBlinky();
-				cherche = true;
-			}
+			control.toucheTrouveBlinky();
 			break;
-		case KeyEvent.VK_Y:
-			cherche = false;
-			break;
-			// AUTRE
 		case KeyEvent.VK_ESCAPE:
 			System.exit(0);
+			break;
+		case KeyEvent.VK_PAGE_UP:
+			control.prochainTour();
+			break;
 		}
+
 
 		return false;
 	}
