@@ -20,14 +20,15 @@ public class LancerPacMan {
 
 		// On lance le jeu
 		while (model.finDePartie()) {
-			//model.tourDeJeu();
+			if(!model.enPause()) {
+				model.tourDeJeu();
+			}
 
 			try {
 				Thread.sleep(80);
 			} catch(InterruptedException e) { 
 				System.err.println("ERREUR: Problème sur l'horloge.");
 			}
-
 		}
 	}
 }

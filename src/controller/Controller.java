@@ -46,7 +46,14 @@ public class Controller {
 		model.trouverCheminBlinky();
 	}
 
-	public void prochainTour() {
+	public void touchePageUp() {
 		model.tourDeJeu();		
+	}
+
+	public void toucheP() {
+		model.pause();
+	}
+	public void toucheJ() {
+		model.jouer();
 	}
 }

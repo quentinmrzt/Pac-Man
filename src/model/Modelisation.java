@@ -24,6 +24,7 @@ public class Modelisation extends Observable {
 	private Graphe graphe;
 	private int score;
 	private int nombreDeTour;
+	private boolean jouer;
 
 	public Modelisation() {
 		super();
@@ -51,6 +52,7 @@ public class Modelisation extends Observable {
 
 		score = 0;
 		nombreDeTour = 0;
+		jouer = false;
 	}
 
 	// ----------------------------------------
@@ -62,6 +64,7 @@ public class Modelisation extends Observable {
 	public int getNombreDeTour() {return nombreDeTour;}
 	public Fantome getFantome(int personnage) {return fantomes.get(personnage);}
 	public ArrayList<Fantome> getFantome() {return fantomes;}
+	public boolean enPause() {return !jouer;}
 
 	public boolean finDePartie() {
 		if(!pacMan.estEnJeu() || map.getNbGomme()+map.getNbSuperGomme()==0) {
@@ -73,41 +76,42 @@ public class Modelisation extends Observable {
 	}
 
 	public void tourDeJeu() {
-		pacMan.destination();
+		
+			pacMan.destination();
 
-		for (Fantome fantome: fantomes) {
-			// finEffetSuperGomme
-			if(fantome.estVulnerable() && nombreDeTour>fantome.getTourVulnerabilite()+60) {
-				fantome.invulnerable();
+			for (Fantome fantome: fantomes) {
+				// finEffetSuperGomme
+				if(fantome.estVulnerable() && nombreDeTour>fantome.getTourVulnerabilite()+60) {
+					fantome.invulnerable();
+				}
+
+				// On libère un fantome
+				if (!fantome.estEnJeu() && nombreDeTour>fantome.getEntreeEnJeu()+fantome.getDatePrison()) {
+					fantome.enJeu();
+				}
+
+				// 3 - Recherche du chemin et direction
+				fantome.trouverChemin();
+				fantome.decisionDirection();
+
+				fantome.destination();
+
+				fantome.deplacement();
 			}
+			this.mangerFantome();
+			this.mangerPacMan();
 
-			// On libère un fantome
-			if (!fantome.estEnJeu() && nombreDeTour>fantome.getEntreeEnJeu()+fantome.getDatePrison()) {
-				fantome.enJeu();
-			}
+			// PAC-MAN: Il se déplace et mange
+			pacMan.deplacement();
+			this.mangerFantome();
+			this.mangerPacMan();
+			this.mangerGomme();
 
-			// 3 - Recherche du chemin et direction
-			fantome.trouverChemin();
-			fantome.decisionDirection();
+			this.nombreDeTour++;
 
-			fantome.destination();
-
-			fantome.deplacement();
-		}
-		this.mangerFantome();
-		this.mangerPacMan();
-
-		// PAC-MAN: Il se déplace et mange
-		pacMan.deplacement();
-		this.mangerFantome();
-		this.mangerPacMan();
-		this.mangerGomme();
-
-		this.nombreDeTour++;
-
-		// PROVISOIRE
-		setChanged();
-		notifyObservers("TEST_TOURDEJEU");
+			// PROVISOIRE
+			setChanged();
+			notifyObservers("TEST_TOURDEJEU");
 	}
 
 	// --------------------------------------
@@ -189,5 +193,13 @@ public class Modelisation extends Observable {
 	public void update(Observable o, Object arg) {
 		setChanged();
 		notifyObservers("Modelisation");
+	}
+
+	public void pause() {
+		this.jouer = false;
+	}
+
+	public void jouer() {
+		this.jouer = true;
 	}
 }

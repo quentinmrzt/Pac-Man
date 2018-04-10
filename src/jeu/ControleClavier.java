@@ -1,20 +1,19 @@
 package jeu;
 
-import java.awt.KeyEventDispatcher;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import controller.Controller;
 
-public class ControleClavier implements KeyEventDispatcher {
+public class ControleClavier implements KeyListener  {
 	private Controller control;
 
 	public ControleClavier(Controller c) {
 		control = c;
 	}
 
-	public boolean dispatchKeyEvent(KeyEvent e) {
+	public void keyPressed(KeyEvent e) {
 		switch(e.getKeyCode()) {
-		// PACMAN
 		case KeyEvent.VK_UP:
 			control.toucheHaut();
 			break;
@@ -27,19 +26,7 @@ public class ControleClavier implements KeyEventDispatcher {
 		case KeyEvent.VK_LEFT:
 			control.toucheGauche();
 			break;
-			// BLINKY
-		case KeyEvent.VK_I:
-			control.toucheHautBlinky();
-			break;
-		case KeyEvent.VK_L:
-			control.toucheDroiteBlinky();
-			break;
-		case KeyEvent.VK_K:
-			control.toucheBasBlinky();
-			break;
-		case KeyEvent.VK_J:
-			control.toucheGaucheBlinky();
-			break;
+			
 		case KeyEvent.VK_T:
 			control.toucheTrouveBlinky();
 			break;
@@ -47,11 +34,24 @@ public class ControleClavier implements KeyEventDispatcher {
 			System.exit(0);
 			break;
 		case KeyEvent.VK_PAGE_UP:
-			control.prochainTour();
+			control.touchePageUp();
+			break;
+		case KeyEvent.VK_P:
+			control.toucheP();
+			break;
+		case KeyEvent.VK_J:
+			control.toucheJ();
 			break;
 		}
+	}
 
+	public void keyReleased(KeyEvent arg0) {
+		// TODO Auto-generated method stub
 
-		return false;
+	}
+
+	public void keyTyped(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+
 	}
 }

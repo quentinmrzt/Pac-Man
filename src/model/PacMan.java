@@ -9,9 +9,7 @@ public class PacMan extends Personnage {
 
 	public PacMan(int x, int y, Branche b) {
 		super(x,y,b);
-
 		vie = 3;
-
 		this.enJeu();
 	}
 

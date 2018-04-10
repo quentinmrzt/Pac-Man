@@ -26,7 +26,11 @@ public class Fenetre extends JFrame implements Observer {
 		modelisation = model;
 
 		// Ajout d'un écouteur sur le clavier
-		KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new ControleClavier(controller));
+        addKeyListener(new ControleClavier(controller));
+        // Je demande à ce que ce soit ma fenetre qui intercepte les touches du clavier
+         
+        requestFocusInWindow();
+		//KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new ControleClavier(controller));
 
 		// Panneau
 		panneau = new Panneau(modelisation);
