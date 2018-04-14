@@ -105,6 +105,46 @@ public abstract class Personnage {
 			return -1;
 		}
 	}
+	
+	public static int directionAleatoire() {
+		int rdm =  (int) (Math.random() * 4);  // 0 à 4
+		
+		if(rdm==0) {
+			return HAUT;
+		} else if (rdm==1) {
+			return DROITE;
+		} else if (rdm==2) {
+			return BAS;
+		} else if (rdm==3) {
+			return GAUCHE;
+		} else {
+			return STATIQUE;
+		}
+	}
+	
+	public static void main(String[] args) {
+		int rdm;
+		int haut=0, droite=0, bas=0, gauche=0;
+		
+		for (int i=0 ; i<1000 ; i++) {
+			rdm = directionAleatoire();
+			
+			if (rdm==HAUT) {
+				haut++;
+			} else if(rdm==DROITE) {
+				droite++;
+			} else if(rdm==BAS) {
+				bas++;
+			} else if (rdm==GAUCHE) {
+				gauche++;
+			} else {
+				System.out.println("erreur");
+			}
+		}
+		
+		System.out.println("Haut:" +haut+", droite:"+droite+", bas:"+bas+" et gauche:"+gauche+".");
+		
+	}
 
 	/**
 	 * Permet de determiner le noeud de notre destination selon notre direction

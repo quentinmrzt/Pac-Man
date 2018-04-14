@@ -3,6 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.Observable;
 
+import arbre.Arbre;
 import graphe.Branche;
 import graphe.Graphe;
 
@@ -201,5 +202,17 @@ public class Modelisation extends Observable {
 
 	public void jouer() {
 		this.jouer = true;
+	}
+	
+
+	public static void main(String[] args) {
+		int profondeur = 10;
+		Modelisation modelisation = new Modelisation();
+		Arbre arbre = new Arbre(modelisation, profondeur);
+
+		System.out.println("Hauteur: "+arbre.hauteur());
+		System.out.println("Nombre de noeud: "+arbre.nbNoeud());
+		
+		arbre.affiche(arbre.getNoeud(), 0);
 	}
 }

@@ -14,6 +14,10 @@ public class TestEnnemi extends Test{
 		super(test,modelisation);
 		this.direction = direction;
 	}
+	
+	public String toString() {
+		return "Test ennemi "+Personnage.afficheDirection(direction);
+	}
 
 	public boolean test() {
 		PacMan pacMan = this.getModelisation().getPM();
@@ -48,5 +52,4 @@ public class TestEnnemi extends Test{
 
 		return false;
 	}
-
 }

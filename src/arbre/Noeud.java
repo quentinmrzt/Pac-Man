@@ -17,4 +17,8 @@ public class Noeud {
 	// SETTEUR
 	public void addGauche(Noeud gauche) {this.gauche = gauche;}
 	public void addDroite(Noeud droite) {this.droite = droite;}
+
+	public String toString() {
+		return "Noeud";
+	}
 }

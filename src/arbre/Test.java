@@ -7,11 +7,11 @@ public abstract class Test extends Noeud {
 
 	public Test(Noeud parent, Modelisation modelisation) {
 		super(parent);
-		
+
 		this.modelisation = modelisation;
 	}
-	
-	// GETTEr
+
+	// GETTER
 	public Modelisation getModelisation() {return modelisation;}
 	public Noeud suivant() {
 		if (test()) {
@@ -20,7 +20,11 @@ public abstract class Test extends Noeud {
 			return this.getGauche();
 		}
 	}
-	
+
+	public String toString() {
+		return "Test";
+	}
+
 	// ABSTRACT
 	public abstract boolean test();
 }

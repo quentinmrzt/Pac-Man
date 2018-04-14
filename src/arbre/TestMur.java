@@ -3,6 +3,7 @@ package arbre;
 
 import model.Modelisation;
 import model.PacMan;
+import model.Personnage;
 
 public class TestMur extends Test {
 	private int direction;
@@ -10,6 +11,10 @@ public class TestMur extends Test {
 	public TestMur(Noeud test, Modelisation modelisation, int direction) {
 		super(test,modelisation);
 		this.direction = direction;
+	}
+	
+	public String toString() {
+		return "Test mur "+Personnage.afficheDirection(direction);
 	}
 
 	public boolean test() {

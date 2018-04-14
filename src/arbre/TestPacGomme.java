@@ -13,6 +13,10 @@ public class TestPacGomme extends Test {
 		super(test,modelisation);
 		this.direction = direction;
 	}
+	
+	public String toString() {
+		return "Test gomme "+Personnage.afficheDirection(direction);
+	}
 
 	public boolean test() {
 		PacMan pacMan = this.getModelisation().getPM();
