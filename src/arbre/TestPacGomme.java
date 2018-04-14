@@ -1,16 +1,15 @@
 package arbre;
 
-
 import model.Map;
-import model.Modelisation;
+import model.Monde;
 import model.PacMan;
 import model.Personnage;
 
 public class TestPacGomme extends Test {
 	private int direction;
 
-	public TestPacGomme(Noeud test, Modelisation modelisation, int direction) {
-		super(test,modelisation);
+	public TestPacGomme(Noeud test, Monde monde, int direction) {
+		super(test,monde);
 		this.direction = direction;
 	}
 	
@@ -19,8 +18,8 @@ public class TestPacGomme extends Test {
 	}
 
 	public boolean test() {
-		PacMan pacMan = this.getModelisation().getPM();
-		Map map = this.getModelisation().getMap();
+		PacMan pacMan = this.getMonde().getPM();
+		Map map = this.getMonde().getMap();
 
 		int x = pacMan.getPositionX();
 		int y = pacMan.getPositionY();

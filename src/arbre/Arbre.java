@@ -1,15 +1,15 @@
 package arbre;
 
-import model.Modelisation;
+import model.Monde;
 import model.Personnage;
 
 public class Arbre {
 	private Noeud noeud;
 	private int profondeur;
-	private Modelisation modelisation;
+	private Monde monde;
 
-	public Arbre(Modelisation modelisation, int profondeur) {
-		this.modelisation = modelisation; 
+	public Arbre(Monde monde, int profondeur) {
+		this.monde = monde; 
 		this.profondeur = profondeur;
 
 		this.noeud = this.testAleatoire(null);
@@ -57,16 +57,16 @@ public class Arbre {
 	}
 	
 	public Test testAleatoire(Noeud parent) {
-		int rdm =  (int) (Math.random() * 3); 
+		int rdm =  (int) (Math.random() * 2); 
 
 		switch (rdm)
 		{
 		case 0:
-			return new TestEnnemi(parent, modelisation, Personnage.directionAleatoire());
+			return new TestMur(parent, monde, Personnage.directionAleatoire());
 		case 1:
-			return new TestMur(parent, modelisation, Personnage.directionAleatoire());
+			return new TestPacGomme(parent, monde, Personnage.directionAleatoire());
 		case 2:
-			return new TestPacGomme(parent, modelisation, Personnage.directionAleatoire());
+			return new TestEnnemi(parent, monde, Personnage.directionAleatoire());
 		default:
 			System.err.println("Erreur: test aléatoire.");
 			return null;

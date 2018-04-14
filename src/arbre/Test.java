@@ -1,18 +1,18 @@
 package arbre;
 
-import model.Modelisation;
+import model.Monde;
 
 public abstract class Test extends Noeud {
-	private Modelisation modelisation;
+	private Monde monde;
 
-	public Test(Noeud parent, Modelisation modelisation) {
+	public Test(Noeud parent, Monde monde) {
 		super(parent);
 
-		this.modelisation = modelisation;
+		this.monde = monde;
 	}
 
 	// GETTER
-	public Modelisation getModelisation() {return modelisation;}
+	public Monde getMonde() {return monde;}
 	public Noeud suivant() {
 		if (test()) {
 			return this.getDroite();

@@ -1,15 +1,14 @@
 package arbre;
 
-
-import model.Modelisation;
+import model.Monde;
 import model.PacMan;
 import model.Personnage;
 
 public class TestMur extends Test {
 	private int direction;
 
-	public TestMur(Noeud test, Modelisation modelisation, int direction) {
-		super(test,modelisation);
+	public TestMur(Noeud test, Monde monde, int direction) {
+		super(test,monde);
 		this.direction = direction;
 	}
 	
@@ -18,7 +17,7 @@ public class TestMur extends Test {
 	}
 
 	public boolean test() {
-		PacMan pacMan = this.getModelisation().getPM();
+		PacMan pacMan = this.getMonde().getPM();
 		
 		if (pacMan.getNoeud()!=null) {
 			// Pac man est sur un noeud

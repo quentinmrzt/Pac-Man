@@ -3,15 +3,15 @@ package arbre;
 import java.util.ArrayList;
 
 import model.Fantome;
-import model.Modelisation;
+import model.Monde;
 import model.PacMan;
 import model.Personnage;
 
 public class TestEnnemi extends Test{
 	private int direction;
 
-	public TestEnnemi(Noeud test, Modelisation modelisation, int direction) {
-		super(test,modelisation);
+	public TestEnnemi(Noeud test, Monde monde, int direction) {
+		super(test,monde);
 		this.direction = direction;
 	}
 	
@@ -20,8 +20,8 @@ public class TestEnnemi extends Test{
 	}
 
 	public boolean test() {
-		PacMan pacMan = this.getModelisation().getPM();
-		ArrayList<Fantome> fantomes = this.getModelisation().getFantome();
+		PacMan pacMan = this.getMonde().getPM();
+		ArrayList<Fantome> fantomes = this.getMonde().getFantome();
 
 		if (pacMan.getNoeud()!=null) {
 			// Pac man est sur un noeud

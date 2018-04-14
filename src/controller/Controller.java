@@ -3,57 +3,57 @@ package controller;
 import model.*;
 
 public class Controller {
-	private Modelisation model;
+	private Monde monde;
 	
-	public Controller(Modelisation m) {
-		model = m;
+	public Controller(Monde monde) {
+		this.monde = monde;
 	}
 	
 	// GETTEUR
-	public Modelisation getModel() {
-		return model;
+	public Monde getMonde() {
+		return monde;
 	}
 	
 	// CLAVIER PACMAN
 	public void toucheHaut() {
-		model.directionPersonnage(Personnage.HAUT, Modelisation.PACMAN);
+		monde.directionPersonnage(Personnage.HAUT, Monde.PACMAN);
 	}
 	public void toucheDroite() {
-		model.directionPersonnage(Personnage.DROITE, Modelisation.PACMAN);
+		monde.directionPersonnage(Personnage.DROITE, Monde.PACMAN);
 	}
 	public void toucheBas() {
-		model.directionPersonnage(Personnage.BAS, Modelisation.PACMAN);
+		monde.directionPersonnage(Personnage.BAS, Monde.PACMAN);
 	}
 	public void toucheGauche() {
-		model.directionPersonnage(Personnage.GAUCHE, Modelisation.PACMAN);
+		monde.directionPersonnage(Personnage.GAUCHE, Monde.PACMAN);
 	}
 	
 	// CLAVIER BLINKY
 	public void toucheHautBlinky() {
-		model.directionPersonnage(Personnage.HAUT, Modelisation.BLINKY);
+		monde.directionPersonnage(Personnage.HAUT, Monde.BLINKY);
 	}
 	public void toucheDroiteBlinky() {
-		model.directionPersonnage(Personnage.DROITE, Modelisation.BLINKY);
+		monde.directionPersonnage(Personnage.DROITE, Monde.BLINKY);
 	}
 	public void toucheBasBlinky() {
-		model.directionPersonnage(Personnage.BAS, Modelisation.BLINKY);
+		monde.directionPersonnage(Personnage.BAS, Monde.BLINKY);
 	}
 	public void toucheGaucheBlinky() {
-		model.directionPersonnage(Personnage.GAUCHE, Modelisation.BLINKY);
+		monde.directionPersonnage(Personnage.GAUCHE, Monde.BLINKY);
 	}
 	
 	public void toucheTrouveBlinky() {
-		model.trouverCheminBlinky();
+		monde.trouverCheminBlinky();
 	}
 
 	public void touchePageUp() {
-		model.tourDeJeu();		
+		monde.tourDeJeu();		
 	}
 
 	public void toucheP() {
-		model.pause();
+		monde.pause();
 	}
 	public void toucheJ() {
-		model.jouer();
+		monde.jouer();
 	}
 }
