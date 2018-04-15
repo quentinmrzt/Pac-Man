@@ -2,6 +2,7 @@ package jeu;
 
 import java.util.ArrayList;
 
+import arbre.Arbre;
 //import controller.Controller;
 import graphe.Graphe;
 import model.Map;
@@ -44,7 +45,9 @@ public class LancerPacMan {
 		}
 
 		if(index!=-1) {
-			population.get(index).getArbre().affiche(population.get(index).getArbre().getNoeud(), 0);
+			System.out.println("Model n°"+index+" avec un score de "+population.get(index).getScore()+" points.");
+			Arbre arbre = population.get(index).getArbre();
+			arbre.affiche();
 		}
 
 		// Notre controler

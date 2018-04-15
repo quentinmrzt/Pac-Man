@@ -8,7 +8,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
-import model.Modelisation;
+import model.Monde;
 import viewGraphe.FenetreDebug;
 
 public class Menu extends JMenuBar {
@@ -16,7 +16,7 @@ public class Menu extends JMenuBar {
 	private JMenuItem debug;
 	private JMenuItem quitter;
 	
-	public Menu(Modelisation modelisation) {				
+	public Menu(Monde monde) {				
 		// --------------------
 		// MENU
 		menu = new JMenu("Menu") ;
@@ -30,7 +30,7 @@ public class Menu extends JMenuBar {
 		debug.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				//app.maj();
-				modelisation.addObserver(new FenetreDebug(modelisation));
+				monde.addObserver(new FenetreDebug(monde));
 			}
 		});
 		

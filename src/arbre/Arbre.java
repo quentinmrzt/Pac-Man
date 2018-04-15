@@ -114,8 +114,12 @@ public class Arbre {
 			return 1 + nbNoeud(noeud.getGauche()) + nbNoeud(noeud.getDroite());
 		}
 	}
+	
+	public void affiche() {
+		this.affiche(noeud,0);
+	}
 
-	public void affiche(Noeud a, int profondeur) {
+	private void affiche(Noeud a, int profondeur) {
 		if (a == null) {
 			return;
 		}

@@ -9,7 +9,7 @@ import java.util.Observer;
 import javax.imageio.ImageIO;
 
 import model.Fantome;
-import model.Modelisation;
+import model.Monde;
 import model.Personnage;
 
 public class FantomeView extends ElementDuJeu implements Observer {
@@ -34,13 +34,13 @@ public class FantomeView extends ElementDuJeu implements Observer {
 			// Pour les directions des fantomes
 			BufferedImage tmpMouvement = null;
 
-			if (typeFantome==Modelisation.BLINKY) {
+			if (typeFantome==Monde.BLINKY) {
 				tmpMouvement = ImageIO.read(new File("image/Blinky.png"));
-			} else if (typeFantome==Modelisation.PINKY) {
+			} else if (typeFantome==Monde.PINKY) {
 				tmpMouvement = ImageIO.read(new File("image/Pinky.png"));
-			} else if (typeFantome==Modelisation.INKY) {
+			} else if (typeFantome==Monde.INKY) {
 				tmpMouvement = ImageIO.read(new File("image/Inky.png"));
-			} else if (typeFantome==Modelisation.CLYDE) {
+			} else if (typeFantome==Monde.CLYDE) {
 				tmpMouvement = ImageIO.read(new File("image/Clyde.png"));
 			}
 			monter = true;

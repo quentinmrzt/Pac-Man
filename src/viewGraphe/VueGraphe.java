@@ -7,16 +7,16 @@ import javax.swing.JPanel;
 
 import graphe.Branche;
 import graphe.Noeud;
-import model.Modelisation;
+import model.Monde;
 
 public class VueGraphe extends JPanel  {
-	private Modelisation modelisation;
+	private Monde monde;
 	private int decalageBranche;
 	private int decalageNoeud;
 
 
-	public VueGraphe(Modelisation modelisation) {
-		this.modelisation = modelisation;
+	public VueGraphe(Monde monde) {
+		this.monde = monde;
 		decalageBranche = 0;
 		decalageNoeud = 0;
 	}
@@ -28,10 +28,10 @@ public class VueGraphe extends JPanel  {
 		
 		Color c = g.getColor();
 
-		for(int y=0; y<modelisation.getMap().getTailleY() ; y++) {
-			for(int x=0 ; x<modelisation.getMap().getTailleX() ; x++) {
+		for(int y=0; y<monde.getMap().getTailleY() ; y++) {
+			for(int x=0 ; x<monde.getMap().getTailleX() ; x++) {
 				// On dessine le graphe
-				if(modelisation.getGraphe().getNoeud(x, y)!=null) {
+				if(monde.getGraphe().getNoeud(x, y)!=null) {
 					g.setColor(Color.RED);
 					
 					g.drawString(x+"/"+y, (x*16)+10, y*16);
@@ -39,8 +39,8 @@ public class VueGraphe extends JPanel  {
 
 					g.fillOval(x*16,y*16,16,16);
 					
-				} else if (modelisation.getGraphe().getBranche(x, y)!=null) {
-					if(modelisation.getGraphe().getBranche(x, y).estHorizontal()) {
+				} else if (monde.getGraphe().getBranche(x, y)!=null) {
+					if(monde.getGraphe().getBranche(x, y).estHorizontal()) {
 						g.setColor(Color.BLACK);
 						g.fillRect(x*16,y*16+7,16,2);
 					} else {
@@ -53,20 +53,20 @@ public class VueGraphe extends JPanel  {
 				// Colorer les noeud
 				decalageNoeud = 0;
 
-				paintNoeud(g,modelisation.getPM().getNoeud(),Color.YELLOW,x,y);
-				paintNoeud(g,modelisation.getFantome(Modelisation.BLINKY).getNoeud(),Color.RED,x,y);
-				paintNoeud(g,modelisation.getFantome(Modelisation.PINKY).getNoeud(),Color.PINK,x,y);
-				paintNoeud(g,modelisation.getFantome(Modelisation.INKY).getNoeud(),Color.BLUE,x,y);
-				paintNoeud(g,modelisation.getFantome(Modelisation.CLYDE).getNoeud(),Color.ORANGE,x,y);
+				paintNoeud(g,monde.getPM().getNoeud(),Color.YELLOW,x,y);
+				paintNoeud(g,monde.getFantome(Monde.BLINKY).getNoeud(),Color.RED,x,y);
+				paintNoeud(g,monde.getFantome(Monde.PINKY).getNoeud(),Color.PINK,x,y);
+				paintNoeud(g,monde.getFantome(Monde.INKY).getNoeud(),Color.BLUE,x,y);
+				paintNoeud(g,monde.getFantome(Monde.CLYDE).getNoeud(),Color.ORANGE,x,y);
 				
 				// Colorer les branches
 				decalageBranche = 0;
 
-				paintBranche(g,modelisation.getPM().getBranche(),Color.YELLOW,x,y);
-				paintBranche(g,modelisation.getFantome(Modelisation.BLINKY).getBranche(),Color.RED,x,y);
-				paintBranche(g,modelisation.getFantome(Modelisation.PINKY).getBranche(),Color.PINK,x,y);
-				paintBranche(g,modelisation.getFantome(Modelisation.INKY).getBranche(),Color.BLUE,x,y);
-				paintBranche(g,modelisation.getFantome(Modelisation.CLYDE).getBranche(),Color.ORANGE,x,y);
+				paintBranche(g,monde.getPM().getBranche(),Color.YELLOW,x,y);
+				paintBranche(g,monde.getFantome(Monde.BLINKY).getBranche(),Color.RED,x,y);
+				paintBranche(g,monde.getFantome(Monde.PINKY).getBranche(),Color.PINK,x,y);
+				paintBranche(g,monde.getFantome(Monde.INKY).getBranche(),Color.BLUE,x,y);
+				paintBranche(g,monde.getFantome(Monde.CLYDE).getBranche(),Color.ORANGE,x,y);
 			}
 
 			g.setColor(c);

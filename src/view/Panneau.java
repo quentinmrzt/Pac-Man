@@ -10,18 +10,18 @@ import java.util.Observer;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import model.Modelisation;
+import model.Monde;
 
 
 public class Panneau extends JPanel implements Observer {
-	private Modelisation modelisation;
+	private Monde monde;
 	protected ZoneDeJeu zdj;
 	protected JLabel pacManTxt, BlinkyTxt, PinkyTxt, InkyTxt, ClydeTxt, gommeTxt, score;
 
-	public Panneau(Modelisation model) {
+	public Panneau(Monde monde) {
 		super();
 
-		modelisation = model;
+		this.monde = monde;
 
 		// Ajout du layout GridBag
 		this.setLayout(new GridBagLayout());
@@ -38,7 +38,7 @@ public class Panneau extends JPanel implements Observer {
 		constraints.insets = new Insets(5, 5, 5, 5);
 
 		// Zone de jeu
-		zdj = new ZoneDeJeu(modelisation);
+		zdj = new ZoneDeJeu(monde);
 		//zdj.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
 		this.add(zdj, constraints);
 
@@ -90,14 +90,14 @@ public class Panneau extends JPanel implements Observer {
 	}
 
 	public void update(Observable o, Object arg) {
-		pacManTxt.setText("Pac-Man: "+modelisation.getPM().toString());
-		BlinkyTxt.setText("Blinky: "+modelisation.getFantome(Modelisation.BLINKY).toString());
-		PinkyTxt.setText("Pinky: "+modelisation.getFantome(Modelisation.PINKY).toString());
-		InkyTxt.setText("Inky: "+modelisation.getFantome(Modelisation.INKY).toString());
-		ClydeTxt.setText("Clyde: "+modelisation.getFantome(Modelisation.CLYDE).toString());
+		pacManTxt.setText("Pac-Man: "+monde.getPM().toString());
+		BlinkyTxt.setText("Blinky: "+monde.getFantome(Monde.BLINKY).toString());
+		PinkyTxt.setText("Pinky: "+monde.getFantome(Monde.PINKY).toString());
+		InkyTxt.setText("Inky: "+monde.getFantome(Monde.INKY).toString());
+		ClydeTxt.setText("Clyde: "+monde.getFantome(Monde.CLYDE).toString());
 
-		gommeTxt.setText("Gomme: "+modelisation.getMap().getNbGomme()+". Super gomme: "+modelisation.getMap().getNbSuperGomme()+".");
-		score.setText("Score: "+modelisation.getScore()+".");
+		gommeTxt.setText("Gomme: "+monde.getMap().getNbGomme()+". Super gomme: "+monde.getMap().getNbSuperGomme()+".");
+		score.setText("Score: "+monde.getScore()+".");
 
 		zdj.update(o, arg);
 	}

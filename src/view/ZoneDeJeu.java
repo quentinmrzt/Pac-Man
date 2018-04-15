@@ -1,6 +1,5 @@
 package view;
 
-
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.util.Observable;
@@ -9,10 +8,10 @@ import java.util.Observer;
 import javax.swing.JPanel;
 
 import model.Map;
-import model.Modelisation;
+import model.Monde;
 
 public class ZoneDeJeu extends JPanel implements Observer {
-	private Modelisation modelisation;
+	private Monde monde;
 	private Case tabCases[][];
 	private PacManView pacManView;
 	private FantomeView blinky;
@@ -20,17 +19,17 @@ public class ZoneDeJeu extends JPanel implements Observer {
 	private FantomeView inky;
 	private FantomeView clyde;
 
-	public ZoneDeJeu(Modelisation model) {	
-		modelisation = model;
+	public ZoneDeJeu(Monde monde) {	
+		this.monde = monde;
 
 		// On récupére la map du modèle
-		Map map = modelisation.getMap();
-		pacManView = new PacManView(modelisation.getPM());
+		Map map = monde.getMap();
+		pacManView = new PacManView(monde.getPM());
 
-		blinky = new FantomeView(12,14,Modelisation.BLINKY, modelisation.getFantome(Modelisation.BLINKY));
-		pinky = new FantomeView(13,14,Modelisation.PINKY, modelisation.getFantome(Modelisation.PINKY));
-		inky = new FantomeView(14,14,Modelisation.INKY, modelisation.getFantome(Modelisation.INKY));
-		clyde = new FantomeView(15,14,Modelisation.CLYDE, modelisation.getFantome(Modelisation.CLYDE));
+		blinky = new FantomeView(12,14,Monde.BLINKY, monde.getFantome(Monde.BLINKY));
+		pinky = new FantomeView(13,14,Monde.PINKY, monde.getFantome(Monde.PINKY));
+		inky = new FantomeView(14,14,Monde.INKY, monde.getFantome(Monde.INKY));
+		clyde = new FantomeView(15,14,Monde.CLYDE, monde.getFantome(Monde.CLYDE));
 
 		// On fait un tableau de case contenant les images a afficher
 		tabCases = new Case[map.getTailleX()][map.getTailleY()];
@@ -80,7 +79,7 @@ public class ZoneDeJeu extends JPanel implements Observer {
 		clyde.update(obs,arg);
 		pacManView.update(obs, arg);
 
-		Map tmp = modelisation.getMap();
+		Map tmp = monde.getMap();
 
 		// On maj l'affichage du tableau
 		for (int y=0 ; y<tmp.getTailleY() ; y++) {

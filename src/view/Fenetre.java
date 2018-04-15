@@ -7,22 +7,18 @@ import javax.swing.JFrame;
 
 import controller.Controller;
 import jeu.ControleClavier;
-import model.Modelisation;
+import model.Monde;
 
 public class Fenetre extends JFrame implements Observer {
-	private Modelisation modelisation;
 	private Menu menu;
 	private Panneau panneau;
-	
 
-	public Fenetre(Controller controller, Modelisation model) {
+	public Fenetre(Controller controller, Monde monde) {
 		this.setSize(900, 600);
 		this.setTitle("Pac-Man");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
-
-		modelisation = model;
 
 		// Ajout d'un écouteur sur le clavier
         addKeyListener(new ControleClavier(controller));
@@ -32,11 +28,11 @@ public class Fenetre extends JFrame implements Observer {
 		//KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new ControleClavier(controller));
 
 		// Panneau
-		panneau = new Panneau(modelisation);
+		this.panneau = new Panneau(monde);
 		this.add(panneau);
 
 		// Menu
-		menu = new Menu(modelisation);
+		menu = new Menu(monde);
 		this.setJMenuBar(menu);
 
 		//pack();
