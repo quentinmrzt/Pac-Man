@@ -68,9 +68,9 @@ public class Monde extends Observable {
 	public boolean finDePartie() {
 		if(!pacMan.estEnJeu() || map.getNbGomme()+map.getNbSuperGomme()==0 || nbTourInactif==100) {
 			//System.out.println("FIN DE LA PARTIE: "+score);
-			return false;
-		} else {
 			return true;
+		} else {
+			return false;
 		}
 	}
 

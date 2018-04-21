@@ -11,7 +11,7 @@ public class Jeu extends Modelisation {
 	
 	public void run() {
 		// On lance le jeu
-		while (this.getMonde().finDePartie()) {
+		while (!this.getMonde().finDePartie()) {
 			this.getMonde().tourDeJeu();
 
 			try {

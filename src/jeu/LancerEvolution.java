@@ -27,24 +27,28 @@ public class LancerEvolution {
 			population.add(new Individu(map, graphe));
 		}
 
-		executeRunnables(execute, population);
-
+		// On exécute chaque "Runnable" de la liste "runnables"
+		for(Runnable r : population){
+			execute.execute(r);
+		}
+		
 		boolean fin = false;
 		while (!fin) {
+			fin = true;
 			for(Individu m:population) {
-				fin = true;
 				if(m.estEnJeu()) {
 					fin = false;
 				}
 			}
 		}
 
+
 		// Tout est fini
 		int max = -1;
 		int i = 0;
 		int index = -1;
 		for(Individu m:population) {
-			System.out.println("Score: "+m.getScore());
+			//System.out.println("Score: "+m.getScore());
 			if (m.getScore()>max) {
 				max = m.getScore();
 				index = i;
@@ -57,16 +61,9 @@ public class LancerEvolution {
 			Arbre arbre = population.get(index).getArbre();
 			arbre.affiche();
 		}
-	}
-
-	public static void executeRunnables(final ExecutorService service, List<Individu> population){
-		// On exécute chaque "Runnable" de la liste "runnables"
-		for(Runnable r : population){
-			service.execute(r);
-		}
 		
 		// On ferme l'executor une fois les taches finies
 		// En effet shutdown va attendre la fin d'exécution des tâches
-		service.shutdown();
+		execute.shutdown();
 	}
 }
