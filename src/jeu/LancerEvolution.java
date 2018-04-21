@@ -12,7 +12,7 @@ import model.Map;
 
 public class LancerEvolution {
 	public static void main(String[] args) {
-		int nombrePopulation = 100;
+		int nombrePopulation = 1;
 		
 		Map map = new Map("src/map_gomme.txt");
 		Graphe graphe = new Graphe(map);
@@ -42,7 +42,6 @@ public class LancerEvolution {
 			}
 		}
 
-
 		// Tout est fini
 		int max = -1;
 		int i = 0;
@@ -60,10 +59,15 @@ public class LancerEvolution {
 			System.out.println("Model n°"+index+" avec un score de "+population.get(index).getScore()+" points.");
 			Arbre arbre = population.get(index).getArbre();
 			arbre.affiche();
+			
+			// Notre model
+			Individu individu = new Individu(map,graphe,population.get(index).getArbre());
+			new LancerPacMan(individu);
+			population.get(index).getArbre().affiche();
 		}
 		
 		// On ferme l'executor une fois les taches finies
 		// En effet shutdown va attendre la fin d'exécution des tâches
-		execute.shutdown();
+		//execute.shutdown();
 	}
 }

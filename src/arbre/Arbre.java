@@ -15,6 +15,12 @@ public class Arbre {
 		this.noeud = this.testAleatoire(null);
 		generationAleatoirePrefixe(noeud,profondeur-1);
 	}
+	
+	public Arbre(Arbre arbre, Monde monde) {
+		this.monde = monde;
+		this.profondeur = arbre.getProfondeur();
+		this.noeud = arbre.getNoeud();
+	}
 
 	public Noeud getNoeud() { return noeud; }
 

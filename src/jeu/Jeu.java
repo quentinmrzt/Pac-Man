@@ -6,7 +6,7 @@ import model.Modelisation;
 
 public class Jeu extends Modelisation {
 	public Jeu(Map map, Graphe graphe) {
-		super(map, graphe);		
+		super(map, graphe);
 	}
 	
 	public void run() {
