@@ -1,62 +1,42 @@
 package jeu;
 
-import java.util.ArrayList;
 
-import arbre.Arbre;
-//import controller.Controller;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import controller.Controller;
 import graphe.Graphe;
 import model.Map;
 import model.Modelisation;
-//import view.Fenetre;
+import view.Fenetre;
 
 public class LancerPacMan {
 	public static void main(String[] args) {
 		Map map = new Map("src/map_gomme.txt");
 		Graphe graphe = new Graphe(map);
 
-		ArrayList<Modelisation> population = new ArrayList<Modelisation>();
-
 		// Notre model
-		for(int nb=0 ; nb<100 ; nb++) {
-			population.add(new Modelisation(map, graphe));
-		}
+		Modelisation modelisation = new Jeu(map,graphe);
 
-		boolean fin = false;
-		while (!fin) {
-			for(Modelisation m:population) {
-				fin = true;
-				if(m.estEnJeu()) {
-					fin = false;
-				} 
-			}
-		}
-
-		// Tout est fini
-		int max = -1;
-		int i = 0;
-		int index = -1;
-		for(Modelisation m:population) {
-			System.out.println("Score: "+m.getScore());
-			if (m.getScore()>max) {
-				max = m.getScore();
-				index = i;
-			}
-			i++;
-		}
-
-		if(index!=-1) {
-			System.out.println("Model n°"+index+" avec un score de "+population.get(index).getScore()+" points.");
-			Arbre arbre = population.get(index).getArbre();
-			arbre.affiche();
-		}
+		//Notre executor mono-thread
+		ExecutorService execute = Executors.newSingleThreadExecutor();
+		//La méthode qui se charge de l'exécution des tâches
+		executeRunnables(execute, modelisation);
 
 		// Notre controler
-		//Controller control = new Controller(model);
-
+		Controller control = new Controller(modelisation.getMonde());
 		// Avec ça: on a une fenetre avec un menu
-		//Fenetre fenetre = new Fenetre(control,model);
-
+		Fenetre fenetre = new Fenetre(control,modelisation.getMonde());
 		// La fenêtre devient observeur du model
-		//model.addObserver(fenetre);
+		modelisation.getMonde().addObserver(fenetre);
+	}
+
+	public static void executeRunnables(final ExecutorService service, Modelisation modelisation){
+		// On exécute chaque "Runnable" de la liste "runnables"
+		service.execute(modelisation);
+
+		// On ferme l'executor une fois les taches finies
+		// En effet shutdown va attendre la fin d'exécution des tâches
+		service.shutdown();
 	}
 }

@@ -28,19 +28,13 @@ public class ControleClavier implements KeyListener  {
 			break;
 			
 		case KeyEvent.VK_T:
-			control.toucheTrouveBlinky();
+			control.toucheT();
 			break;
 		case KeyEvent.VK_ESCAPE:
 			System.exit(0);
 			break;
 		case KeyEvent.VK_PAGE_UP:
 			control.touchePageUp();
-			break;
-		case KeyEvent.VK_P:
-			control.toucheP();
-			break;
-		case KeyEvent.VK_J:
-			control.toucheJ();
 			break;
 		}
 	}

@@ -3,7 +3,6 @@ package model;
 import java.util.ArrayList;
 import java.util.Observable;
 
-import arbre.Arbre;
 import graphe.Branche;
 import graphe.Graphe;
 
@@ -26,7 +25,6 @@ public class Monde extends Observable {
 	private int score;
 	private int nombreDeTour;
 	private int nbTourInactif;
-	private boolean jouer;
 
 	public Monde(Map map, Graphe graphe) {
 		this.map = new Map(map);
@@ -55,12 +53,6 @@ public class Monde extends Observable {
 		score = 0;
 		nombreDeTour = 0;
 		nbTourInactif = 0;
-		jouer = false;
-
-		Arbre arbre = new Arbre(this, 4);
-
-		//arbre.affiche(arbre.getNoeud(), 0);
-		pacMan.addAbre(arbre);
 	}
 
 	// ----------------------------------------
@@ -72,8 +64,6 @@ public class Monde extends Observable {
 	public int getNombreDeTour() {return nombreDeTour;}
 	public Fantome getFantome(int personnage) {return fantomes.get(personnage);}
 	public ArrayList<Fantome> getFantome() {return fantomes;}
-	public boolean enPause() {return !jouer;}
-	public Arbre getArbre() { return pacMan.getArbre(); }
 
 	public boolean finDePartie() {
 		if(!pacMan.estEnJeu() || map.getNbGomme()+map.getNbSuperGomme()==0 || nbTourInactif==100) {
@@ -85,7 +75,6 @@ public class Monde extends Observable {
 	}
 
 	public void tourDeJeu() {
-		pacMan.direction(pacMan.getArbre().getDirection());
 		pacMan.destination();
 
 		/*for (Fantome fantome: fantomes) {
@@ -212,13 +201,5 @@ public class Monde extends Observable {
 	public void update(Observable o, Object arg) {
 		setChanged();
 		notifyObservers("Modelisation");
-	}
-
-	public void pause() {
-		this.jouer = false;
-	}
-
-	public void jouer() {
-		this.jouer = true;
 	}
 }
