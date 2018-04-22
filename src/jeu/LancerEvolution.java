@@ -5,7 +5,6 @@ import evolution.Population;
 import graphe.Graphe;
 import model.Map;
 
-
 public class LancerEvolution {
 	public static void main(String[] args) {
 		Map map = new Map("src/map_gomme.txt");
