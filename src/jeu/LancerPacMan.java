@@ -22,7 +22,7 @@ public class LancerPacMan {
 		//La méthode qui se charge de l'exécution des tâches
 		service.execute(modelisation);
 		
-		//service.shutdown();
+		service.shutdown();
 	}
 	
 	public static void main(String[] args) {

@@ -7,6 +7,8 @@ import model.Modelisation;
 import model.Monde;
 
 public class Individu extends Modelisation {
+	final private int PROFONDEUR = 5;
+	
 	private boolean enJeu = true;
 	private int score = 0;
 	private Arbre arbre = null;
@@ -15,7 +17,7 @@ public class Individu extends Modelisation {
 	public Individu(Map map, Graphe graphe) {
 		super(map,graphe);
 
-		this.arbre = new Arbre(this.getMonde(), 4);
+		this.arbre = new Arbre(this.getMonde(), PROFONDEUR);
 		this.score = 0;
 		this.enJeu = true;
 		this.vitesse = 0;
@@ -24,7 +26,7 @@ public class Individu extends Modelisation {
 	public Individu(Map map, Graphe graphe, int vitesse) {
 		super(map,graphe);
 
-		this.arbre = new Arbre(this.getMonde(), 4);
+		this.arbre = new Arbre(this.getMonde(), PROFONDEUR);
 		this.score = 0;
 		this.enJeu = true;
 		this.vitesse = vitesse;
