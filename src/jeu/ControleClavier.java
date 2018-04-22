@@ -3,49 +3,56 @@ package jeu;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import controller.Controller;
+import model.Monde;
+import model.Personnage;
 
 public class ControleClavier implements KeyListener  {
-	private Controller control;
-
-	public ControleClavier(Controller c) {
-		control = c;
+	private Monde monde;
+	
+	public ControleClavier(Monde monde) {
+		this.monde = monde;
 	}
-
+		
 	public void keyPressed(KeyEvent e) {
 		switch(e.getKeyCode()) {
 		case KeyEvent.VK_UP:
-			control.toucheHaut();
+			this.toucheHaut();
 			break;
 		case KeyEvent.VK_RIGHT:
-			control.toucheDroite();
+			this.toucheDroite();
 			break;
 		case KeyEvent.VK_DOWN:
-			control.toucheBas();
+			this.toucheBas();
 			break;
 		case KeyEvent.VK_LEFT:
-			control.toucheGauche();
-			break;
-			
-		case KeyEvent.VK_T:
-			control.toucheT();
+			this.toucheGauche();
 			break;
 		case KeyEvent.VK_ESCAPE:
 			System.exit(0);
 			break;
 		case KeyEvent.VK_PAGE_UP:
-			control.touchePageUp();
+			this.touchePageUp();
 			break;
 		}
 	}
 
-	public void keyReleased(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-
+	public void keyReleased(KeyEvent e) {}
+	public void keyTyped(KeyEvent e) {}
+	
+	// CLAVIER
+	public void toucheHaut() {
+		monde.directionPersonnage(Personnage.HAUT, Monde.PACMAN);
 	}
-
-	public void keyTyped(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-
+	public void toucheDroite() {
+		monde.directionPersonnage(Personnage.DROITE, Monde.PACMAN);
+	}
+	public void toucheBas() {
+		monde.directionPersonnage(Personnage.BAS, Monde.PACMAN);
+	}
+	public void toucheGauche() {
+		monde.directionPersonnage(Personnage.GAUCHE, Monde.PACMAN);
+	}
+	public void touchePageUp() {
+		monde.tourDeJeu();
 	}
 }

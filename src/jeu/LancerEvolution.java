@@ -61,13 +61,13 @@ public class LancerEvolution {
 			arbre.affiche();
 			
 			// Notre model
-			Individu individu = new Individu(map,graphe,population.get(index).getArbre());
+			Individu individu = new Individu(map,graphe,arbre,80);
 			new LancerPacMan(individu);
 			population.get(index).getArbre().affiche();
 		}
 		
 		// On ferme l'executor une fois les taches finies
 		// En effet shutdown va attendre la fin d'exécution des tâches
-		//execute.shutdown();
+		execute.shutdown();
 	}
 }

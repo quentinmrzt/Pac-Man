@@ -176,7 +176,6 @@ public class Monde extends Observable {
 			if (!fantome.estInvulnerable() && fantome.estEnJeu()) {
 				if (x==fantome.getPositionX() && y==fantome.getPositionY()) {
 					fantome.mort();
-					//this.mangerDeSuite++;
 					this.score += SCORE_FANTOME;
 				}
 			}
@@ -191,10 +190,6 @@ public class Monde extends Observable {
 		} else {
 			fantomes.get(personnage).direction(direction);
 		}
-	}
-
-	public void trouverCheminBlinky() {
-		fantomes.get(BLINKY).trouverChemin();
 	}
 
 	// Si des sous élements du model son maj
