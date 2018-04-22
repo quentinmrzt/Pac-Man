@@ -10,8 +10,8 @@ import model.Personnage;
 public class TestEnnemi extends Test{
 	private int direction;
 
-	public TestEnnemi(Noeud test, Monde monde, int direction) {
-		super(test,monde);
+	public TestEnnemi(Noeud test, int direction) {
+		super(test);
 		this.direction = direction;
 	}
 	
@@ -19,9 +19,9 @@ public class TestEnnemi extends Test{
 		return "Test ennemi "+Personnage.afficheDirection(direction);
 	}
 
-	public boolean test() {
-		PacMan pacMan = this.getMonde().getPM();
-		ArrayList<Fantome> fantomes = this.getMonde().getFantome();
+	public boolean test(Monde monde) {
+		PacMan pacMan = monde.getPM();
+		ArrayList<Fantome> fantomes = monde.getFantome();
 
 		if (pacMan.getNoeud()!=null) {
 			// Pac man est sur un noeud

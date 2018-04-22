@@ -51,7 +51,7 @@ public class Arbre {
 			}
 
 			if(tmp instanceof Test) {
-				tmp = ((Test) tmp).suivant();
+				tmp = ((Test) tmp).suivant(monde);
 			}
 
 			if (tmp == null) {
@@ -68,11 +68,11 @@ public class Arbre {
 		switch (rdm)
 		{
 		case 0:
-			return new TestMur(parent, monde, Personnage.directionAleatoire());
+			return new TestMur(parent, Personnage.directionAleatoire());
 		case 1:
-			return new TestPacGomme(parent, monde, Personnage.directionAleatoire());
+			return new TestPacGomme(parent, Personnage.directionAleatoire());
 		case 2:
-			return new TestEnnemi(parent, monde, Personnage.directionAleatoire());
+			return new TestEnnemi(parent, Personnage.directionAleatoire());
 		default:
 			System.err.println("Erreur: test aléatoire.");
 			return null;

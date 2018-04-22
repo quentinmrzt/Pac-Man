@@ -5,7 +5,6 @@ import graphe.Graphe;
 import model.Map;
 import model.Modelisation;
 import model.Monde;
-import model.Personnage;
 
 public class Individu extends Modelisation {
 	private boolean enJeu = true;
@@ -33,23 +32,17 @@ public class Individu extends Modelisation {
 	public Arbre getArbre() { return arbre; }
 
 	public void run() {
-		try {
-			// On lance le jeu
-			while (!this.getMonde().finDePartie()) {
-				int direction = arbre.getDirection();
-				System.out.println("Direction: "+Personnage.afficheDirection(direction)+" / X: "+this.getMonde().getPM().getPositionX()+" Y: "+this.getMonde().getPM().getPositionY());
+		// On lance le jeu
+		while (!this.getMonde().finDePartie()) {
+			int direction = arbre.getDirection();
+			//System.out.println("Direction: "+Personnage.afficheDirection(direction)+" / X: "+this.getMonde().getPM().getPositionX()+" Y: "+this.getMonde().getPM().getPositionY());
 
-				this.getMonde().directionPersonnage(direction, Monde.PACMAN);
+			this.getMonde().directionPersonnage(direction, Monde.PACMAN);
 
-				this.getMonde().tourDeJeu();
-
-				Thread.sleep(0);
-			}
-			
-			enJeu = false;
-			score = this.getMonde().getScore();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+			this.getMonde().tourDeJeu();
 		}
+
+		enJeu = false;
+		score = this.getMonde().getScore();
 	}
 }     

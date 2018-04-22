@@ -8,8 +8,8 @@ import model.Personnage;
 public class TestPacGomme extends Test {
 	private int direction;
 
-	public TestPacGomme(Noeud test, Monde monde, int direction) {
-		super(test,monde);
+	public TestPacGomme(Noeud test, int direction) {
+		super(test);
 		this.direction = direction;
 	}
 	
@@ -17,9 +17,9 @@ public class TestPacGomme extends Test {
 		return "Test gomme "+Personnage.afficheDirection(direction);
 	}
 
-	public boolean test() {
-		PacMan pacMan = this.getMonde().getPM();
-		Map map = this.getMonde().getMap();
+	public boolean test(Monde monde) {
+		PacMan pacMan = monde.getPM();
+		Map map = monde.getMap();
 
 		int x = pacMan.getPositionX();
 		int y = pacMan.getPositionY();

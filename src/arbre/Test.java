@@ -3,18 +3,14 @@ package arbre;
 import model.Monde;
 
 public abstract class Test extends Noeud {
-	private Monde monde;
 
-	public Test(Noeud parent, Monde monde) {
+	public Test(Noeud parent) {
 		super(parent);
-
-		this.monde = monde;
 	}
 
 	// GETTER
-	public Monde getMonde() {return monde;}
-	public Noeud suivant() {
-		if (test()) {
+	public Noeud suivant(Monde monde) {
+		if (test(monde)) {
 			return this.getDroite();
 		} else {
 			return this.getGauche();
@@ -26,5 +22,5 @@ public abstract class Test extends Noeud {
 	}
 
 	// ABSTRACT
-	public abstract boolean test();
+	public abstract boolean test(Monde monde);
 }

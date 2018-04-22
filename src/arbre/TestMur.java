@@ -7,8 +7,8 @@ import model.Personnage;
 public class TestMur extends Test {
 	private int direction;
 
-	public TestMur(Noeud test, Monde monde, int direction) {
-		super(test,monde);
+	public TestMur(Noeud test, int direction) {
+		super(test);
 		this.direction = direction;
 	}
 	
@@ -16,8 +16,8 @@ public class TestMur extends Test {
 		return "Test mur "+Personnage.afficheDirection(direction);
 	}
 
-	public boolean test() {
-		PacMan pacMan = this.getMonde().getPM();
+	public boolean test(Monde monde) {
+		PacMan pacMan = monde.getPM();
 		
 		if (pacMan.getNoeud()!=null) {
 			// Pac man est sur un noeud

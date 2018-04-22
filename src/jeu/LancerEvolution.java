@@ -12,7 +12,7 @@ import model.Map;
 
 public class LancerEvolution {
 	public static void main(String[] args) {
-		int nombrePopulation = 1;
+		int nombrePopulation = 100;
 		
 		Map map = new Map("src/map_gomme.txt");
 		Graphe graphe = new Graphe(map);
