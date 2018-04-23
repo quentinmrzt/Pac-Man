@@ -12,13 +12,17 @@ public class TestMur extends Test {
 		this.direction = direction;
 	}
 	
+	public TestMur(Noeud p, Noeud g, Noeud d) {
+		super(p,g,d);
+	}
+
 	public String toString() {
 		return "Test mur "+Personnage.afficheDirection(direction);
 	}
 
 	public boolean test(Monde monde) {
 		PacMan pacMan = monde.getPM();
-		
+
 		if (pacMan.getNoeud()!=null) {
 			// Pac man est sur un noeud
 			if(pacMan.getNoeud().existeDirection(direction)) {
@@ -34,4 +38,21 @@ public class TestMur extends Test {
 		return true;
 	}
 
+	public Test clone() {
+		System.out.println("TestMur");
+
+		Noeud p = null;
+
+		Noeud g = null;
+		if(this.aGauche()) {
+			g = this.getGauche().clone();
+		}
+
+		Noeud d = null;
+		if(this.aDroite()) {
+			d = this.getDroite().clone();
+		}
+
+		return new TestMur(p,g,d);		
+	}
 }

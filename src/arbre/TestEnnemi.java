@@ -52,4 +52,10 @@ public class TestEnnemi extends Test{
 
 		return false;
 	}
+
+	public Test clone() {
+		System.out.println("TestEnnemi");
+
+		return this;
+	}
 }

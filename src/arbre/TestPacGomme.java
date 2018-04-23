@@ -41,4 +41,9 @@ public class TestPacGomme extends Test {
 
 		return false;
 	}
+
+	public Test clone() {
+		System.out.println("TestPacGomme");
+		return this;
+	}
 }

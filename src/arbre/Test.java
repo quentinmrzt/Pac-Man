@@ -3,9 +3,12 @@ package arbre;
 import model.Monde;
 
 public abstract class Test extends Noeud {
-
 	public Test(Noeud parent) {
 		super(parent);
+	}
+	
+	public Test(Noeud p, Noeud g, Noeud d) {
+		super(p,g,d);
 	}
 
 	// GETTER
@@ -23,4 +26,5 @@ public abstract class Test extends Noeud {
 
 	// ABSTRACT
 	public abstract boolean test(Monde monde);
+	public abstract Test clone();
 }

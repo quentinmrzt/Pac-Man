@@ -17,4 +17,10 @@ public class Feuille extends Noeud {
 	
 	public int getDirection() {return direction;}
 	public String getStr() {return str;}
+
+	public Noeud clone() {
+		System.out.println("Feuille");
+		
+		return this;
+	}
 }

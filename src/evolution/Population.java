@@ -1,9 +1,11 @@
 package evolution;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
 import arbre.Arbre;
+import arbre.Noeud;
 import graphe.Graphe;
 import model.Map;
 
@@ -62,7 +64,7 @@ public class Population {
 		List<Individu> vainqueur = new ArrayList<Individu>();
 
 		for (int i=0 ; i<selection ; i++) {
-			int random = (int) Math.random() * (tmp.size());
+			int random = (int) (Math.random() * tmp.size());
 
 			participant.add(tmp.get(random));
 			tmp.remove(random);
@@ -87,5 +89,89 @@ public class Population {
 		}
 
 		return vainqueur;
+	}
+
+	public List<Individu> croisement(Map map, Graphe graphe, List<Individu> pop) {
+		List<Individu> nouvelleGeneration = new ArrayList<Individu>();
+
+		for(Individu i: pop) {
+			Individu modelCopy = null;
+			
+			ByteArrayOutputStream outStream = new ByteArrayOutputStream(); 
+		    try { 
+		        ObjectOutput out = new ObjectOutputStream(outStream); 
+		        out.writeObject(i); 
+		        InputStream inStreem = new ByteArrayInputStream(outStream.toByteArray()); 
+		        ObjectInput in = new ObjectInputStream(inStreem); 
+		        modelCopy = (Individu) in.readObject(); 
+		    } catch (Exception ex) {
+		    	//en cas d'échec nous renvoyons l'original 
+		    	System.err.println("Test: "+ex.getMessage());
+		        modelCopy = i;
+		    } 
+		
+			nouvelleGeneration.add(modelCopy);
+		}
+		
+		
+		Individu individuP1 = pop.get(0);
+		
+		int profondeur = individuP1.getArbre().getProfondeur();
+		//int profondeurAleatoire = (int) (Math.random() * profondeur);
+		int profondeurAleatoire = 1;
+		
+		int nombreNoeud = individuP1.getArbre().nbNoeud(profondeurAleatoire);
+		int noeudAleatoire = (int) (Math.random() * nombreNoeud);
+
+		System.out.println("Profondeur max: "+profondeur+" / Profondeur : "+profondeurAleatoire+ " / Nb noeud: "+nombreNoeud+" / Noeud n°"+noeudAleatoire);
+			
+		Noeud noeudP1 = individuP1.getArbre().getNoeud(profondeurAleatoire, noeudAleatoire);
+		noeudP1.affiche();
+		
+		System.out.println();
+		/* **************************** */
+		Individu individuP2 = pop.get(1);
+		
+		nombreNoeud = individuP2.getArbre().nbNoeud(profondeurAleatoire);
+		noeudAleatoire = (int) (Math.random() * nombreNoeud);
+
+		System.out.println("Profondeur max: "+profondeur+" / Profondeur : "+profondeurAleatoire+ " / Nb noeud: "+nombreNoeud+" / Noeud n°"+noeudAleatoire);
+			
+		Noeud noeudP2 = individuP2.getArbre().getNoeud(profondeurAleatoire, noeudAleatoire);
+		noeudP2.affiche();
+		
+		/* **************************** */
+		// On affiche avant
+		System.out.println();
+		individuP1.getArbre().affiche();
+		System.out.println();
+		individuP2.getArbre().affiche();
+		System.out.println();
+		
+		//Noeud pere1 = noeudP1.getPere();
+		//Noeud pere2 = noeudP2.getPere();
+		
+		// Changement de pere
+		//noeudP1.addPere(pere2);
+		//noeudP2.addPere(pere1);
+		
+		// Changement de fils
+		//pere1.changeFils(noeudP1, noeudP2);
+		//pere2.changeFils(noeudP2, noeudP1);
+		
+		
+		/* **************************** */
+		// On affiche après
+		System.out.println();
+		individuP1.getArbre().affiche();
+		System.out.println();
+		individuP2.getArbre().affiche();
+		System.out.println();
+
+		
+		nouvelleGeneration.add(individuP1);
+		nouvelleGeneration.add(individuP2);
+		
+		return nouvelleGeneration;
 	}
 }

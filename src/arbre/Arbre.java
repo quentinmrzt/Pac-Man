@@ -1,5 +1,8 @@
 package arbre;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import model.Monde;
 import model.Personnage;
 
@@ -8,6 +11,12 @@ public class Arbre {
 	private int profondeur;
 	private Monde monde;
 
+	public Arbre() {
+		this.monde = null;
+		this.noeud = null;
+		this.profondeur = 0;
+	}
+	
 	public Arbre(Monde monde, int profondeur) {
 		this.monde = monde; 
 		this.profondeur = profondeur;
@@ -21,10 +30,25 @@ public class Arbre {
 		this.profondeur = arbre.getProfondeur();
 		this.noeud = arbre.getNoeud();
 	}
-
+	
+	public Arbre clone() {
+		Arbre clone = new Arbre();
+		
+		clone.setMonde(this.monde);
+		clone.setProfondeur(this.profondeur);
+		clone.setNoeud(this.noeud.clone());
+		
+		return clone;
+	}
+	
 	public Noeud getNoeud() { return noeud; }
+	public int getProfondeur() {return profondeur;}
 
-	public void generationAleatoirePrefixe(Noeud noeud, int profondeur) {
+	private void setMonde(Monde monde) { this.monde = monde; }
+	private void setProfondeur(int profondeur) { this.profondeur = profondeur; }
+	public void setNoeud(Noeud noeud) { this.noeud = noeud; }
+	
+	private void generationAleatoirePrefixe(Noeud noeud, int profondeur) {
 		if (profondeur==1) {
 			noeud.addGauche(new Feuille(noeud, Personnage.directionAleatoire()));
 			noeud.addDroite(new Feuille(noeud, Personnage.directionAleatoire()));
@@ -36,8 +60,6 @@ public class Arbre {
 			generationAleatoirePrefixe(noeud.getDroite(),profondeur-1);
 		}
 	}
-
-	public int getProfondeur() {return profondeur;}
 
 	public int getDirection() {
 		boolean fin = false;
@@ -137,5 +159,41 @@ public class Arbre {
 		System.out.println(a.toString());
 		affiche(a.getGauche(), profondeur+1);
 		affiche(a.getDroite(), profondeur+1);
+	}
+	
+	public int nbNoeud(int profondeur) {
+		return nbNoeud(noeud,profondeur);
+	}
+
+	private int nbNoeud(Noeud noeud,int profondeur) {
+		if (noeud==null) {
+			return 0;
+		} else {
+			if (profondeur==0) {
+				return 1;
+			} else {
+				return nbNoeud(noeud.getGauche(),profondeur-1) + nbNoeud(noeud.getDroite(),profondeur-1);
+			}
+		}
+	}
+
+	public Noeud getNoeud(int profondeur, int index) {
+		List<Noeud> liste = new ArrayList<Noeud>();
+		getNoeud(noeud,liste, profondeur);
+		
+		System.out.println("Taille de la liste: "+liste.size());
+		
+		return liste.get(index);
+	}
+	
+	private void getNoeud(Noeud noeud, List<Noeud> liste ,int profondeur) {
+		if (noeud!=null) {
+			if (profondeur==0) {
+				liste.add(noeud);
+			} else {
+				getNoeud(noeud.getGauche(),liste, profondeur-1);
+				getNoeud(noeud.getDroite(),liste, profondeur-1);
+			}
+		}		
 	}
 }

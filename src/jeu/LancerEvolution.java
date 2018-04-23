@@ -25,14 +25,19 @@ public class LancerEvolution {
 		new LancerPacMan(individu);*/
 		
 		int nbParticipant = 100;
-		int nbVainqueur = 1;
+		int nbVainqueur = 2;
 		List<Individu> vainqueur = population.tournoi(nbParticipant, nbVainqueur);
 		
 		for (Individu i: vainqueur) {
 			System.out.println("Score du vainqueur: "+i.getScore());
-			Individu individu = new Individu(map,graphe,i.getArbre(),80);
-			new LancerPacMan(individu);
+		}
+		
+		List<Individu> croisement = population.croisement(map, graphe, vainqueur);
+		
+		System.out.println("--------------------------------");
+		for (Individu i: croisement) {
 			i.getArbre().affiche();
+			System.out.println();
 		}
 	}
 }
