@@ -56,49 +56,36 @@ public class Population {
 		}
 	}
 
-	public List<Individu> tournoi(int nbVainqueur, int selection) {
+	public List<Individu> tournoi(int selection, int nbVainqueur) {
+		List<Individu> tmp = new ArrayList<Individu>(population);
 		List<Individu> participant = new ArrayList<Individu>();
-
-		for (int i=0 ; i<selection ; i++) {
-			int random = (int) Math.random() * (NOMBREPOPULATION);
-
-			participant.add(population.get(random));
-		}
-
 		List<Individu> vainqueur = new ArrayList<Individu>();
 
-		for (int j=0 ; j<nbVainqueur ; j++) {
+		for (int i=0 ; i<selection ; i++) {
+			int random = (int) Math.random() * (tmp.size());
+
+			participant.add(tmp.get(random));
+			tmp.remove(random);
+		}
+
+
+		// On choisis les meilleurs de la selection
+		for (int i=0 ; i<nbVainqueur ; i++) {
 			int max = -1;
-			int i = 0;
-			int index = -1;
+			Individu leMeilleur = null;
 			for(Individu m:participant) {
 				if (m.getScore()>max) {
 					max = m.getScore();
-					index = i;
+					leMeilleur = m;
 				}
-				i++;
 			}
-			
+
+			if (leMeilleur!=null) {
+				vainqueur.add(leMeilleur);
+				participant.remove(leMeilleur);
+			}
 		}
-		
+
 		return vainqueur;
-	}
-
-	public static void main(String[] args) {
-		int max = -999;
-		int min = 999;
-		for (int i=0 ; i<1000 ; i++) {
-			int random = (int) (Math.random() * 100);
-			if (random>max) {
-				max = random;
-			}
-
-			if (random<min) {
-				min = random;
-			}
-			System.out.println("Random: "+random);
-		}
-
-		System.out.println("Max: "+max+" et Min: "+min);
 	}
 }
