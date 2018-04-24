@@ -13,6 +13,11 @@ public class TestPacGomme extends Test {
 		this.direction = direction;
 	}
 	
+	public TestPacGomme(Noeud p, Noeud g, Noeud d, int direction) {
+		super(p,g,d);
+		this.direction = direction;
+	}
+
 	public String toString() {
 		return "Test gomme "+Personnage.afficheDirection(direction);
 	}
@@ -34,7 +39,7 @@ public class TestPacGomme extends Test {
 		case Personnage.GAUCHE:
 			x--;
 		}
-		
+
 		if(map.estGomme(x, y)) {
 			return true;
 		}
@@ -43,7 +48,18 @@ public class TestPacGomme extends Test {
 	}
 
 	public Test clone() {
-		System.out.println("TestPacGomme");
-		return this;
+		Noeud p = null;
+
+		Noeud g = null;
+		if(this.aGauche()) {
+			g = this.getGauche().clone();
+		}
+
+		Noeud d = null;
+		if(this.aDroite()) {
+			d = this.getDroite().clone();
+		}
+
+		return new TestPacGomme(p,g,d,this.direction);		
 	}
 }

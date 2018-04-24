@@ -1,6 +1,6 @@
 package arbre;
 
-public  class Noeud {
+public abstract class Noeud {
 	private Noeud pere = null;		
 	private Noeud gauche = null;
 	private Noeud droite = null;	
@@ -23,21 +23,7 @@ public  class Noeud {
 		this.droite = droite;
 	}
 
-	public Noeud clone() {
-		Noeud p = null;
-		
-		Noeud g = null;
-		if(gauche != null ) {
-			g = gauche.clone();
-		}
-
-		Noeud d = null;
-		if(droite != null ) {
-			d = droite.clone();
-		}
-		
-		return new Noeud(p,g,d);
-	}
+	public abstract Noeud clone();
 	
 	//public abstract Noeud clone();
 

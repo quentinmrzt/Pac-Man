@@ -180,9 +180,7 @@ public class Arbre {
 	public Noeud getNoeud(int profondeur, int index) {
 		List<Noeud> liste = new ArrayList<Noeud>();
 		getNoeud(noeud,liste, profondeur);
-		
-		System.out.println("Taille de la liste: "+liste.size());
-		
+				
 		return liste.get(index);
 	}
 	

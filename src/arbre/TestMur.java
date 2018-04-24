@@ -12,8 +12,9 @@ public class TestMur extends Test {
 		this.direction = direction;
 	}
 	
-	public TestMur(Noeud p, Noeud g, Noeud d) {
+	public TestMur(Noeud p, Noeud g, Noeud d, int direction) {
 		super(p,g,d);
+		this.direction = direction;
 	}
 
 	public String toString() {
@@ -39,8 +40,6 @@ public class TestMur extends Test {
 	}
 
 	public Test clone() {
-		System.out.println("TestMur");
-
 		Noeud p = null;
 
 		Noeud g = null;
@@ -53,6 +52,6 @@ public class TestMur extends Test {
 			d = this.getDroite().clone();
 		}
 
-		return new TestMur(p,g,d);		
+		return new TestMur(p,g,d,this.direction);		
 	}
 }

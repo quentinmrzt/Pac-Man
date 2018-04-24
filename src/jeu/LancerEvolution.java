@@ -19,11 +19,6 @@ public class LancerEvolution {
 		}
 		System.out.println("Fin de la simulation");
 		
-		// Notre model
-		/*Individu leMeilleur = population.meilleurIndividu();
-		Individu individu = new Individu(map,graphe,leMeilleur.getArbre(),80);
-		new LancerPacMan(individu);*/
-		
 		int nbParticipant = 100;
 		int nbVainqueur = 2;
 		List<Individu> vainqueur = population.tournoi(nbParticipant, nbVainqueur);
@@ -36,6 +31,7 @@ public class LancerEvolution {
 		
 		System.out.println("--------------------------------");
 		for (Individu i: croisement) {
+			System.out.println("Score: "+i.getScore());
 			i.getArbre().affiche();
 			System.out.println();
 		}

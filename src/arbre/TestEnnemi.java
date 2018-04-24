@@ -15,6 +15,11 @@ public class TestEnnemi extends Test{
 		this.direction = direction;
 	}
 	
+	public TestEnnemi(Noeud p, Noeud g, Noeud d, int direction) {
+		super(p,g,d);
+		this.direction = direction;
+	}
+	
 	public String toString() {
 		return "Test ennemi "+Personnage.afficheDirection(direction);
 	}
@@ -54,8 +59,18 @@ public class TestEnnemi extends Test{
 	}
 
 	public Test clone() {
-		System.out.println("TestEnnemi");
+		Noeud p = null;
 
-		return this;
+		Noeud g = null;
+		if(this.aGauche()) {
+			g = this.getGauche().clone();
+		}
+
+		Noeud d = null;
+		if(this.aDroite()) {
+			d = this.getDroite().clone();
+		}
+
+		return new TestEnnemi(p,g,d,this.direction);		
 	}
 }
