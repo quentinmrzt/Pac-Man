@@ -25,8 +25,6 @@ public abstract class Noeud {
 
 	public abstract Noeud clone();
 	
-	//public abstract Noeud clone();
-
 	// GETTEUR
 	public Noeud getPere() {return pere;}
 	public Noeud getGauche() {return gauche;}

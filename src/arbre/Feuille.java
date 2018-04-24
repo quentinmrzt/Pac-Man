@@ -20,7 +20,18 @@ public class Feuille extends Noeud {
 
 	public Noeud clone() {		
 		Noeud p = null;
+		
+		Feuille courant = new Feuille(p,this.direction);
 
-		return new Feuille(p,this.direction);	
+		// On rajoute le père à nos fils
+		/*if(this.aGauche()) {
+			courant.getGauche().addPere(courant);
+		}
+
+		if(this.aDroite()) {
+			courant.getDroite().addPere(courant);
+		}*/
+
+		return courant;	
 	}
 }

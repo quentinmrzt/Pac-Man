@@ -14,12 +14,12 @@ public class TestEnnemi extends Test{
 		super(test);
 		this.direction = direction;
 	}
-	
+
 	public TestEnnemi(Noeud p, Noeud g, Noeud d, int direction) {
 		super(p,g,d);
 		this.direction = direction;
 	}
-	
+
 	public String toString() {
 		return "Test ennemi "+Personnage.afficheDirection(direction);
 	}
@@ -71,6 +71,17 @@ public class TestEnnemi extends Test{
 			d = this.getDroite().clone();
 		}
 
-		return new TestEnnemi(p,g,d,this.direction);		
+		TestEnnemi courant = new TestEnnemi(p,g,d,this.direction);
+
+		// On rajoute le père à nos fils
+		if(this.aGauche()) {
+			courant.getGauche().addPere(courant);
+		}
+
+		if(this.aDroite()) {
+			courant.getDroite().addPere(courant);
+		}
+
+		return courant;	
 	}
 }

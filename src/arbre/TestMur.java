@@ -41,6 +41,9 @@ public class TestMur extends Test {
 
 	public Test clone() {
 		Noeud p = null;
+		if(this.aPere()) {
+			p = null;
+		}
 
 		Noeud g = null;
 		if(this.aGauche()) {
@@ -51,7 +54,18 @@ public class TestMur extends Test {
 		if(this.aDroite()) {
 			d = this.getDroite().clone();
 		}
+		
+		TestMur courant = new TestMur(p,g,d,this.direction);
+		
+		// On rajoute le père à nos fils
+		if(this.aGauche()) {
+			courant.getGauche().addPere(courant);
+		}
 
-		return new TestMur(p,g,d,this.direction);		
+		if(this.aDroite()) {
+			courant.getDroite().addPere(courant);
+		}
+		
+		return courant;
 	}
 }
