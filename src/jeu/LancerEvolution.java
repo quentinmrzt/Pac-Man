@@ -1,8 +1,6 @@
 package jeu;
 
-import java.util.List;
-
-import arbre.Noeud;
+import arbre.Arbre;
 import evolution.Individu;
 import evolution.Population;
 import graphe.Graphe;
@@ -14,86 +12,18 @@ public class LancerEvolution {
 		Graphe graphe = new Graphe(map);
 
 		Population population = new Population(map,graphe);
-
-		while (population.estEnSimulation()) {
-			// On attend
-		}
-		System.out.println("Fin de la simulation");
-
-		int nbParticipant = 100;
-		int nbVainqueur = 2;
-		List<Individu> vainqueur = population.tournoi(nbParticipant, nbVainqueur);
-
-		for (Individu i: vainqueur) {
-			System.out.println("Score du vainqueur: "+i.getScore());
-		}
-
-		List<Individu> croisement = population.croisement(map, graphe, vainqueur);
-
-		System.out.println("--------------------------------");
-		for (Individu i: croisement) {
-			System.out.println("Score: "+i.getScore());
-			i.getArbre().affiche();
-			System.out.println();
-		}
-
 		
-		// -------------------------------------------------------------------------------
-		
-		{
-			// Individu 0: Copie, premier parent
-			Noeud test = croisement.get(0).getArbre().getNoeud();
-			Noeud fils = test.getDroite();
-			Noeud pere = fils.getPere();
-			System.out.print("Individu 0:    Copie,  premier parent: ");
-
-			if(pere==null) {
-				System.out.println("Ce projet me saoul.");
-			} else {
-				System.out.println("Bravo mec, tu serais presque bon.");
-			}
-		}
-
-		{
-			// Individu 0: Copie, deuxième parent
-			Noeud test = croisement.get(0).getArbre().getNoeud();
-			Noeud fils = test.getDroite().getDroite();
-			Noeud pere = fils.getPere();
-			System.out.print("Individu 0:    Copie, deuxième parent: ");
+		for (int i=0 ; i<100 ; i++) {
+			System.out.println("Generation n°"+population.getNombreGeneration());
+			population.lancerSelection();
+			population.reinitialisation(map, graphe);
 			
-			if(pere==null) {
-				System.out.println("Ce projet me saoul.");
-			} else {
-				System.out.println("Bravo mec, tu serais presque bon.");
-			}
+			//System.out.println();
 		}
-
-		{
-			// Individu 2: Original, premier parent
-			Noeud test = croisement.get(2).getArbre().getNoeud();
-			Noeud fils = test.getDroite();
-			Noeud pere = fils.getPere();
-			System.out.print("Individu 2: Original,  premier parent: ");
-
-			if(pere==null) {
-				System.out.println("Ce projet me saoul.");
-			} else {
-				System.out.println("Bravo mec, tu serais presque bon.");
-			}
-		}
-
-		{
-			// Individu 2: Original, deuxième parent
-			Noeud test = croisement.get(2).getArbre().getNoeud();
-			Noeud fils = test.getDroite().getDroite();
-			Noeud pere = fils.getPere();
-			System.out.print("Individu 2: Original, deuxième parent: ");
-
-			if(pere==null) {
-				System.out.println("Ce projet me saoul.");
-			} else {
-				System.out.println("Bravo mec, tu serais presque bon.");
-			}
-		}
+		
+		Individu i = population.meilleurIndividu();
+		Arbre arbre = i.getArbre();
+		Individu individu = new Individu(map,graphe,arbre,80);
+		new LancerPacMan(individu);
 	}
 }

@@ -36,10 +36,10 @@ public class Simulation implements Runnable {
 	}
 
 	public void run() {
-		// Vérifie que quelqu'un joue, sinon arrête la simulation
 		int nbPopulation = population.getNombrePopulation();
 		boolean fin = false;
 
+		// Vérifie que quelqu'un joue
 		while (!fin) {
 			fin = true;
 			for (int i=0 ; i<nbPopulation ; i++) {
@@ -48,7 +48,7 @@ public class Simulation implements Runnable {
 				}
 			}
 		}
-
+		
 		this.executionSimulation = false;
 	}
 }

@@ -1,18 +1,13 @@
 package evolution;
 
 import arbre.Arbre;
-import arbre.Feuille;
-import arbre.Noeud;
-import arbre.TestMur;
-import arbre.TestPacGomme;
 import graphe.Graphe;
 import model.Map;
 import model.Modelisation;
 import model.Monde;
-import model.Personnage;
 
-public class Individu extends Modelisation implements java.io.Serializable {
-	final private int PROFONDEUR = 3;
+public class Individu extends Modelisation implements Runnable {
+	final private int PROFONDEUR = 4;
 
 	private Map map;
 	private Graphe graphe;
@@ -102,81 +97,5 @@ public class Individu extends Modelisation implements java.io.Serializable {
 
 		enJeu = false;
 		score = this.getMonde().getScore();
-	}
-
-	public static void main(String[] args) {
-		Map map = new Map("src/map_gomme.txt");
-		Graphe graphe = new Graphe(map);
-
-		// INDIVIDU 1 ------------------------------------------
-		Individu individu_1 = new Individu(map,graphe);
-		{
-			// ARBRE 1 
-			Noeud noeud = new TestPacGomme(null,Personnage.BAS);
-			Noeud gauche = new TestMur(null,Personnage.GAUCHE);
-			Noeud droite = new TestMur(null,Personnage.DROITE);
-			noeud.addGauche(gauche);
-			noeud.addDroite(droite);
-			gauche.addGauche(new Feuille(noeud,Personnage.GAUCHE));
-			gauche.addDroite(new Feuille(noeud,Personnage.GAUCHE));
-			droite.addGauche(new Feuille(noeud,Personnage.DROITE));
-			droite.addDroite(new Feuille(noeud,Personnage.DROITE));
-			individu_1.getArbre().setNoeud(noeud);
-		}
-		individu_1.score = 50;
-		// -----------------------------------------------------
-
-		// INDIVIDU 2 ------------------------------------------
-		Individu individu_2 = new Individu(map,graphe);
-		{
-			// ARBRE 1 
-			Noeud noeud = new TestMur(null,Personnage.HAUT);
-			Noeud gauche = new TestPacGomme(null,Personnage.GAUCHE);
-			Noeud droite = new TestPacGomme(null,Personnage.DROITE);
-			noeud.addGauche(gauche);
-			noeud.addDroite(droite);
-			gauche.addGauche(new Feuille(noeud,Personnage.GAUCHE));
-			gauche.addDroite(new Feuille(noeud,Personnage.GAUCHE));
-			droite.addGauche(new Feuille(noeud,Personnage.DROITE));
-			droite.addDroite(new Feuille(noeud,Personnage.DROITE));
-			individu_2.getArbre().setNoeud(noeud);
-		}
-		individu_2.score = 100;
-		// -----------------------------------------------------
-
-		System.out.println("Individu_1 score: "+individu_1.getScore());
-
-		Individu test_1 = individu_1.clone();
-		Individu test_2 = individu_1;
-
-		System.out.println("[======================================]");
-		System.out.println("Test1 score: "+test_1.getScore());
-		System.out.println("Test2 score: "+test_2.getScore());
-		System.out.println("----------------------------------------");
-
-		test_1.score = 40;
-
-		System.out.println("Test1 score: "+test_1.getScore());
-		System.out.println("Test2 score: "+test_2.getScore());
-		System.out.println("[======================================]");
-
-		individu_1.getArbre().affiche();
-		System.out.println();
-		test_1.getArbre().affiche();
-		System.out.println();
-		test_2.getArbre().affiche();
-		System.out.println("----------------------------------------");
-
-		//test_1.getArbre().getNoeud().addDroite(new Feuille(test_1.getArbre().getNoeud(),Personnage.BAS));
-		//test_2.getArbre().getNoeud().addDroite(new Feuille(test_2.getArbre().getNoeud(),Personnage.STATIQUE));
-		
-		test_1.getArbre().getNoeud().addDroite(individu_2.getArbre().getNoeud());
-
-		System.out.println("----------------------------------------");
-		individu_1.getArbre().affiche();
-		System.out.println();
-		test_1.getArbre().affiche();
-		System.out.println();
-		test_2.getArbre().affiche();
 	}
 }     

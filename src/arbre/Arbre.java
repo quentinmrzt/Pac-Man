@@ -9,7 +9,7 @@ import model.Personnage;
 public class Arbre {
 	private Noeud noeud;
 	private int profondeur;
-	private Monde monde;
+	public Monde monde;
 
 	public Arbre() {
 		this.monde = null;
