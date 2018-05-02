@@ -161,6 +161,11 @@ public class Arbre {
 		affiche(a.getDroite(), profondeur+1);
 	}
 	
+	/**
+	 * Donne le nombre de noeud existant à une profondeur donnée
+	 * @param profondeur La profondeur voulu
+	 * @return Le nombre de noeud qui existe
+	 */
 	public int nbNoeud(int profondeur) {
 		return nbNoeud(noeud,profondeur);
 	}
@@ -177,6 +182,12 @@ public class Arbre {
 		}
 	}
 
+	/**
+	 * Donne le noeud à une profondeur et un index voulu
+	 * @param profondeur La profondeur dans l'arbre
+	 * @param index Le numéro du noeud
+	 * @return Le noeud voulu
+	 */
 	public Noeud getNoeud(int profondeur, int index) {
 		List<Noeud> liste = new ArrayList<Noeud>();
 		getNoeud(noeud,liste, profondeur);

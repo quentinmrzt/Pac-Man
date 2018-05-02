@@ -7,7 +7,7 @@ import model.Modelisation;
 import model.Monde;
 
 public class Individu extends Modelisation implements Runnable {
-	final private int PROFONDEUR = 4;
+	final private int PROFONDEUR = 6;
 
 	private Map map;
 	private Graphe graphe;

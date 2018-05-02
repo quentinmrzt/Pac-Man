@@ -13,12 +13,12 @@ public class LancerEvolution {
 
 		Population population = new Population(map,graphe);
 		
-		for (int i=0 ; i<100 ; i++) {
+		for (int i=0 ; i<1000 ; i++) {
 			System.out.println("Generation n°"+population.getNombreGeneration());
 			population.lancerSelection();
 			population.reinitialisation(map, graphe);
 			
-			//System.out.println();
+			System.out.println();
 		}
 		
 		Individu i = population.meilleurIndividu();
