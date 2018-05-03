@@ -10,9 +10,9 @@ import model.Map;
 
 public class Population {
 	final static private int NOMBREPOPULATION = 100;
-	final static private int NBSELECTION = 100;
-	final static private int NBVAINQUEUR = 2;
-	final static private double POURCENTAGECROISEMENT = 0.90;
+	final static private int NBSELECTION = 20;
+	final static private int NBVAINQUEUR = 4;
+	final static private double POURCENTAGECROISEMENT = 0.80;
 
 	private int nbGeneration;
 	private List<Individu> population, vainqueur;
@@ -73,14 +73,19 @@ public class Population {
 	}
 
 	public void croisement() {
-		int tmp = (int) Math.floor((NOMBREPOPULATION-NBVAINQUEUR)*POURCENTAGECROISEMENT);
-		int nbACreer = tmp/2;
+		int nb = (int) Math.floor((NOMBREPOPULATION-NBVAINQUEUR)*POURCENTAGECROISEMENT);
+		int nbACreer = nb/2;
+		int random;
 
 
 		/* **************************** */
-		for(int i=0 ; i<nbACreer ; i++) {			
+		for(int i=0 ; i<nbACreer ; i++) {
+			List<Individu> tmp = new ArrayList<Individu>(vainqueur);
+			
 			// INDIVIDU 1
-			Individu individuP1 = vainqueur.get(0).clone();
+			random = (int) (Math.random() * tmp.size());
+			Individu individuP1 = tmp.get(random).clone();
+			tmp.remove(random);
 
 			int profondeur = individuP1.getArbre().getProfondeur();
 			int profondeurAleatoire = (int) (1 + (Math.random() * (profondeur-1))); // en 1 et la profondeur
@@ -92,7 +97,11 @@ public class Population {
 
 
 			// INDIVIDU 2
-			Individu individuP2 = vainqueur.get(1).clone();
+			random = (int) (Math.random() * tmp.size());
+			
+			Individu individuP2 = tmp.get(random).clone();
+			tmp.remove(random);
+			
 			nombreNoeud = individuP2.getArbre().nbNoeud(profondeurAleatoire);
 			noeudAleatoire = (int) (Math.random() * nombreNoeud);
 			Noeud noeudP2 = individuP2.getArbre().getNoeud(profondeurAleatoire, noeudAleatoire);
