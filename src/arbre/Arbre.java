@@ -16,38 +16,42 @@ public class Arbre {
 		this.noeud = null;
 		this.profondeur = 0;
 	}
-	
+
 	public Arbre(Monde monde, int profondeur) {
 		this.monde = monde; 
 		this.profondeur = profondeur;
 
-		this.noeud = this.testAleatoire(null);
-		generationAleatoirePrefixe(noeud,profondeur-1);
+		if (profondeur==1) {
+			this.noeud = new Feuille(null, Personnage.directionAleatoire());
+		} else {
+			this.noeud = this.testAleatoire(null);
+			generationAleatoirePrefixe(noeud,profondeur-1);
+		}
 	}
-	
+
 	public Arbre(Arbre arbre, Monde monde) {
 		this.monde = monde;
 		this.profondeur = arbre.getProfondeur();
 		this.noeud = arbre.getNoeud();
 	}
-	
+
 	public Arbre clone() {
 		Arbre clone = new Arbre();
-		
+
 		clone.setMonde(this.monde);
 		clone.setProfondeur(this.profondeur);
 		clone.setNoeud(this.noeud.clone());
-		
+
 		return clone;
 	}
-	
+
 	public Noeud getNoeud() { return noeud; }
 	public int getProfondeur() {return profondeur;}
 
 	private void setMonde(Monde monde) { this.monde = monde; }
 	private void setProfondeur(int profondeur) { this.profondeur = profondeur; }
 	public void setNoeud(Noeud noeud) { this.noeud = noeud; }
-	
+
 	private void generationAleatoirePrefixe(Noeud noeud, int profondeur) {
 		if (profondeur==1) {
 			noeud.addGauche(new Feuille(noeud, Personnage.directionAleatoire()));
@@ -83,7 +87,7 @@ public class Arbre {
 
 		return direction;
 	}
-	
+
 	public Test testAleatoire(Noeud parent) {
 		int rdm =  (int) (Math.random() * 2); 
 
@@ -110,6 +114,26 @@ public class Arbre {
 			this.parcoursPrefixe(noeud.getDroite());
 		}
 	}
+
+	public boolean equilibre() {
+		return equilibre(noeud);
+	}
+
+	private boolean equilibre(Noeud noeud) {
+		if (noeud==null) {
+			return true;
+		}
+
+		int tailleGauche = hauteur(noeud.getGauche());
+		int tailleDroite = hauteur(noeud.getDroite());
+
+		if (tailleGauche!=tailleDroite) {
+			return false;
+		} else {
+			return equilibre(noeud.getGauche()) && equilibre(noeud.getDroite());
+		}
+	}
+
 
 	public int hauteur() {
 		return hauteur(noeud);
@@ -142,7 +166,7 @@ public class Arbre {
 			return 1 + nbNoeud(noeud.getGauche()) + nbNoeud(noeud.getDroite());
 		}
 	}
-	
+
 	public void affiche() {
 		this.affiche(noeud,0);
 	}
@@ -155,12 +179,12 @@ public class Arbre {
 		for (int i = 0; i <= profondeur; i++) {
 			System.out.print("|");
 		}
-		
+
 		System.out.println(a.toString());
 		affiche(a.getGauche(), profondeur+1);
 		affiche(a.getDroite(), profondeur+1);
 	}
-	
+
 	/**
 	 * Donne le nombre de noeud existant à une profondeur donnée
 	 * @param profondeur La profondeur voulu
@@ -191,10 +215,10 @@ public class Arbre {
 	public Noeud getNoeud(int profondeur, int index) {
 		List<Noeud> liste = new ArrayList<Noeud>();
 		getNoeud(noeud,liste, profondeur);
-				
+
 		return liste.get(index);
 	}
-	
+
 	private void getNoeud(Noeud noeud, List<Noeud> liste ,int profondeur) {
 		if (noeud!=null) {
 			if (profondeur==0) {
@@ -204,5 +228,20 @@ public class Arbre {
 				getNoeud(noeud.getDroite(),liste, profondeur-1);
 			}
 		}		
+	}
+
+	public static void main(String[] args) {
+			Arbre arbre = new Arbre(null,3);
+			arbre.affiche();
+			System.out.println("Arbre equilibre="+arbre.equilibre());
+			System.out.println("");
+			
+			Arbre arbreNouveau = new Arbre(null,2);
+			arbreNouveau.affiche();
+			System.out.println("");
+			
+			arbre.getNoeud(1, 0).addDroite(arbreNouveau.getNoeud());
+			arbre.affiche();
+			System.out.println("Arbre equilibre="+arbre.equilibre());
 	}
 }

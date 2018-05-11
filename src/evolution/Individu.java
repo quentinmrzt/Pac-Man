@@ -7,7 +7,6 @@ import model.Modelisation;
 import model.Monde;
 
 public class Individu extends Modelisation implements Runnable {
-	final private int PROFONDEUR = 5;
 
 	private Map map;
 	private Graphe graphe;
@@ -16,8 +15,9 @@ public class Individu extends Modelisation implements Runnable {
 	public int score = 0;
 	public Arbre arbre = null;
 	public int vitesse = 0;
+	public int profondeur = 0;
 
-	public Individu(Map map, Graphe graphe) {
+	public Individu(Map map, Graphe graphe, int PROFONDEUR) {
 		super(map,graphe);
 
 		this.map = map;
@@ -27,9 +27,10 @@ public class Individu extends Modelisation implements Runnable {
 		this.score = 0;
 		this.enJeu = true;
 		this.vitesse = 0;
+		this.profondeur = PROFONDEUR;
 	}
 
-	public Individu(Map map, Graphe graphe, int vitesse) {
+	public Individu(Map map, Graphe graphe, int vitesse, int PROFONDEUR) {
 		super(map,graphe);
 
 		this.map = map;
@@ -39,6 +40,7 @@ public class Individu extends Modelisation implements Runnable {
 		this.score = 0;
 		this.enJeu = true;
 		this.vitesse = vitesse;
+		this.profondeur = PROFONDEUR;
 	}
 
 	public Individu(Map map, Graphe graphe, Arbre arbre, int vitesse) {
@@ -51,6 +53,7 @@ public class Individu extends Modelisation implements Runnable {
 		this.score = 0;
 		this.enJeu = true;
 		this.vitesse = vitesse;
+		this.profondeur = arbre.getProfondeur();
 	}
 
 	public Individu(Individu individu) {
@@ -60,6 +63,7 @@ public class Individu extends Modelisation implements Runnable {
 		this.score = individu.getScore();
 		this.enJeu = individu.estEnJeu();
 		this.vitesse = individu.getVitesse();
+		this.profondeur = individu.getArbre().getProfondeur();
 	}
 
 	public int getScore() { return score; }
@@ -68,7 +72,7 @@ public class Individu extends Modelisation implements Runnable {
 	public int getVitesse() { return vitesse; }
 
 	public Individu clone() {
-		Individu clone = new Individu(map,graphe);
+		Individu clone = new Individu(map,graphe,5);
 
 		clone.score = this.score;
 		clone.enJeu = this.enJeu;

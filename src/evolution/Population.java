@@ -1,36 +1,43 @@
 package evolution;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import arbre.Arbre;
+import arbre.Feuille;
 import arbre.Noeud;
 import graphe.Graphe;
 import model.Map;
+import model.Personnage;
 
 public class Population {
-	final static private int NOMBREPOPULATION = 100;
-	final static private int NBSELECTION = 100;
-	final static private int NBVAINQUEUR = 10;
-	final static private double POURCENTAGEMUTATION = 0.20;
+	private int PROFONDEUR;
+	private int NOMBREPOPULATION;
+	private int NBSELECTION;
+	private int NBVAINQUEUR;
+	private double POURCENTAGEMUTATION;
 
 	private int nbGeneration;
 	private List<Individu> population, vainqueur;
 	private List<Thread> liste;
-	private List<List<Integer>> resultat;
+
 	private boolean aJoue;
 
 	// Population initiale
-	public Population(Map map, Graphe graphe) {
+	public Population(Map map, Graphe graphe, int PROFONDEUR, int NOMBREPOPULATION, int NBSELECTION, int NBVAINQUEUR, double POURCENTAGEMUTATION) {
+		this.PROFONDEUR = PROFONDEUR;
+		this.NOMBREPOPULATION = NOMBREPOPULATION;
+		this.NBSELECTION = NBSELECTION;
+		this.NBVAINQUEUR = NBVAINQUEUR;
+		this.POURCENTAGEMUTATION = POURCENTAGEMUTATION;
+
 		this.nbGeneration = 1;
 		aJoue = false;
-		resultat = new ArrayList<List<Integer>>();
 
 		// On crée les individus
 		this.population = new ArrayList<Individu>();
 		for(int nb=0 ; nb<NOMBREPOPULATION ; nb++) {
-			population.add(new Individu(map, graphe));
+			population.add(new Individu(map, graphe,this.PROFONDEUR));
 		}
 	}
 
@@ -38,10 +45,6 @@ public class Population {
 	public Individu getIndividu(int index) { return population.get(index); }
 	public int getNombreIndividu() { return population.size(); }
 	public int getNombreGeneration() { return nbGeneration; }
-
-	public int getResultat(int indexGeneration, int indexIndividu) {
-		return resultat.get(indexGeneration).get(indexIndividu);
-	}
 
 	public void tournoi() {
 		int nbSupprimer;
@@ -85,7 +88,7 @@ public class Population {
 		int nbParGeneration = (int) (Math.pow(NBVAINQUEUR,2)-NBVAINQUEUR);
 		int nbGeneration = nbACreer/nbParGeneration;
 		int reste = (int) (nbACreer%nbParGeneration);
-		System.out.println("nbParGeneration: "+nbParGeneration+" nbGeneration: "+nbGeneration+" reste: "+reste);
+		//System.out.println("nbParGeneration: "+nbParGeneration+" nbGeneration: "+nbGeneration+" reste: "+reste);
 
 		/* **************************** */
 		for(int i=0 ; i<nbGeneration ; i++) {
@@ -165,8 +168,6 @@ public class Population {
 	}
 
 	public void mutation() {
-		int test = 0;
-
 		for(int i=0 ; i<this.getNombreIndividu() ; i++) {
 			int aleatoire = (int) (Math.random() * (NOMBREPOPULATION/(POURCENTAGEMUTATION*NOMBREPOPULATION)));
 
@@ -174,23 +175,32 @@ public class Population {
 				Individu individu = this.getIndividu(i);
 
 				int profondeur = individu.getArbre().getProfondeur();
+				int hauteur =  individu.getArbre().hauteur();
+				if (hauteur!=10) { System.out.println("!!! arbre >10:"+hauteur); }
 				int profondeurAleatoire = (int) (1 + (Math.random() * (profondeur-1))); // en 1 et la profondeur
-
-				Arbre arbre = new Arbre(individu.getMonde(), profondeur);
-
+				Noeud nouveauNoeud = null;
+				
+				int test = profondeur-profondeurAleatoire;
+				if (test == 1) {
+					nouveauNoeud = new Feuille(null, Personnage.directionAleatoire());
+				} else {
+					Arbre arbre = new Arbre(individu.getMonde(), test);
+					nouveauNoeud = arbre.getNoeud();
+				}
+				
 				int nombreNoeud = individu.getArbre().nbNoeud(profondeurAleatoire);
 				int noeudAleatoire = (int) (Math.random() * nombreNoeud);
 
 				Noeud noeud = individu.getArbre().getNoeud(profondeurAleatoire, noeudAleatoire);
 				Noeud pere = noeud.getPere();
 				// Changement de pere
-				noeud.addPere(pere);
+				//noeud.addPere(pere);
+				nouveauNoeud.addPere(pere);
 				// Changement de fils
-				pere.changeFils(noeud, arbre.getNoeud());
-				test++;
+				pere.changeFils(noeud, nouveauNoeud);
 			}
 		}
-		System.out.println("Nombre de muté: "+test);
+		//System.out.println("Nombre de muté: "+test);
 	}
 
 	public Individu meilleurIndividu() {
@@ -231,21 +241,17 @@ public class Population {
 		System.out.println("Thread: NB="+liste.size()+" / En cours="+runnable+" / Terminé="+terminated+" / Blocké="+blocked+" / Autre="+autre);
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	public void lancerJeux() {
 		if (!aJoue) {
 			// On crée les threads
@@ -258,12 +264,12 @@ public class Population {
 			for (int i=0 ; i<this.getNombreIndividu() ; i++) {
 				liste.get(i).start();
 			}
-			
+
 			aJoue = true;
 		}
 	}
 
-	public void lancerSelection() {
+	public int[] lancerSelection() {
 		if (aJoue) {
 			// Vérifie que quelqu'un joue
 			boolean fin = false;
@@ -277,13 +283,18 @@ public class Population {
 				}
 			}
 
-			List<Integer> tmp = new ArrayList<Integer>();
+			int tmptab[] = new int[NOMBREPOPULATION];
+			int index=0;
 			for(Individu i: population) {
-				tmp.add(i.getScore());
+				tmptab[index] = i.getScore();
+				index++;
 			}
-			Collections.sort(tmp);
-			resultat.add(tmp);
-
+			
+			for(Individu i: population) {
+				if(!i.getArbre().equilibre()) {
+					System.out.println("Arbre non equilibre");
+				}
+			}
 
 			// Tout le monde à arrêté de jouer
 			this.tournoi();
@@ -293,8 +304,11 @@ public class Population {
 
 			nbGeneration++;
 			aJoue = false;
+
+			return tmptab;
 		} else {
 			System.out.println("La population n'a pas joué");
+			return null;
 		}
 	}
 
