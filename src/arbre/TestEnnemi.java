@@ -51,6 +51,18 @@ public class TestEnnemi extends Test{
 					} else if(direction==Personnage.STATIQUE) {
 						return true;
 					}
+				} else {
+					if(direction==Personnage.HAUT && pacMan.getNoeudDestination().getHaut().equals(f.getBranche())) {
+						return true;
+					} else if(direction==Personnage.DROITE && pacMan.getNoeudDestination().getDroite().equals(f.getBranche())) {
+						return true;
+					} else if(direction==Personnage.BAS && pacMan.getNoeudDestination().getBas().equals(f.getBranche())) {
+						return true;
+					} else if(direction==Personnage.GAUCHE && pacMan.getNoeudDestination().getGauche().equals(f.getBranche())) {
+						return true;
+					} else if(direction==Personnage.STATIQUE) {
+						return false;
+					}
 				}
 			}
 		}

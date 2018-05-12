@@ -25,7 +25,8 @@ public class Arbre {
 			this.noeud = new Feuille(null, Personnage.directionAleatoire());
 		} else {
 			this.noeud = this.testAleatoire(null);
-			generationAleatoirePrefixe(noeud,profondeur-1);
+			generationAleatoireEquilibre(noeud,profondeur-1);
+			//generationAleatoireNonEquilibre(noeud,profondeur-1);
 		}
 	}
 
@@ -52,7 +53,7 @@ public class Arbre {
 	private void setProfondeur(int profondeur) { this.profondeur = profondeur; }
 	public void setNoeud(Noeud noeud) { this.noeud = noeud; }
 
-	private void generationAleatoirePrefixe(Noeud noeud, int profondeur) {
+	private void generationAleatoireEquilibre(Noeud noeud, int profondeur) {
 		if (profondeur==1) {
 			noeud.addGauche(new Feuille(noeud, Personnage.directionAleatoire()));
 			noeud.addDroite(new Feuille(noeud, Personnage.directionAleatoire()));
@@ -60,8 +61,35 @@ public class Arbre {
 			noeud.addGauche(this.testAleatoire(noeud));
 			noeud.addDroite(this.testAleatoire(noeud));
 
-			generationAleatoirePrefixe(noeud.getGauche(),profondeur-1);
-			generationAleatoirePrefixe(noeud.getDroite(),profondeur-1);
+			generationAleatoireEquilibre(noeud.getGauche(),profondeur-1);
+			generationAleatoireEquilibre(noeud.getDroite(),profondeur-1);
+		}
+	}
+
+	private void generationAleatoireNonEquilibre(Noeud noeud, int profondeur) {
+		if (profondeur==1) {
+			noeud.addGauche(new Feuille(noeud, Personnage.directionAleatoire()));
+			noeud.addDroite(new Feuille(noeud, Personnage.directionAleatoire()));
+		} else {
+			// plus on est profond, plus on risque de s'arrêter
+			int min = 1;
+			int max = profondeur;
+			int aleatoireGauche = (int) (min + (Math.random() * (max-min)));
+			int aleatoireDroite= (int) (min + (Math.random() * (max-min)));
+
+			if(aleatoireGauche!=1) {
+				noeud.addGauche(this.testAleatoire(noeud));
+				generationAleatoireNonEquilibre(noeud.getGauche(),profondeur-1);
+			} else {
+				noeud.addGauche(new Feuille(noeud, Personnage.directionAleatoire()));
+			}
+	
+			if(aleatoireDroite!=1) {
+				noeud.addDroite(this.testAleatoire(noeud));
+				generationAleatoireNonEquilibre(noeud.getDroite(),profondeur-1);
+			} else {
+				noeud.addDroite(new Feuille(noeud, Personnage.directionAleatoire()));
+			}
 		}
 	}
 
@@ -216,6 +244,10 @@ public class Arbre {
 		List<Noeud> liste = new ArrayList<Noeud>();
 		getNoeud(noeud,liste, profondeur);
 
+		if(liste.size()<=index) {
+			System.out.println("ERREUR --------");
+		}
+		
 		return liste.get(index);
 	}
 
@@ -230,18 +262,18 @@ public class Arbre {
 		}		
 	}
 
-	public static void main(String[] args) {
-			Arbre arbre = new Arbre(null,3);
-			arbre.affiche();
-			System.out.println("Arbre equilibre="+arbre.equilibre());
-			System.out.println("");
-			
-			Arbre arbreNouveau = new Arbre(null,2);
-			arbreNouveau.affiche();
-			System.out.println("");
-			
-			arbre.getNoeud(1, 0).addDroite(arbreNouveau.getNoeud());
-			arbre.affiche();
-			System.out.println("Arbre equilibre="+arbre.equilibre());
-	}
+	/*public static void main(String[] args) {
+		Arbre arbre = new Arbre(null,3);
+		arbre.affiche();
+		System.out.println("Arbre equilibre="+arbre.equilibre());
+		System.out.println("");
+
+		Arbre arbreNouveau = new Arbre(null,2);
+		arbreNouveau.affiche();
+		System.out.println("");
+
+		arbre.getNoeud(1, 0).addDroite(arbreNouveau.getNoeud());
+		arbre.affiche();
+		System.out.println("Arbre equilibre="+arbre.equilibre());
+	}*/
 }

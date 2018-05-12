@@ -14,7 +14,7 @@ public class Monde extends Observable {
 	public final static int CLYDE=3; 
 	public final static int PACMAN=4;
 
-	public final int SCORE_GOMME=10;
+	public final int SCORE_GOMME=1;
 	public final int SCORE_SUPERGOMME=50;
 	public final int SCORE_FANTOME=200;
 
@@ -45,10 +45,10 @@ public class Monde extends Observable {
 		Branche brancheFantome = graphe.getNoeud(12, 11).getDroite();
 		// Ini des personnages Fantomes
 		fantomes = new ArrayList<Fantome>();
-		fantomes.add(new Blinky(fantomeX,fantomeY,brancheFantome,pacMan));
-		fantomes.add(new Pinky(fantomeX,fantomeY,brancheFantome,pacMan));
-		fantomes.add(new Inky(fantomeX,fantomeY,brancheFantome,pacMan));
-		fantomes.add(new Clyde(fantomeX,fantomeY,brancheFantome,pacMan));
+		//fantomes.add(new Blinky(fantomeX,fantomeY,brancheFantome,pacMan));
+		//fantomes.add(new Pinky(fantomeX,fantomeY,brancheFantome,pacMan));
+		//fantomes.add(new Inky(fantomeX,fantomeY,brancheFantome,pacMan));
+		//fantomes.add(new Clyde(fantomeX,fantomeY,brancheFantome,pacMan));
 
 		score = 0;
 		nombreDeTour = 0;
@@ -66,7 +66,7 @@ public class Monde extends Observable {
 	public ArrayList<Fantome> getFantome() {return fantomes;}
 
 	public boolean finDePartie() {
-		if(!pacMan.estEnJeu() || map.getNbGomme()+map.getNbSuperGomme()==0 || nbTourInactif==100) {
+		if(!pacMan.estEnJeu() || map.getNbGomme()+map.getNbSuperGomme()==0 || nbTourInactif==300) {
 			//System.out.println("FIN DE LA PARTIE: "+score);
 			return true;
 		} else {
@@ -77,7 +77,7 @@ public class Monde extends Observable {
 	public void tourDeJeu() {
 		pacMan.destination();
 
-		/*for (Fantome fantome: fantomes) {
+		for (Fantome fantome: fantomes) {
 				// finEffetSuperGomme
 				if(fantome.estVulnerable() && nombreDeTour>fantome.getTourVulnerabilite()+60) {
 					fantome.invulnerable();
@@ -97,12 +97,12 @@ public class Monde extends Observable {
 				fantome.deplacement();
 			}
 			this.mangerFantome();
-			this.mangerPacMan();*/
+			this.mangerPacMan();
 
 		// PAC-MAN: Il se déplace et mange
 		pacMan.deplacement();
-		/*this.mangerFantome();
-			this.mangerPacMan();*/
+		this.mangerFantome();
+			this.mangerPacMan();
 		if(this.mangerGomme()) {
 			nbTourInactif=0;
 		} else {
@@ -130,7 +130,8 @@ public class Monde extends Observable {
 			return true;
 		} else if (type==Map.SUPERGOMME) {
 			map.mangerSuperGomme(x,y);
-			score+=SCORE_SUPERGOMME;
+			//score+=SCORE_SUPERGOMME;
+			score+=SCORE_GOMME;
 
 			for (Fantome fantome: fantomes) {
 				if(fantome.estEnJeu()) {
@@ -176,7 +177,8 @@ public class Monde extends Observable {
 			if (!fantome.estInvulnerable() && fantome.estEnJeu()) {
 				if (x==fantome.getPositionX() && y==fantome.getPositionY()) {
 					fantome.mort();
-					this.score += SCORE_FANTOME;
+					//this.score += SCORE_FANTOME;
+					this.score += 0;
 				}
 			}
 		}

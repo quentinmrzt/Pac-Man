@@ -25,23 +25,25 @@ public class TestPacGomme extends Test {
 	public boolean test(Monde monde) {
 		PacMan pacMan = monde.getPM();
 		Map map = monde.getMap();
+		int distance = 1;
 
 		int x = pacMan.getPositionX();
 		int y = pacMan.getPositionY();
+		for (int i=1 ; i<=distance ; i++) {
+			switch (direction) {
+			case Personnage.HAUT:
+				y -= i;
+			case Personnage.DROITE:
+				x += i;
+			case Personnage.BAS:
+				y += i;
+			case Personnage.GAUCHE:
+				x -= i;
+			}
 
-		switch (direction) {
-		case Personnage.HAUT:
-			y--;
-		case Personnage.DROITE:
-			x++;
-		case Personnage.BAS:
-			y++;
-		case Personnage.GAUCHE:
-			x--;
-		}
-
-		if(map.estGomme(x, y)) {
-			return true;
+			if(map.estGomme(x, y)) {
+				return true;
+			}
 		}
 
 		return false;

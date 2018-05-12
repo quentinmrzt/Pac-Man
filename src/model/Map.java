@@ -27,15 +27,15 @@ public class Map {
 		carte = new int[tailleX][tailleY];
 		this.ouvrirMap(chemin);
 	}
-	
+
 	public Map(Map map) {
 		this.tailleX = map.getTailleX();
 		this.tailleY = map.getTailleY();
 		this.nbGomme = map.getNbGomme();
 		this.nbSuperGomme = map.getNbSuperGomme();
-		
+
 		this.carte = new int[this.tailleX][this.tailleY];
-		
+
 		for (int y=0 ; y<this.tailleY ; y++) {
 			for(int x=0 ; x<this.tailleX ; x++) {
 				this.carte[x][y] = map.getCase(x, y);
@@ -94,32 +94,36 @@ public class Map {
 	// GETTEUR
 	public int getTailleX() {return tailleX;}
 	public int getTailleY() {return tailleY;}
-	
+
 	public int getNbGomme() {return nbGomme;}
 	public int getNbSuperGomme() {return nbSuperGomme;}
-	
+
 	public int getCase(int x, int y) {
 		if (x>=tailleX || y>=tailleY) {
 			System.out.println("ERREUR: x:"+x+" ou y:"+y+" est hors limite.");
 			return 99999;
 		}
-		
+
 		if (x<0 || y<0) {
 			System.out.println("ERREUR: x:"+x+" ou y:"+y+" est hors limite.");
 			return -99999;
 		}
-		
+
 		return carte[x][y];
 	}
 
 	public boolean estGomme(int x, int y) {
-		if(this.getCase(x, y)==GOMME) {
-			return true;
+		if (x>=0 && x<tailleX && y>=0 && y<tailleY) {
+			if(this.getCase(x, y)==GOMME) {
+				return true;
+			} else {
+				return false;
+			}
 		} else {
 			return false;
 		}
 	}
-	
+
 	// SETTEUR
 	public void setCase(int x, int y, int type) {
 		// La seule modification autorisée est la consommation de pacGomme
@@ -131,7 +135,7 @@ public class Map {
 	}
 	public void mangerGomme(int x, int y) {
 		this.setCase(x, y, SOL);
-		
+
 		if (nbGomme>0) {
 			nbGomme--;
 		} else {
@@ -140,7 +144,7 @@ public class Map {
 	}
 	public void mangerSuperGomme(int x, int y) {
 		this.setCase(x, y, SOL);
-		
+
 		if (nbSuperGomme>0) {
 			nbSuperGomme--;
 		} else {
@@ -153,16 +157,16 @@ public class Map {
 			System.err.println("Erreur: Test intersection hors borne");
 			return false;
 		}
-		
+
 		if(this.getCase(x,y)==MUR) {
 			return false;
 		}
-		
+
 		boolean haut=false;
 		boolean droite=false;
 		boolean bas=false;
 		boolean gauche=false;
-		
+
 		// en Haut
 		if(y>0 && this.getCase(x,y-1)!=MUR) {
 			haut=true;
