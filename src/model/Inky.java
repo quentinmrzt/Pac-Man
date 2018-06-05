@@ -3,8 +3,8 @@ package model;
 import graphe.Branche;
 
 public class Inky extends Fantome {
-	final int POSITIONPRISONX = 14;
-	final int POSITIONPRISONY = 14;
+	final int POSITIONPRISONX = 20;
+	final int POSITIONPRISONY = 13;
 	final int ENTREEENJEU = 150;
 
 	// Inky est capricieux. De temps en temps, il part dans la direction opposée à Pac-Man.

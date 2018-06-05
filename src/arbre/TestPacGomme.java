@@ -19,7 +19,7 @@ public class TestPacGomme extends Test {
 	}
 
 	public String toString() {
-		return "Test gomme "+Personnage.afficheDirection(direction);
+		return "Gomme "+Personnage.afficheDirection(direction);
 	}
 
 	public boolean test(Monde monde) {

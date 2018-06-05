@@ -3,8 +3,8 @@ package model;
 import graphe.Branche;
 
 public class Clyde extends Fantome {
-	final int POSITIONPRISONX = 15;
-	final int POSITIONPRISONY = 14;
+	final int POSITIONPRISONX = 18;
+	final int POSITIONPRISONY = 15;
 	final int ENTREEENJEU = 200;
 
 	// Clyde feint l'indifférence. De temps en temps, il choisit une direction au hasard (qui peut être celle de Pac-Man).

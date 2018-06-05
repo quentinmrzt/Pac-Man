@@ -4,7 +4,7 @@ import aStar.AStar;
 import graphe.Branche;
 
 public class Pinky extends Fantome {
-	final int POSITIONPRISONX = 13;
+	final int POSITIONPRISONX = 18;
 	final int POSITIONPRISONY = 14;
 	final int ENTREEENJEU = 100;
 

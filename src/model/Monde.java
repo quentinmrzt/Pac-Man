@@ -31,24 +31,24 @@ public class Monde extends Observable {
 		this.graphe = graphe;
 
 		// PACMAN
-		int pacManX = 14;
-		int pacManY = 23;
+		int pacManX = 1;
+		int pacManY = 1;
 		//Branche branchePacMan = graphe.getBranche(pacManX,pacManY);
-		Branche branchePacMan = graphe.getNoeud(12, 23).getDroite();
+		Branche branchePacMan = graphe.getNoeud(1, 1).getDroite();
 		// Ini du personnage PacMan
 		pacMan = new PacMan(pacManX,pacManY,branchePacMan);
 
 		// FANTOMES
-		int fantomeX = 14;
-		int fantomeY = 11;
+		int fantomeX = 18;
+		int fantomeY = 13;
 		//Branche brancheFantome = graphe.getBranche(fantomeX, fantomeY);
-		Branche brancheFantome = graphe.getNoeud(12, 11).getDroite();
+		Branche brancheFantome = graphe.getNoeud(18, 13).getGauche();
 		// Ini des personnages Fantomes
 		fantomes = new ArrayList<Fantome>();
-		//fantomes.add(new Blinky(fantomeX,fantomeY,brancheFantome,pacMan));
-		//fantomes.add(new Pinky(fantomeX,fantomeY,brancheFantome,pacMan));
-		//fantomes.add(new Inky(fantomeX,fantomeY,brancheFantome,pacMan));
-		//fantomes.add(new Clyde(fantomeX,fantomeY,brancheFantome,pacMan));
+		fantomes.add(new Blinky(fantomeX,fantomeY,brancheFantome,pacMan));
+		fantomes.add(new Pinky(fantomeX,fantomeY,brancheFantome,pacMan));
+		fantomes.add(new Inky(fantomeX,fantomeY,brancheFantome,pacMan));
+		fantomes.add(new Clyde(fantomeX,fantomeY,brancheFantome,pacMan));
 
 		score = 0;
 		nombreDeTour = 0;
@@ -78,31 +78,31 @@ public class Monde extends Observable {
 		pacMan.destination();
 
 		for (Fantome fantome: fantomes) {
-				// finEffetSuperGomme
-				if(fantome.estVulnerable() && nombreDeTour>fantome.getTourVulnerabilite()+60) {
-					fantome.invulnerable();
-				}
-
-				// On libère un fantome
-				if (!fantome.estEnJeu() && nombreDeTour>fantome.getEntreeEnJeu()+fantome.getDatePrison()) {
-					fantome.enJeu();
-				}
-
-				// 3 - Recherche du chemin et direction
-				fantome.trouverChemin();
-				fantome.decisionDirection();
-
-				fantome.destination();
-
-				fantome.deplacement();
+			// finEffetSuperGomme
+			if(fantome.estVulnerable() && nombreDeTour>fantome.getTourVulnerabilite()+60) {
+				fantome.invulnerable();
 			}
-			this.mangerFantome();
-			this.mangerPacMan();
+
+			// On libère un fantome
+			if (!fantome.estEnJeu() && nombreDeTour>fantome.getEntreeEnJeu()+fantome.getDatePrison()) {
+				fantome.enJeu();
+			}
+
+			// 3 - Recherche du chemin et direction
+			fantome.trouverChemin();
+			fantome.decisionDirection();
+
+			fantome.destination();
+
+			fantome.deplacement();
+		}
+		this.mangerFantome();
+		this.mangerPacMan();
 
 		// PAC-MAN: Il se déplace et mange
 		pacMan.deplacement();
 		this.mangerFantome();
-			this.mangerPacMan();
+		this.mangerPacMan();
 		if(this.mangerGomme()) {
 			nbTourInactif=0;
 		} else {
@@ -126,7 +126,7 @@ public class Monde extends Observable {
 		if (type==Map.GOMME) {
 			map.mangerGomme(x,y);
 			score+=SCORE_GOMME;
-			
+
 			return true;
 		} else if (type==Map.SUPERGOMME) {
 			map.mangerSuperGomme(x,y);
@@ -138,7 +138,7 @@ public class Monde extends Observable {
 					fantome.vulnerable(nombreDeTour);
 				}
 			}
-			
+
 			return true;
 		} else {
 			return false;
@@ -150,14 +150,14 @@ public class Monde extends Observable {
 		int y = pacMan.getPositionY();
 		boolean perte = false;	
 
-		for (Fantome fantome: fantomes) {
+		//for (Fantome fantome: fantomes.get(BLINKY)) {
 			// On regarde si le fantome est invulnérable pour manger PacMan
-			if (fantome.estInvulnerable() && fantome.estEnJeu()) {
-				if (x==fantome.getPositionX() && y==fantome.getPositionY()) {
+			if (fantomes.get(BLINKY).estInvulnerable() && fantomes.get(BLINKY).estEnJeu()) {
+				if (x==fantomes.get(BLINKY).getPositionX() && y==fantomes.get(BLINKY).getPositionY()) {
 					perte = true;
 				}
 			}
-		}
+		//}
 
 		if (perte) {
 			pacMan.perteVie();

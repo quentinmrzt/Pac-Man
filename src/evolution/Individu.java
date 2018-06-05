@@ -13,11 +13,25 @@ public class Individu extends Modelisation implements Runnable {
 
 	public boolean enJeu = true;
 	public int score = 0;
-	public Arbre arbre = null;
 	public int vitesse = 0;
 	public int profondeur = 0;
+	private int numero;
+	
+	public Arbre arbre = null;
 
-	public Individu(Map map, Graphe graphe, int PROFONDEUR) {
+	public Individu(Individu individu) {
+		super(individu.map,individu.graphe);
+		
+		this.enJeu = individu.enJeu;
+		this.score = individu.score;
+		this.vitesse = individu.vitesse;
+		this.numero = individu.numero;
+		this.profondeur = individu.profondeur;
+		
+		this.arbre = individu.arbre.clone();
+	}
+	
+	public Individu(Map map, Graphe graphe, int PROFONDEUR, int index) {
 		super(map,graphe);
 
 		this.map = map;
@@ -28,19 +42,8 @@ public class Individu extends Modelisation implements Runnable {
 		this.enJeu = true;
 		this.vitesse = 0;
 		this.profondeur = PROFONDEUR;
-	}
-
-	public Individu(Map map, Graphe graphe, int vitesse, int PROFONDEUR) {
-		super(map,graphe);
-
-		this.map = map;
-		this.graphe = graphe;
-
-		this.arbre = new Arbre(this.getMonde(), PROFONDEUR);
-		this.score = 0;
-		this.enJeu = true;
-		this.vitesse = vitesse;
-		this.profondeur = PROFONDEUR;
+		
+		this.numero = index;
 	}
 
 	public Individu(Map map, Graphe graphe, Arbre arbre, int vitesse) {
@@ -56,27 +59,19 @@ public class Individu extends Modelisation implements Runnable {
 		this.profondeur = arbre.getProfondeur();
 	}
 
-	public Individu(Individu individu) {
-		super(individu.getMonde());
-
-		this.arbre = null;
-		this.score = individu.getScore();
-		this.enJeu = individu.estEnJeu();
-		this.vitesse = individu.getVitesse();
-		this.profondeur = individu.getArbre().getProfondeur();
-	}
-
 	public int getScore() { return score; }
 	public boolean estEnJeu() { return enJeu; }
 	public Arbre getArbre() { return arbre; }
 	public int getVitesse() { return vitesse; }
+	public int getNumero() { return this.numero; }
 
 	public Individu clone() {
-		Individu clone = new Individu(map,graphe,5);
+		Individu clone = new Individu(this);
 
 		clone.score = this.score;
 		clone.enJeu = this.enJeu;
 		clone.vitesse = this.vitesse;
+		clone.numero = this.numero;
 		clone.arbre = this.arbre.clone();
 
 		return clone;

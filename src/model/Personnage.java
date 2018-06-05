@@ -107,7 +107,7 @@ public abstract class Personnage {
 	}
 	
 	public static int directionAleatoire() {
-		int rdm =  (int) (Math.random() * 4);  // 0 à 4
+		int rdm =  (int) (Math.random() * 4);  // 0 à 3
 		
 		if(rdm==0) {
 			return HAUT;

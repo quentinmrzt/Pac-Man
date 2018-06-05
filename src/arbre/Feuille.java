@@ -12,7 +12,7 @@ public class Feuille extends Noeud {
 	}
 	
 	public String toString() {
-		return "Aller "+Personnage.afficheDirection(direction);
+		return Personnage.afficheDirection(direction);
 	}
 	
 	public int getDirection() {return direction;}

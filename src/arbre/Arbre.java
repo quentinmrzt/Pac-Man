@@ -75,7 +75,7 @@ public class Arbre {
 			int min = 1;
 			int max = profondeur;
 			int aleatoireGauche = (int) (min + (Math.random() * (max-min)));
-			int aleatoireDroite= (int) (min + (Math.random() * (max-min)));
+			int aleatoireDroite = (int) (min + (Math.random() * (max-min)));
 
 			if(aleatoireGauche!=1) {
 				noeud.addGauche(this.testAleatoire(noeud));
@@ -83,7 +83,7 @@ public class Arbre {
 			} else {
 				noeud.addGauche(new Feuille(noeud, Personnage.directionAleatoire()));
 			}
-	
+
 			if(aleatoireDroite!=1) {
 				noeud.addDroite(this.testAleatoire(noeud));
 				generationAleatoireNonEquilibre(noeud.getDroite(),profondeur-1);
@@ -123,8 +123,10 @@ public class Arbre {
 		{
 		case 0:
 			return new TestMur(parent, Personnage.directionAleatoire());
+			//return new TestPacGomme(parent, Personnage.directionAleatoire());
 		case 1:
 			return new TestPacGomme(parent, Personnage.directionAleatoire());
+			//return new TestMur(parent, Personnage.directionAleatoire());
 		case 2:
 			return new TestEnnemi(parent, Personnage.directionAleatoire());
 		default:
@@ -215,6 +217,7 @@ public class Arbre {
 
 	/**
 	 * Donne le nombre de noeud existant à une profondeur donnée
+	 * nbNoeud(0)=1 / nbNoeud(1)=2 si equilibre
 	 * @param profondeur La profondeur voulu
 	 * @return Le nombre de noeud qui existe
 	 */
@@ -247,7 +250,7 @@ public class Arbre {
 		if(liste.size()<=index) {
 			System.out.println("ERREUR --------");
 		}
-		
+
 		return liste.get(index);
 	}
 
@@ -262,8 +265,9 @@ public class Arbre {
 		}		
 	}
 
-	/*public static void main(String[] args) {
-		Arbre arbre = new Arbre(null,3);
+	public static void main(String[] args) {
+		int taille = 3;
+		Arbre arbre = new Arbre(null,taille);
 		arbre.affiche();
 		System.out.println("Arbre equilibre="+arbre.equilibre());
 		System.out.println("");
@@ -275,5 +279,12 @@ public class Arbre {
 		arbre.getNoeud(1, 0).addDroite(arbreNouveau.getNoeud());
 		arbre.affiche();
 		System.out.println("Arbre equilibre="+arbre.equilibre());
-	}*/
+
+		arbre = new Arbre(null,taille);
+		
+		for (int index=0 ; index<taille ; index++) {
+			System.out.println("Nb noeud en profondeur "+index+":"+arbre.nbNoeud(index));
+		}
+
+	}
 }

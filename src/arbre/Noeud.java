@@ -59,6 +59,26 @@ public abstract class Noeud {
 		affiche(a.getGauche(), profondeur+1);
 		affiche(a.getDroite(), profondeur+1);
 	}
+	
+	public int hauteur() {
+		return hauteur(this);
+	}
+
+	private int hauteur(Noeud noeud) {
+		if (noeud == null) {
+			return 0;
+		} else {
+			return 1 + max(hauteur(noeud.getGauche()),hauteur(noeud.getDroite()));
+		}
+	}
+	
+	private int max(int a, int b) {
+		if (a>b) {
+			return a;
+		} else {
+			return b;
+		}
+	}
 
 	public void inverseNoeud(Noeud noeud) {
 		pere.changeFils(this, noeud);

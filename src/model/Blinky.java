@@ -4,8 +4,8 @@ import aStar.AStar;
 import graphe.Branche;
 
 public class Blinky extends Fantome {
-	final int POSITIONPRISONX = 12;
-	final int POSITIONPRISONY = 14;
+	final int POSITIONPRISONX = 19;
+	final int POSITIONPRISONY = 13;
 	final int ENTREEENJEU = 50;
 
 	// Blinky attaque directement Pac Man. Il suit Pac-Man comme son ombre.

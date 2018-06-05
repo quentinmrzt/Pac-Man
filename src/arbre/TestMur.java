@@ -18,7 +18,7 @@ public class TestMur extends Test {
 	}
 
 	public String toString() {
-		return "Test mur "+Personnage.afficheDirection(direction);
+		return "Mur "+Personnage.afficheDirection(direction);
 	}
 
 	public boolean test(Monde monde) {
