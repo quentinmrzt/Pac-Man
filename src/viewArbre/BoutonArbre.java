@@ -19,6 +19,6 @@ public class BoutonArbre extends JButton implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		new Fenetre(arbre);
+		//new Fenetre(arbre);
 	}
 }

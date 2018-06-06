@@ -41,7 +41,7 @@ public class Population {
 		// On crée les individus
 		this.population = new ArrayList<Individu>();
 		for(int nb=0 ; nb<NOMBREPOPULATION ; nb++) {
-			population.add(new Individu(map, graphe, this.PROFONDEUR, nb));
+			population.add(new Individu(map, graphe, this.PROFONDEUR));
 		}
 	}
 
@@ -53,7 +53,7 @@ public class Population {
 
 
 	// Cette fct a été checké
-	public void tournoi() {
+	private void tournoi() {
 		int nbSupprimer;
 		this.vainqueur = new ArrayList<Individu>();
 
@@ -63,7 +63,7 @@ public class Population {
 		for (int i=0 ; i<nbSupprimer ; i++) {
 			int random = (int) (Math.random() * this.getNombreIndividu());
 
-			this.informations[this.nbGeneration][population.get(random).getNumero()].setPasTournoi();
+			this.informations[this.nbGeneration][random].setPasTournoi();
 			
 			population.remove(random);
 		}
@@ -72,17 +72,22 @@ public class Population {
 		
 		for (int i=0 ; i<NBVAINQUEUR ; i++) {
 			int max = -1;
+			int index = 0;
+			int indexMeilleur = -1;
 			Individu leMeilleur = null;
 			for(Individu m: population) {
 				if (m.getScore()>max) {
 					max = m.getScore();
 					leMeilleur = m;
+					indexMeilleur = index;
 				}
+				
+				index++;
 			}
 
 			// et ont les extraits
 			if (leMeilleur!=null) {
-				this.informations[this.nbGeneration][leMeilleur.getNumero()].setEstVainqueur();
+				this.informations[this.nbGeneration][indexMeilleur].setEstVainqueur();
 				
 				vainqueur.add(leMeilleur);
 				population.remove(leMeilleur);
@@ -154,7 +159,7 @@ public class Population {
 	 * @param liste vainqueur
 	 * @return la population est recrée suite à ça 
 	 */
-	public void croisement(int nbACreer) {
+	private void croisement(int nbACreer) {
 		int nbParGeneration = (NBVAINQUEUR*NBVAINQUEUR)-NBVAINQUEUR;
 		int nbGeneration = nbACreer/nbParGeneration;
 		int nbIndividuRestant = (int) (nbACreer%nbParGeneration);
@@ -181,7 +186,7 @@ public class Population {
 	}
 
 	// Fonction pas checké: à l'abandon
-	public void croisementNonEquilibre() {
+	private void croisementNonEquilibre() {
 		int nbACreer = NOMBREPOPULATION;
 
 		int nbParGeneration = (int) (Math.pow(NBVAINQUEUR,2)-NBVAINQUEUR);
@@ -363,7 +368,6 @@ public class Population {
 	}
 
 
-
 	/**
 	 * Fonction de croisement sur arbre non equilibre
 	 * Cette fct a été checké
@@ -371,7 +375,7 @@ public class Population {
 	 * @param liste vainqueur
 	 * @return la population est recrée suite à ça 
 	 */
-	public void croisementNonEquilibreNonEquivalent(int nbACreer) {
+	private void croisementNonEquilibreNonEquivalent(int nbACreer) {
 		int nbParGeneration = (NBVAINQUEUR*NBVAINQUEUR)-NBVAINQUEUR;
 		int nbGeneration = nbACreer/nbParGeneration;
 		int nbIndividuRestant = (int) (nbACreer%nbParGeneration);
@@ -403,7 +407,7 @@ public class Population {
 		}*/
 	}
 
-	public void mutation() {
+	private void mutation() {
 		if (POURCENTAGEMUTATION!=0) {
 			for(int i=0 ; i<this.getNombreIndividu() ; i++) {
 				int aleatoire = (int) (Math.random() * (NOMBREPOPULATION/(POURCENTAGEMUTATION*NOMBREPOPULATION)));
@@ -445,7 +449,7 @@ public class Population {
 		}
 	}
 
-	public void mutationNonEquilibre() {
+	private void mutationNonEquilibre() {
 		if (POURCENTAGEMUTATION!=0) {
 			for(int i=0 ; i<this.getNombreIndividu() ; i++) {
 				int aleatoire = (int) (Math.random() * (NOMBREPOPULATION/(POURCENTAGEMUTATION*NOMBREPOPULATION)));
@@ -539,16 +543,6 @@ public class Population {
 	}
 
 
-
-
-
-
-
-
-
-
-
-
 	public void lancerJeux() {
 		if (!aJoue) {
 			// On crée les threads
@@ -581,10 +575,10 @@ public class Population {
 			}
 
 			// Tout le monde à arrêté de jouer
-			for(Individu i: population) {
-				this.informations[this.nbGeneration][i.getNumero()] = new Information();
-				this.informations[this.nbGeneration][i.getNumero()].setArbre(i.getArbre());
-				this.informations[this.nbGeneration][i.getNumero()].setScore(i.getScore());
+			for(int i=0; i<this.NOMBREPOPULATION ; i++) {
+				this.informations[this.nbGeneration][i] = new Information();
+				this.informations[this.nbGeneration][i].setArbre(population.get(i).getArbre());
+				this.informations[this.nbGeneration][i].setScore(population.get(i).getScore());
 			}
 			
 			this.tournoi();
@@ -620,18 +614,5 @@ public class Population {
 		population = tmp;
 	}
 
-	public static void main(String[] args) {
-		double test = 0.0;
-		if(test!=0) {
-			System.out.println("!=");
-		} else {
-			System.out.println("==");
-		}
 
-		if(test==0) {
-			System.out.println("==");
-		} else {
-			System.out.println("!=");
-		}
-	}
 }

@@ -15,7 +15,7 @@ public class Fenetre extends JFrame implements Observer {
 	public Fenetre(Monde monde) {
 		this.setSize(900, 600);
 		this.setTitle("Pac-Man");
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
 		
