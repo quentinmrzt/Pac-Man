@@ -7,12 +7,6 @@ Cette matière permet de mettre un premier pas dans le monde de la recherche et 
 * le développement d'une interface graphique du jeu Pac-Man;
 * le développement d'un prototype d'intelligence artificielle par programmation génétique.
 
-## Auteurs
-
-* **Quentin Morizot** - [quentinmrzt](https://github.com/quentinmrzt)
-* **Loic Molina** - [loicmolina](https://github.com/loicmolina)
-* **Rémi Pierron** - [remiprn](https://github.com/remiprn)
-
 ## Licence
 
 Ce projet est sous licence GPL - vous pouvez lire [LICENSE.md](LICENSE.md) pour plus de details.
