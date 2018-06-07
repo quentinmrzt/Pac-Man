@@ -3,26 +3,36 @@ package viewEvolution;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
+import evolution.Evolution;
+import evolution.Information;
 import graphe.Graphe;
 import jeu.Jeu;
 import jeu.LancerPacMan;
 import model.Map;
+import viewGraphique.Fenetre;
+import viewGraphique.InformationGraphique;
 
-public class Menu extends JMenuBar {
+public class Menu extends JMenuBar implements ActionListener{
 	protected JMenu menu;
 	protected JMenuItem jouer;
 	protected JMenuItem quitter;
 
 	protected JMenu mode;
-	protected JMenuItem suppression;
+	protected JMenuItem nuage;
 	protected JMenuItem debug;
+	
+	private Evolution evolution;
 
-	public Menu() {
+	public Menu(Evolution evolution) {
+		this.evolution = evolution;
+		
 		// --------------------
 		// MENU
 		menu = new JMenu("Menu") ;
@@ -58,19 +68,14 @@ public class Menu extends JMenuBar {
 
 		// --------------------
 		// MODE
-		mode = new JMenu("Vide");
+		mode = new JMenu("Graphique");
 		mode.setMnemonic(KeyEvent.VK_M);
 
 		// Item pour lancer la suppresion de pixel
-		suppression = new JMenuItem("Vide");
-		suppression.setMnemonic(KeyEvent.VK_B);
-		suppression.setActionCommand("Vide");
-		suppression.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e) {
-				// On demande au controleur de supprimer des pixels
-
-			}
-		});
+		nuage = new JMenuItem("Nuage de points");
+		nuage.setMnemonic(KeyEvent.VK_B);
+		nuage.setActionCommand("Nuage");
+		nuage.addActionListener(this);
 
 		// Item pour débuger
 		debug = new JMenuItem("Vide");
@@ -78,17 +83,33 @@ public class Menu extends JMenuBar {
 		debug.setActionCommand("Vide");
 		debug.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Vide");
+
 			}
 		});
 
 		// Intégration des items au mode
-		mode.add(suppression);
+		mode.add(nuage);
 		mode.add(debug);
 
 		// --------------------
 		// Intégration des menus à la bar
 		this.add(menu);
 		this.add(mode);
+	}
+
+	public void actionPerformed(ActionEvent arg0) {
+		List<Integer> valeurs = new ArrayList<Integer>();
+		
+		for (int generation=0 ; generation<evolution.getNombreGeneration() ; generation++) {
+			int somme = 0;
+			for (int individu=0 ; individu<evolution.getNombrePopulation() ; individu++) {
+				somme += evolution.getInformation(generation, individu).getScore();
+			}
+			int moyenne = somme/evolution.getNombrePopulation();
+			valeurs.add(moyenne);
+		}
+
+		InformationGraphique barres = new InformationGraphique(valeurs);
+		new Fenetre(barres);
 	}
 }

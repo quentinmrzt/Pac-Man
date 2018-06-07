@@ -25,7 +25,7 @@ public class FenetreEvolution extends JFrame {
 		this.setResizable(false);
 
 		// MENU
-		this.setJMenuBar(new Menu());
+		this.setJMenuBar(new Menu(evolution));
 
 		GridBagLayout gb = new GridBagLayout();
 		GridBagConstraints gbc = new GridBagConstraints();
